@@ -15,31 +15,19 @@ namespace Lab3.Model
         public string Name { get { return _name; } set { _name = value; } }
         public int DurationSec
         {
-            get
-            {
-                return _durationSec;
-            }
+            get { return _durationSec; }
             set
             {
-                if (value < 10 || value > 1000)
-                {
-                    throw new ArgumentException("Ожидается время песни в секундах с продолжительностью от 10 до 1000 секунд.");
-                }
+                Validator.AssertValueInRange(value, 10, 1000);
                 _durationSec = value;
             }
         }
         public int ID
         {
-            get
-            {
-                return _id;
-            }
+            get { return _id; }
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentException("Ожидается неотрицательное число");
-                }
+                Validator.AssertOnPositiveValue(value);
                 _id = value;
             }
         }

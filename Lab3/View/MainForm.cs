@@ -1,37 +1,36 @@
 using Lab3.Model;
+using Lab3.Model.Geometry;
+using System.Drawing;
 
 namespace Lab3
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
+            InitializeRectangles();
         }
         public int rectangleID;
-        //Генерация значений для прямоугольников
-        static Random rand = new Random();
-        static double length1 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static double width1 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static string color1 = "green";
-        static double length2 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static double width2 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static string color2 = "blue";
-        static double length3 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static double width3 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static string color3 = "yellow";
-        static double length4 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static double width4 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static string color4 = "black";
-        static double length5 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static double width5 = Math.Round(1 + (100 - 1) * rand.NextDouble(), 1);
-        static string color5 = "gray";
+        //Генерация значений для прямоугольников через отдельный класс
+        private Rectangles[] _rectangle = new Rectangles[5];
+        //GenerateRectangles rectangleValue1 = new GenerateRectangles();
+        //GenerateRectangles rectangleValue2 = new GenerateRectangles();
+        //GenerateRectangles rectangleValue3 = new GenerateRectangles();
+        //GenerateRectangles rectangleValue4 = new GenerateRectangles();
+        //GenerateRectangles rectangleValue5 = new GenerateRectangles();
+        public void InitializeRectangles()
+        {
+            _rectangle[0] = new Rectangles(GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetColor(), GenerateRectangles.GetXOrY(), GenerateRectangles.GetXOrY());
+            _rectangle[1] = new Rectangles(GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetColor(), GenerateRectangles.GetXOrY(), GenerateRectangles.GetXOrY());
+            _rectangle[2] = new Rectangles(GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetColor(), GenerateRectangles.GetXOrY(), GenerateRectangles.GetXOrY());
+            _rectangle[3] = new Rectangles(GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetColor(), GenerateRectangles.GetXOrY(), GenerateRectangles.GetXOrY());
+            _rectangle[4] = new Rectangles(GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetColor(), GenerateRectangles.GetXOrY(), GenerateRectangles.GetXOrY());
+        }
 
-        Rectangles rectangle1 = new Rectangles(length1, width1, color1);
-        Rectangles rectangle2 = new Rectangles(length2, width2, color2);
-        Rectangles rectangle3 = new Rectangles(length3, width3, color3);
-        Rectangles rectangle4 = new Rectangles(length4, width4, color4);
-        Rectangles rectangle5 = new Rectangles(length5, width5, color5);
+
+        //private Model.Rectangles[] _rectangles = new Model.Rectangles[5];
+        //private Model.Rectangles _currentRectangle = new Model.Rectangles();
 
         private void RectanglesBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -42,69 +41,21 @@ namespace Lab3
             resultLabel.Text = "";
 
             rectangleID = RectanglesBox.SelectedIndex;
-            switch (rectangleID)
-            {
-                case 0:
-                    LengthBox.AppendText(rectangle1.Length.ToString());
-                    WidthBox.AppendText(rectangle1.Width.ToString());
-                    ColorBox.AppendText(rectangle1.Color.ToString());
-                    break;
-                case 1:
-                    LengthBox.AppendText(rectangle2.Length.ToString());
-                    WidthBox.AppendText(rectangle2.Width.ToString());
-                    ColorBox.AppendText(rectangle2.Color.ToString());
-                    break;
-                case 2:
-                    LengthBox.AppendText(rectangle3.Length.ToString());
-                    WidthBox.AppendText(rectangle3.Width.ToString());
-                    ColorBox.AppendText(rectangle3.Color.ToString());
-                    break;
-                case 3:
-                    LengthBox.AppendText(rectangle4.Length.ToString());
-                    WidthBox.AppendText(rectangle4.Width.ToString());
-                    ColorBox.AppendText(rectangle4.Color.ToString());
-                    break;
-                case 4:
-                    LengthBox.AppendText(rectangle5.Length.ToString());
-                    WidthBox.AppendText(rectangle5.Width.ToString());
-                    ColorBox.AppendText(rectangle5.Color.ToString());
-                    break;
-            }
 
+            LengthBox.Text = _rectangle[rectangleID].Length.ToString();
+            WidthBox.Text = _rectangle[rectangleID].Width.ToString();
+            ColorBox.Text = _rectangle[rectangleID].Color.ToString();
+            CenterBox.Text = $"X = {_rectangle[rectangleID].Center.X}; Y = {_rectangle[rectangleID].Center.Y}";
+            IDBox.Text = _rectangle[rectangleID].ID.ToString();
         }
 
         private void rememberButton_Click(object sender, EventArgs e) //Запоминание новых значений при помощи индекса, try catch на случай ошибки аргумента
         {
             try
             {
-                switch (rectangleID)
-                {
-                    case 0:
-                        rectangle1.Length = Convert.ToDouble(LengthBox.Text);
-                        rectangle1.Width = Convert.ToDouble(WidthBox.Text);
-                        rectangle1.Color = ColorBox.Text;
-                        break;
-                    case 1:
-                        rectangle2.Length = Convert.ToDouble(LengthBox.Text);
-                        rectangle2.Width = Convert.ToDouble(WidthBox.Text);
-                        rectangle2.Color = ColorBox.Text;
-                        break;
-                    case 2:
-                        rectangle3.Length = Convert.ToDouble(LengthBox.Text);
-                        rectangle3.Width = Convert.ToDouble(WidthBox.Text);
-                        rectangle3.Color = ColorBox.Text;
-                        break;
-                    case 3:
-                        rectangle4.Length = Convert.ToDouble(LengthBox.Text);
-                        rectangle4.Width = Convert.ToDouble(WidthBox.Text);
-                        rectangle4.Color = ColorBox.Text;
-                        break;
-                    case 4:
-                        rectangle5.Length = Convert.ToDouble(LengthBox.Text);
-                        rectangle5.Width = Convert.ToDouble(WidthBox.Text);
-                        rectangle5.Color = ColorBox.Text;
-                        break;
-                }
+                _rectangle[rectangleID].Length = Convert.ToDouble(LengthBox.Text);
+                _rectangle[rectangleID].Width = Convert.ToDouble(WidthBox.Text);
+                _rectangle[rectangleID].Color = ColorBox.Text;
                 resultLabel.Text = "Сохранено";
             }
             catch (Exception)
@@ -118,19 +69,19 @@ namespace Lab3
         private int FindRectangleWithWidth(double[] widths) //поиск большей длины
         {
             double result = widths.Max();
-            if (rectangle1.Width == result)
+            if (_rectangle[0].Width == result)
             {
                 return 0;
             }
-            else if (rectangle2.Width == result)
+            else if (_rectangle[1].Width == result)
             {
                 return 1;
             }
-            else if (rectangle3.Width == result)
+            else if (_rectangle[2].Width == result)
             {
                 return 2;
             }
-            else if (rectangle4.Width == result)
+            else if (_rectangle[3].Width == result)
             {
                 return 3;
             }
@@ -141,18 +92,14 @@ namespace Lab3
         }
         private void findButton_Click(object sender, EventArgs e) //вывод индекса прямоугольника с большей длиной
         {
-            double[] widths = { rectangle1.Width, rectangle2.Width, rectangle3.Width, rectangle4.Width, rectangle5.Width };
+            double[] widths = { _rectangle[0].Width, _rectangle[1].Width, _rectangle[2].Width, _rectangle[3].Width, _rectangle[4].Width };
             resultLabel.Text = FindRectangleWithWidth(widths).ToString();
         }
 
-
-
-
-
-
-
+        #region Фильмы
         public int movieID;
         //Генерация значений для фильмов
+        static Random rand = new Random();
         static string name1 = "CoolFilmYeah";
         static int duration1 = rand.Next(30, 1000);
         static int year1 = rand.Next(1900, 2025);
@@ -320,6 +267,53 @@ namespace Lab3
         {
             double[] rating = { movie1.Rating, movie2.Rating, movie3.Rating, movie4.Rating, movie5.Rating };
             resultLabelMovies.Text = FindMovieWithRating(rating).ToString();
+        }
+        #endregion
+
+
+        private List<Rectangles> _rectangles = new List<Rectangles>();
+        private Rectangles _currentRectangle;
+        private void AddRectangleButton_Click_1(object sender, EventArgs e)
+        {
+            _currentRectangle = new Rectangles(GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetColor(), GenerateRectangles.GetXOrY(), GenerateRectangles.GetXOrY());
+            _rectangles.Add(_currentRectangle);
+            RectanglesBoxPaint.Items.Add($"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})");
+        }
+        private void RectanglesBoxPaint_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ErrorLabel.Text = "";
+            IDBoxPaint.Clear();
+            XBoxPaint.Clear();
+            YBoxPaint.Clear();
+            WidthBoxPaint.Clear();
+            HeightBoxPaint.Clear();
+
+            int rectangleID = RectanglesBoxPaint.SelectedIndex;
+            if (rectangleID != -1)
+            {
+                _currentRectangle = _rectangles[rectangleID];
+            }
+
+            IDBoxPaint.Text = $"{_rectangles[rectangleID].ID - 5}";
+            XBoxPaint.Text = _rectangles[rectangleID].Center.X.ToString();
+            YBoxPaint.Text = _rectangles[rectangleID].Center.Y.ToString();
+            WidthBoxPaint.Text = _rectangles[rectangleID].Width.ToString();
+            HeightBoxPaint.Text = _rectangles[rectangleID].Length.ToString();
+        }
+        private void DeleteRectangleButton_Click(object sender, EventArgs e)
+        {
+            int selectedIndex = RectanglesBoxPaint.SelectedIndex;
+            RectanglesBoxPaint.ClearSelected();
+
+            if (selectedIndex != -1)
+            {
+                RectanglesBoxPaint.Items.RemoveAt(selectedIndex);
+                _rectangles.RemoveAt(selectedIndex);
+            }
+            else
+            {
+                ErrorLabel.Text = "Выберите элемент";
+            }
         }
     }
 }

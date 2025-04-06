@@ -14,46 +14,28 @@ namespace Lab3.Model
 
         public int Hour
         {
-            get
-            {
-                return _hour;
-            }
+            get { return _hour; }
             set
             {
-                if (value < 0 || value > 23)
-                {
-                    throw new ArgumentException("Ожидается число в промежутке от 0 до 23.");
-                }
+                Validator.AssertValueInRange(value, 0, 23);
                 _hour = value;
             }
         }
         public int Minute
         {
-            get
-            {
-                return _minute;
-            }
+            get { return _minute; }
             set
             {
-                if (value < 0 || value > 60)
-                {
-                    throw new ArgumentException("Ожидается число в промежутке от 0 до 60.");
-                }
+                Validator.AssertValueInRange(value, 0, 59);
                 _minute = value;
             }
         }
         public int Second
         {
-            get
-            {
-                return _second;
-            }
+            get { return _second; }
             set
             {
-                if (value < 0 || value > 60)
-                {
-                    throw new ArgumentException("Ожидается число в промежутке от 0 до 60.");
-                }
+                Validator.AssertValueInRange(value, 0, 59);
                 _second = value;
             }
         }

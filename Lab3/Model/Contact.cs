@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Lab3.Model
@@ -13,22 +15,41 @@ namespace Lab3.Model
         private int _age;
         private int _number;
 
-        public string Name { get { return _name; } set { _name = value; } }
+        private void AssertStringContainsOnlyLetters(string value, [CallerMemberName] string nameException = null)
+        {
+            if (Regex.IsMatch(value, "^[a-zA-Z]+$") == false)
+            {
+                throw new ArgumentException($"Ожидается {nameException} на английском.");
+            }
+        }
 
-        public string Surname { get { return _surname; } set { _surname = value; } }
+        public string Name
+        {
+            get { return _name; }
+            set 
+            {
+                AssertStringContainsOnlyLetters(value, "Name");
+                _name = value; 
+            }
+        }
+
+
+        public string Surname
+        {
+            get { return _surname; }
+            set
+            {
+                AssertStringContainsOnlyLetters(value, "Surname");
+                _surname = value;
+            }
+        }
 
         public int Age
         {
-            get
-            {
-                return _age;
-            }
+            get { return _age; }
             set
             {
-                if (value > 120 || value < 0)
-                {
-                    throw new ArgumentException("Ожидается корректный возраст (не отрицательный меньше 120).");
-                }
+                Validator.AssertValueInRange(value, 0, 120);
                 _age = value;
             }
         }

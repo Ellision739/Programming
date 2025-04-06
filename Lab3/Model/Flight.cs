@@ -16,16 +16,10 @@ namespace Lab3.Model
         public string Destination { get { return _destination; } set { _destination = value; } }
         public int FlightTimeMin
         {
-            get
-            {
-                return _flightTimeMin;
-            }
+            get { return _flightTimeMin; }
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentException("Ожидается неотрицательное значение.");
-                }
+                Validator.AssertOnPositiveValue(value);
                 _flightTimeMin = value;
             }
         }
