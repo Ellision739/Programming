@@ -287,18 +287,20 @@ namespace Lab3
             YBoxPaint.Clear();
             WidthBoxPaint.Clear();
             HeightBoxPaint.Clear();
+            IDBoxPaint.ReadOnly = false;
 
             int rectangleID = RectanglesBoxPaint.SelectedIndex;
             if (rectangleID != -1)
             {
                 _currentRectangle = _rectangles[rectangleID];
-            }
 
-            IDBoxPaint.Text = $"{_rectangles[rectangleID].ID - 5}";
-            XBoxPaint.Text = _rectangles[rectangleID].Center.X.ToString();
-            YBoxPaint.Text = _rectangles[rectangleID].Center.Y.ToString();
-            WidthBoxPaint.Text = _rectangles[rectangleID].Width.ToString();
-            HeightBoxPaint.Text = _rectangles[rectangleID].Length.ToString();
+                IDBoxPaint.Text = $"{_rectangles[rectangleID].ID - 5}";
+                XBoxPaint.Text = _rectangles[rectangleID].Center.X.ToString();
+                YBoxPaint.Text = _rectangles[rectangleID].Center.Y.ToString();
+                WidthBoxPaint.Text = _rectangles[rectangleID].Width.ToString();
+                HeightBoxPaint.Text = _rectangles[rectangleID].Length.ToString();
+                IDBoxPaint.ReadOnly = true;
+            }
         }
         private void DeleteRectangleButton_Click(object sender, EventArgs e)
         {
@@ -313,6 +315,23 @@ namespace Lab3
             else
             {
                 ErrorLabel.Text = "Выберите элемент";
+            }
+        }
+
+        private void XBoxPaint_TextChanged(object sender, EventArgs e)
+        {
+            ErrorLabel.Text = "";
+            try
+            {
+                if (_currentRectangle != null)
+                {
+                    _currentRectangle.Center.X = Int32.Parse(XBoxPaint.Text);
+                    RectanglesBoxPaint.Items[RectanglesBoxPaint.SelectedIndex] = $"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})";
+                }
+            }
+            catch(Exception) 
+            {
+                ErrorLabel.Text = "Неверное значение";
             }
         }
     }

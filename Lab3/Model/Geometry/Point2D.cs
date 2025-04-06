@@ -13,7 +13,7 @@ namespace Lab3.Model
         public int X
         {
             get { return _x; }
-            private set 
+            set //был приват, пункт 10, 5 лаба
             {
                 Validator.AssertOnPositiveValue(value);
                 _x = value; 
@@ -24,7 +24,7 @@ namespace Lab3.Model
         public int Y
         {
             get { return _y; }
-            private set
+            set //был приват, пункт 10, 5 лаба
             {
                 Validator.AssertOnPositiveValue(value);
                 _y = value;

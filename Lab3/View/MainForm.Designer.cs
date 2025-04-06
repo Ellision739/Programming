@@ -63,6 +63,7 @@
             nameBoxMovies = new TextBox();
             MoviesBox = new ListBox();
             tabPage3 = new TabPage();
+            ErrorLabel = new Label();
             RectanglesBoxPaint = new ListBox();
             DeleteRectangleButton = new Button();
             AddRectangleButton = new Button();
@@ -79,7 +80,6 @@
             IDLabelPaint = new Label();
             SelectedLabelPaint = new Label();
             RectanglesLabelPaint = new Label();
-            ErrorLabel = new Label();
             tabControlRectangles.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBoxRectangles.SuspendLayout();
@@ -435,6 +435,14 @@
             tabPage3.Text = "Rectangles";
             tabPage3.UseVisualStyleBackColor = true;
             // 
+            // ErrorLabel
+            // 
+            ErrorLabel.AutoSize = true;
+            ErrorLabel.Location = new Point(225, 246);
+            ErrorLabel.Name = "ErrorLabel";
+            ErrorLabel.Size = new Size(0, 15);
+            ErrorLabel.TabIndex = 17;
+            // 
             // RectanglesBoxPaint
             // 
             RectanglesBoxPaint.FormattingEnabled = true;
@@ -504,6 +512,7 @@
             XBoxPaint.Name = "XBoxPaint";
             XBoxPaint.Size = new Size(100, 23);
             XBoxPaint.TabIndex = 9;
+            XBoxPaint.TextChanged += XBoxPaint_TextChanged;
             // 
             // IDBoxPaint
             // 
@@ -574,14 +583,6 @@
             RectanglesLabelPaint.Size = new Size(67, 15);
             RectanglesLabelPaint.TabIndex = 1;
             RectanglesLabelPaint.Text = "Rectangles:";
-            // 
-            // ErrorLabel
-            // 
-            ErrorLabel.AutoSize = true;
-            ErrorLabel.Location = new Point(225, 246);
-            ErrorLabel.Name = "ErrorLabel";
-            ErrorLabel.Size = new Size(0, 15);
-            ErrorLabel.TabIndex = 17;
             // 
             // MainForm
             // 
