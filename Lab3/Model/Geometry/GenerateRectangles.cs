@@ -31,11 +31,12 @@ namespace Lab3.Model.Geometry
         static string[] colors = { "red", "green", "blue", "yellow", "black", "gray" };
         static public double GetLengthOrWidth()
         {
-            return Math.Round(1 + (100 - 1) * random.NextDouble(), 1);
+            //return Math.Round(1 + (100 - 1) * random.NextDouble(), 1);
+            return random.Next(0, 200);
         }
         static public int GetXOrY()
         {
-            return random.Next(0, 100);
+            return random.Next(0, 400);
         }
         static public string GetColor()
         {

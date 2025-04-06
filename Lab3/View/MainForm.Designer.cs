@@ -67,7 +67,7 @@
             RectanglesBoxPaint = new ListBox();
             DeleteRectangleButton = new Button();
             AddRectangleButton = new Button();
-            RectanglesPanel = new Panel();
+            CanvasPanel = new Panel();
             HeightBoxPaint = new TextBox();
             WidthBoxPaint = new TextBox();
             YBoxPaint = new TextBox();
@@ -414,7 +414,7 @@
             tabPage3.Controls.Add(RectanglesBoxPaint);
             tabPage3.Controls.Add(DeleteRectangleButton);
             tabPage3.Controls.Add(AddRectangleButton);
-            tabPage3.Controls.Add(RectanglesPanel);
+            tabPage3.Controls.Add(CanvasPanel);
             tabPage3.Controls.Add(HeightBoxPaint);
             tabPage3.Controls.Add(WidthBoxPaint);
             tabPage3.Controls.Add(YBoxPaint);
@@ -477,13 +477,13 @@
             AddRectangleButton.UseVisualStyleBackColor = true;
             AddRectangleButton.Click += AddRectangleButton_Click_1;
             // 
-            // RectanglesPanel
+            // CanvasPanel
             // 
-            RectanglesPanel.BorderStyle = BorderStyle.FixedSingle;
-            RectanglesPanel.Location = new Point(351, 6);
-            RectanglesPanel.Name = "RectanglesPanel";
-            RectanglesPanel.Size = new Size(490, 464);
-            RectanglesPanel.TabIndex = 13;
+            CanvasPanel.BorderStyle = BorderStyle.FixedSingle;
+            CanvasPanel.Location = new Point(351, 6);
+            CanvasPanel.Name = "CanvasPanel";
+            CanvasPanel.Size = new Size(490, 464);
+            CanvasPanel.TabIndex = 13;
             // 
             // HeightBoxPaint
             // 
@@ -491,6 +491,7 @@
             HeightBoxPaint.Name = "HeightBoxPaint";
             HeightBoxPaint.Size = new Size(100, 23);
             HeightBoxPaint.TabIndex = 12;
+            HeightBoxPaint.TextChanged += HeightBoxPaint_TextChanged;
             // 
             // WidthBoxPaint
             // 
@@ -498,6 +499,7 @@
             WidthBoxPaint.Name = "WidthBoxPaint";
             WidthBoxPaint.Size = new Size(100, 23);
             WidthBoxPaint.TabIndex = 11;
+            WidthBoxPaint.TextChanged += WidthBoxPaint_TextChanged;
             // 
             // YBoxPaint
             // 
@@ -505,6 +507,7 @@
             YBoxPaint.Name = "YBoxPaint";
             YBoxPaint.Size = new Size(100, 23);
             YBoxPaint.TabIndex = 10;
+            YBoxPaint.TextChanged += YBoxPaint_TextChanged;
             // 
             // XBoxPaint
             // 
@@ -652,7 +655,7 @@
         private TextBox YBoxPaint;
         private TextBox HeightBoxPaint;
         private TextBox WidthBoxPaint;
-        private Panel RectanglesPanel;
+        private Panel CanvasPanel;
         private Button DeleteRectangleButton;
         private Button AddRectangleButton;
         private ListBox RectanglesBoxPaint;

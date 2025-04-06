@@ -10,11 +10,10 @@ namespace Lab3.Model.Geometry
     {
         public static bool IsCollision(Rectangles rectangle1, Rectangles rectangle2)
         {
-            if (Math.Abs(rectangle1.Center.X - rectangle2.Center.X) < rectangle1.Width / 2 + rectangle2.Width / 2 && Math.Abs(rectangle1.Center.Y - rectangle2.Center.Y) < rectangle1.Length / 2 + rectangle2.Length / 2)
-            {
-                return true;
-            }
-            else { return false; }
+            bool collisionX = Math.Abs(rectangle1.Center.X - rectangle2.Center.X) < (rectangle1.Width / 2 + rectangle2.Width / 2);
+            bool collisionY = Math.Abs(rectangle1.Center.Y - rectangle2.Center.Y) < (rectangle1.Length / 2 + rectangle2.Length / 2);
+
+            return collisionX && collisionY;
         }
 
         public static bool IsCollision(Ring ring1, Ring ring2)

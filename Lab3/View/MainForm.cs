@@ -1,6 +1,7 @@
 using Lab3.Model;
 using Lab3.Model.Geometry;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Lab3
 {
@@ -275,9 +276,22 @@ namespace Lab3
         private Rectangles _currentRectangle;
         private void AddRectangleButton_Click_1(object sender, EventArgs e)
         {
+            //генерация значений для Rectangles и добавление в ListBox
             _currentRectangle = new Rectangles(GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetLengthOrWidth(), GenerateRectangles.GetColor(), GenerateRectangles.GetXOrY(), GenerateRectangles.GetXOrY());
             _rectangles.Add(_currentRectangle);
             RectanglesBoxPaint.Items.Add($"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})");
+
+            // Создание панели для отображения прямоугольника
+            Panel panel = new Panel();
+            panel.Location = new Point(_currentRectangle.Center.X - (int)(_currentRectangle.Width / 2), _currentRectangle.Center.Y - (int)(_currentRectangle.Length / 2));
+            panel.Size = new Size((int)_currentRectangle.Width, (int)_currentRectangle.Length);
+            panel.BackColor = Color.FromArgb(127, 127, 255, 127);
+
+            // Добавление на канву и в список
+            CanvasPanel.Controls.Add(panel);
+            _rectanglePanels.Add(panel);
+
+            FindCollisions();
         }
         private void RectanglesBoxPaint_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -306,7 +320,7 @@ namespace Lab3
         {
             int selectedIndex = RectanglesBoxPaint.SelectedIndex;
             RectanglesBoxPaint.ClearSelected();
-
+            // на случай если удаляемый элемент не выбран
             if (selectedIndex != -1)
             {
                 RectanglesBoxPaint.Items.RemoveAt(selectedIndex);
@@ -316,23 +330,162 @@ namespace Lab3
             {
                 ErrorLabel.Text = "Выберите элемент";
             }
+
+            //удаление с панели
+            if (selectedIndex != -1)
+            {
+                CanvasPanel.Controls.RemoveAt(selectedIndex);
+                _rectanglePanels.RemoveAt(selectedIndex);
+            }
+            FindCollisions();
         }
 
         private void XBoxPaint_TextChanged(object sender, EventArgs e)
         {
             ErrorLabel.Text = "";
-            try
+            if (XBoxPaint.Text != "")
             {
-                if (_currentRectangle != null)
+                try
                 {
-                    _currentRectangle.Center.X = Int32.Parse(XBoxPaint.Text);
-                    RectanglesBoxPaint.Items[RectanglesBoxPaint.SelectedIndex] = $"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})";
+                    if (_currentRectangle != null)
+                    {
+                        _currentRectangle.Center.X = Int32.Parse(XBoxPaint.Text);
+                        // Отключаем событие, чтобы не было зациклинности
+                        RectanglesBoxPaint.SelectedIndexChanged -= RectanglesBoxPaint_SelectedIndexChanged;
+                        RectanglesBoxPaint.Items[RectanglesBoxPaint.SelectedIndex] = ($"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})");
+                        // Включаем обратно
+                        RectanglesBoxPaint.SelectedIndexChanged += RectanglesBoxPaint_SelectedIndexChanged;
+
+                        //изменение размеров панели
+                        _rectanglePanels[RectanglesBoxPaint.SelectedIndex].Location = new Point(_currentRectangle.Center.X - (int)(_currentRectangle.Width / 2), _currentRectangle.Center.Y - (int)(_currentRectangle.Length / 2));
+                        FindCollisions();
+                    }
+                }
+                catch (Exception)
+                {
+                    if (XBoxPaint.Text != "")
+                    {
+                        ErrorLabel.Text = "Неверное значение";
+                    }
                 }
             }
-            catch(Exception) 
+        }
+
+        private void YBoxPaint_TextChanged(object sender, EventArgs e)
+        {
+            ErrorLabel.Text = "";
+            if (YBoxPaint.Text != "")
             {
-                ErrorLabel.Text = "Неверное значение";
+                try
+                {
+                    if (_currentRectangle != null)
+                    {
+                        _currentRectangle.Center.Y = Int32.Parse(YBoxPaint.Text);
+                        // Отключаем событие, чтобы не было зациклинности
+                        RectanglesBoxPaint.SelectedIndexChanged -= RectanglesBoxPaint_SelectedIndexChanged;
+                        RectanglesBoxPaint.Items[RectanglesBoxPaint.SelectedIndex] = ($"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})");
+                        // Включаем обратно
+                        RectanglesBoxPaint.SelectedIndexChanged += RectanglesBoxPaint_SelectedIndexChanged;
+
+                        //изменение размеров панели
+                        _rectanglePanels[RectanglesBoxPaint.SelectedIndex].Location = new Point(_currentRectangle.Center.X - (int)(_currentRectangle.Width / 2), _currentRectangle.Center.Y - (int)(_currentRectangle.Length / 2));
+                        FindCollisions();
+                    }
+                }
+                catch (Exception)
+                {
+                    if (YBoxPaint.Text != "")
+                    {
+                        ErrorLabel.Text = "Неверное значение";
+                    }
+                }
             }
+        }
+
+        private void WidthBoxPaint_TextChanged(object sender, EventArgs e)
+        {
+            ErrorLabel.Text = "";
+            if (WidthBoxPaint.Text != "")
+            {
+                try
+                {
+                    if (_currentRectangle != null)
+                    {
+                        _currentRectangle.Width = Int32.Parse(WidthBoxPaint.Text);
+                        // Отключаем событие, чтобы не было зациклинности
+                        RectanglesBoxPaint.SelectedIndexChanged -= RectanglesBoxPaint_SelectedIndexChanged;
+                        RectanglesBoxPaint.Items[RectanglesBoxPaint.SelectedIndex] = ($"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})");
+                        // Включаем обратно
+                        RectanglesBoxPaint.SelectedIndexChanged += RectanglesBoxPaint_SelectedIndexChanged;
+
+                        //изменение размеров панели
+                        _rectanglePanels[RectanglesBoxPaint.SelectedIndex].Size = new Size((int)_currentRectangle.Width, (int)_currentRectangle.Length);
+                        FindCollisions();
+                    }
+                }
+                catch (Exception)
+                {
+                    if (WidthBoxPaint.Text != "")
+                    {
+                        ErrorLabel.Text = "Неверное значение";
+                    }
+                }
+            }
+        }
+
+        private void HeightBoxPaint_TextChanged(object sender, EventArgs e)
+        {
+            ErrorLabel.Text = "";
+            if (HeightBoxPaint.Text != "")
+            {
+                try
+                {
+                    if (_currentRectangle != null)
+                    {
+                        _currentRectangle.Length = Int32.Parse(HeightBoxPaint.Text);
+                        // Отключаем событие, чтобы не было зациклинности
+                        RectanglesBoxPaint.SelectedIndexChanged -= RectanglesBoxPaint_SelectedIndexChanged;
+                        RectanglesBoxPaint.Items[RectanglesBoxPaint.SelectedIndex] = ($"{_currentRectangle.ID - 5}: (X= {_currentRectangle.Center.X}; Y= {_currentRectangle.Center.Y}; W= {_currentRectangle.Width}; H= {_currentRectangle.Length})");
+                        // Включаем обратно
+                        RectanglesBoxPaint.SelectedIndexChanged += RectanglesBoxPaint_SelectedIndexChanged;
+
+                        //изменение размеров панели
+                        _rectanglePanels[RectanglesBoxPaint.SelectedIndex].Size = new Size((int)_currentRectangle.Width, (int)_currentRectangle.Length);
+                        FindCollisions();
+                    }
+                }
+                catch (Exception)
+                {
+                    if (HeightBoxPaint.Text != "")
+                    {
+                        ErrorLabel.Text = "Неверное значение";
+                    }
+                }
+            }
+        }
+
+        private List<Panel> _rectanglePanels = new List<Panel>();
+        private void FindCollisions()
+        {
+            // перекрас всех в зелёный
+            foreach (Panel i in _rectanglePanels)
+            {
+                i.BackColor = Color.FromArgb(127, 127, 255, 127);
+            }
+            // проверка на колизию
+            for (int i = 0; i < _rectanglePanels.Count; i++)
+            {
+                for (int j = i + 1; j < _rectanglePanels.Count; j++)
+                {
+                    if (CollisionManager.IsCollision(_rectangles[i], _rectangles[j]) && _rectangles[i] != _rectangles[j])
+                    {
+                        _rectanglePanels[i].BackColor = Color.FromArgb(127, 255, 127, 127);
+                        _rectanglePanels[j].BackColor = Color.FromArgb(127, 255, 127, 127);
+                    }
+                    
+                }
+            }
+            //panel.BackColor = Color.FromArgb(127, 127, 255, 127);
         }
     }
 }
