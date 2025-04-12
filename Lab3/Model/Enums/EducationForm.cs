@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lab3.Model.Enums
 {
+    /// <summary>
+    /// Хранит формы обучения.
+    /// </summary>
     public enum EducationForm
     {
         Full_time,

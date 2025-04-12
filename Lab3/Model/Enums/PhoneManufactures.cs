@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lab3.Model.Enums
 {
+    /// <summary>
+    /// Хранит название фирм производителей телефонов.
+    /// </summary>
     public enum PhoneManufactures
     {
         Samsung,

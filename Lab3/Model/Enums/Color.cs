@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lab3.Model.Enums
 {
+    /// <summary>
+    /// Хранит основные цвета.
+    /// </summary>
     public enum Color
     {
         Red,
