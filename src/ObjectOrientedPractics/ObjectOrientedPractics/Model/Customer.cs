@@ -1,0 +1,91 @@
+﻿using ObjectOrientedPractics.Servies;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Описывает покупателя с уникальным идентификатором, ФИО и адресом.
+    /// </summary>
+    class Customer
+    {
+        /// <summary>
+        /// Валидатор для проверки свойств покупателя.
+        /// </summary>
+        private readonly ValueValidator validator = new ValueValidator();
+
+        /// <summary>
+        /// Уникальный идентификатор покупателя.
+        /// </summary>
+        private readonly int _id;
+
+        /// <summary>
+        /// Возвращает уникальный идентификатор покупателя.
+        /// </summary>
+        public int Id
+        {
+            get { return _id; }
+        }
+
+        /// <summary>
+        /// Статический счётчик для генерации уникальных идентификаторов покупателей.
+        /// </summary>
+        private static int counter;
+
+        /// <summary>
+        /// Полное имя покупателя.
+        /// </summary>
+        private string _fullname;
+
+        /// <summary>
+        /// Возвращает и задаёт полное имя покупателя. 
+        /// Длина строки не должна превышать 200 символов.
+        /// </summary>
+        public string Fullname
+        {
+            get { return _fullname; }
+            set
+            {
+                validator.AssertStringOnLength(value, 200, "Fullname");
+                _fullname = value;
+            }
+        }
+
+        /// <summary>
+        /// Адрес покупателя.
+        /// </summary>
+        private string _address;
+
+        /// <summary>
+        /// Возвращает и задаёт адрес покупателя. 
+        /// Длина строки не должна превышать 500 символов.
+        /// </summary>
+        public string Address
+        {
+            get { return _address; }
+            set
+            {
+                validator.AssertStringOnLength(value, 500, "Address");
+                _address = value;
+            }
+        }
+
+        /// <summary>
+        /// Создаёт экземпляр класса <see cref="Customer"/>.
+        /// </summary>
+        /// <param name="fullname">Полное имя покупателя (не более 200 символов).</param>
+        /// <param name="address">Адрес покупателя (не более 500 символов).</param>
+        public Customer(string fullname, string address)
+        {
+            Fullname = fullname;
+            Address = address;
+            counter++;
+            _id = counter;
+        }
+    }
+}

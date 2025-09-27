@@ -27,6 +27,10 @@ namespace Lab8
 				{
 					throw new ArgumentException("Колличество символов не должно превышать 50");
                 }
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Название не должно быть пустое");
+                }
                 _songTitle = value; 
 			}
 		}
@@ -45,6 +49,10 @@ namespace Lab8
                 if (value.Length > 50)
                 {
                     throw new ArgumentException("Колличество символов не должно превышать 50");
+                }
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Название не должно быть пустое");
                 }
                 _artistName = value; 
 			}

@@ -184,7 +184,6 @@
             InfoLabel.Name = "InfoLabel";
             InfoLabel.Size = new Size(590, 15);
             InfoLabel.TabIndex = 5;
-            InfoLabel.Text = "Неверное значение: Продолжительность должна быть положительным числом, не превышающим 7200";
             // 
             // SaveLabel
             // 
