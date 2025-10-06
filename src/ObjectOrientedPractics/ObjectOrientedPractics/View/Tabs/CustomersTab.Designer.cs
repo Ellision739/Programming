@@ -228,9 +228,10 @@
             SelectedCustomerPanel.Controls.Add(IdCTextBox);
             SelectedCustomerPanel.Controls.Add(IdCLabel);
             SelectedCustomerPanel.Controls.Add(SelectedCustomerLabel);
+            SelectedCustomerPanel.Dock = DockStyle.Right;
             SelectedCustomerPanel.Location = new Point(355, 0);
             SelectedCustomerPanel.Name = "SelectedCustomerPanel";
-            SelectedCustomerPanel.Size = new Size(517, 225);
+            SelectedCustomerPanel.Size = new Size(517, 542);
             SelectedCustomerPanel.TabIndex = 7;
             // 
             // AddressTextBox
