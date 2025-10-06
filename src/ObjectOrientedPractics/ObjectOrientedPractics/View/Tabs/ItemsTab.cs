@@ -145,7 +145,7 @@ namespace ObjectOrientedPractics.View.Tabs
             int itemIndex = ItemsListBox.SelectedIndex;
             if (itemIndex == -1)
             {
-                InfoLabel.Text = "Выберите песню для удаления";
+                InfoLabel.Text = "Выберите товар для удаления";
             }
             else
             {
