@@ -32,6 +32,24 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private List<Item> _items = new List<Item>();
         /// <summary>
+        /// Возвращает и задаёт список товаров.
+        /// </summary>
+        public List<Item> Items
+        {
+            get { return _items; }
+            set 
+            {
+                _items = value ?? new List<Item>();
+
+                // Сразу обновляем ListBox, чтобы всё было синхронно
+                ItemsListBox.Items.Clear();
+                foreach (var item in _items)
+                {
+                    ItemsListBox.Items.Add(item.Name);
+                }
+            }
+        }
+        /// <summary>
         /// Товар, выбранный на данный момент.
         /// </summary>
         private Item _currentItem;
@@ -67,6 +85,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 //Разделение строки из файла и создание товара
                 string[] elementsItem = item.Split('|');
+                if (elementsItem.Length < 4) return;
                 _currentItem = new Item(elementsItem[0], elementsItem[1], Int32.Parse(elementsItem[2]), elementsItem[3]);
 
                 //Добавление нового товара туда, куда нужно
@@ -100,11 +119,21 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     //Разделение и добавление в _items
                     string[] elementsItems = i.Split('|');
+                    if (elementsItems.Length < 4) continue;
                     _currentItem = new Item(elementsItems[0], elementsItems[1], Int32.Parse(elementsItems[2]), elementsItems[3]);
                     _items.Add(_currentItem);
 
                     ItemsListBox.Items.Add($"{_currentItem.Name}"); //Добавление в Коробку
                 }
+            }
+            //Сортировка после загрузки
+            var comparer = StringComparer.Create(new CultureInfo("ru-RU"), true);
+            _items = _items.OrderBy(it => it.Name, comparer).ToList();
+
+            ItemsListBox.Items.Clear();
+            foreach (var it in _items)
+            {
+                ItemsListBox.Items.Add(it.Name);
             }
         }
         public void AddButton_Click(object sender, EventArgs e)

@@ -12,7 +12,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Описывает покупателя с уникальным идентификатором, ФИО и адресом.
     /// </summary>
-    class Customer
+    public class Customer
     {
         /// <summary>
         /// Валидатор для проверки свойств покупателя.

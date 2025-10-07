@@ -11,7 +11,7 @@ namespace ObjectOrientedPractics.Model
     /// Описывает товар (предмет) с уникальным идентификатором, 
     /// названием, описанием и стоимостью.
     /// </summary>
-    class Item
+    public class Item
     {
         /// <summary>
         /// Валидатор для проверки свойств товара.

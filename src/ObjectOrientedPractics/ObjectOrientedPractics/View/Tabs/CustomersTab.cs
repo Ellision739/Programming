@@ -34,6 +34,15 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private List<Customer> _customers = new List<Customer>();
         /// <summary>
+        /// Возвращает и задаёт список покупателей.
+        /// </summary>
+        public List<Customer> Customers
+        {
+            get { return _customers; }
+            set { _customers = value; }
+        }
+
+        /// <summary>
         /// Покупатель, выбранный на данный момент.
         /// </summary>
         private Customer _currentCustomer;
@@ -107,6 +116,15 @@ namespace ObjectOrientedPractics.View.Tabs
 
                     CustomersListBox.Items.Add($"{_currentCustomer.Fullname}"); //Добавление в Коробку
                 }
+            }
+            //Сортировка после загрузки
+            var comparer = StringComparer.Create(new CultureInfo("ru-RU"), true);
+            _customers = _customers.OrderBy(it => it.Fullname, comparer).ToList();
+
+            CustomersListBox.Items.Clear();
+            foreach (var it in _customers)
+            {
+                CustomersListBox.Items.Add(it.Fullname);
             }
         }
         public void AddCButton_Click(object sender, EventArgs e)
