@@ -70,6 +70,18 @@ namespace ObjectOrientedPractics.Model
             get { return _address; }
             set { _address = value; }
         }
+        /// <summary>
+        /// Корзина покупателя.
+        /// </summary>
+        private Cart _cart;
+        /// <summary>
+        /// Возвращает корзину покупателя класса Cart.
+        /// </summary>
+        public Cart Cart
+        {
+            get { return _cart; }
+        }
+
 
         /// <summary>
         /// Создаёт экземпляр класса <see cref="Customer"/>.
@@ -82,6 +94,7 @@ namespace ObjectOrientedPractics.Model
             Address = address;
             counter++;
             _id = counter;
+            _cart = new Cart();
         }
     }
 }
