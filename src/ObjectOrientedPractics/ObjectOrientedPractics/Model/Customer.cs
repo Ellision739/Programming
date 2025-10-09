@@ -12,7 +12,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Описывает покупателя с уникальным идентификатором, ФИО и адресом.
     /// </summary>
-    class Customer
+    public class Customer
     {
         /// <summary>
         /// Валидатор для проверки свойств покупателя.
@@ -59,20 +59,16 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Адрес покупателя.
         /// </summary>
-        private string _address;
+        private Address _address;
 
         /// <summary>
         /// Возвращает и задаёт адрес покупателя. 
         /// Длина строки не должна превышать 500 символов.
         /// </summary>
-        public string Address
+        public Address Address
         {
             get { return _address; }
-            set
-            {
-                validator.AssertStringOnLength(value, 500, "Address");
-                _address = value;
-            }
+            set { _address = value; }
         }
 
         /// <summary>
@@ -80,7 +76,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="fullname">Полное имя покупателя (не более 200 символов).</param>
         /// <param name="address">Адрес покупателя (не более 500 символов).</param>
-        public Customer(string fullname, string address)
+        public Customer(string fullname, Address address)
         {
             Fullname = fullname;
             Address = address;

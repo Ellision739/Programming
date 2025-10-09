@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.View.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +34,15 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private List<Customer> _customers = new List<Customer>();
         /// <summary>
+        /// Возвращает и задаёт список покупателей.
+        /// </summary>
+        public List<Customer> Customers
+        {
+            get { return _customers; }
+            set { _customers = value; }
+        }
+
+        /// <summary>
         /// Покупатель, выбранный на данный момент.
         /// </summary>
         private Customer _currentCustomer;
@@ -66,9 +76,9 @@ namespace ObjectOrientedPractics.View.Tabs
                 var sortedList = linesSongsList.OrderBy(word => word, StringComparer.Create(new CultureInfo("ru-RU"), false)).ToList();
                 File.WriteAllLines(filePathList, sortedList); // Перезаписываем файл
 
-                //Разделение строки из файла и создание сейчашней песни
+                //Разделение строки из файла и создание сейчашнего покупателя
                 string[] elementsCustomer = item.Split('|');
-                _currentCustomer = new Customer(elementsCustomer[0], elementsCustomer[1]);
+                _currentCustomer = new Customer(elementsCustomer[0], new Address(Int32.Parse(elementsCustomer[1]), elementsCustomer[2], elementsCustomer[3], elementsCustomer[4], elementsCustomer[5], elementsCustomer[6]));
 
                 //Добавление нового покупателя туда, куда нужно
                 int index = 0;
@@ -101,11 +111,20 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     //Разделение и добавление в _customers
                     string[] elementsCustomers = i.Split('|');
-                    _currentCustomer = new Customer(elementsCustomers[0], elementsCustomers[1]);
+                    _currentCustomer = new Customer(elementsCustomers[0], new Address(Int32.Parse(elementsCustomers[1]), elementsCustomers[2], elementsCustomers[3], elementsCustomers[4], elementsCustomers[5], elementsCustomers[6]));
                     _customers.Add(_currentCustomer);
 
                     CustomersListBox.Items.Add($"{_currentCustomer.Fullname}"); //Добавление в Коробку
                 }
+            }
+            //Сортировка после загрузки
+            var comparer = StringComparer.Create(new CultureInfo("ru-RU"), true);
+            _customers = _customers.OrderBy(it => it.Fullname, comparer).ToList();
+
+            CustomersListBox.Items.Clear();
+            foreach (var it in _customers)
+            {
+                CustomersListBox.Items.Add(it.Fullname);
             }
         }
         public void AddCButton_Click(object sender, EventArgs e)
@@ -119,7 +138,6 @@ namespace ObjectOrientedPractics.View.Tabs
             //Очистка перед изменением
             IdCTextBox.Clear();
             FullnameTextBox.Clear();
-            AddressTextBox.Clear();
             InfoCLabel.Text = "";
             //SaveLabel.Text = "";
 
@@ -129,8 +147,15 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 _currentCustomer = _customers[itemIndex];
                 IdCTextBox.Text = _customers[itemIndex].Id.ToString();
-                AddressTextBox.Text = _customers[itemIndex].Address;
                 FullnameTextBox.Text = _customers[itemIndex].Fullname;
+                addressControl1.Address = _currentCustomer.Address;
+            }
+            else
+            {
+                // Если ничего не выбрано, очищаем
+                IdCTextBox.Clear();
+                FullnameTextBox.Clear();
+                addressControl1.Address = new Address();
             }
         }
         public void RemoveCButton_Click(object sender, EventArgs e)
@@ -141,7 +166,7 @@ namespace ObjectOrientedPractics.View.Tabs
             int itemIndex = CustomersListBox.SelectedIndex;
             if (itemIndex == -1)
             {
-                InfoCLabel.Text = "Выберите песню для удаления";
+                InfoCLabel.Text = "Выберите покупателя для удаления";
             }
             else
             {
@@ -150,43 +175,34 @@ namespace ObjectOrientedPractics.View.Tabs
                 File.WriteAllLines(filePathList, linesList); // Перезаписываем файл
                 _customers.RemoveAt(itemIndex);
                 CustomersListBox.Items.RemoveAt(itemIndex);
+
+                // Очищаем AddressControl
+                addressControl1.Address = new Address();
             }
         }
 
         private void SaveCButton_Click(object sender, EventArgs e)
         {
-            string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
-            List<string> linesList = new List<string>();
-
-            //Перезаписывание всех покупателей в файл
-            foreach (Customer i in _customers)
-            {
-                linesList.Add($"{i.Fullname}|{i.Address}");
-            }
-            File.WriteAllLines(filePathList, linesList);
-            if (InfoCLabel.Text != "" && InfoCLabel.Text != "Выберите покупателя для удаления")
-            {
-                InfoCLabel.Text = "Невозможно сохранить, неверное значение";
-            }
-            else
-            {
-                InfoCLabel.Text = "Сохранено в файл!";
-            }
-        }
-
-        private void AddressTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (_currentCustomer != null && AddressTextBox.Text != "")
+            if (_currentCustomer != null)
             {
                 try
                 {
-                    InfoCLabel.Text = "";
-                    //переписывание значения в _customers
-                    _customers[CustomersListBox.SelectedIndex].Address = AddressTextBox.Text;
+                    // Копируем текущий адрес из AddressControl в объект клиента
+                    _currentCustomer.Address = addressControl1.Address;
+
+                    // Обновляем файл
+                    string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
+                    List<string> linesList = _customers
+                        .Select(c => $"{c.Fullname}|{c.Address.Index}|{c.Address.Country}|{c.Address.City}|{c.Address.Street}|{c.Address.Building}|{c.Address.Apartment}")
+                        .ToList();
+
+                    File.WriteAllLines(filePathList, linesList, Encoding.UTF8);
+
+                    InfoCLabel.Text = "Сохранено!";
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    InfoCLabel.Text = "Неверное значение: Адрес покупателя не должен превышать 500 символов";
+                    InfoCLabel.Text = $"Ошибка при сохранении: {ex.Message}";
                 }
             }
         }

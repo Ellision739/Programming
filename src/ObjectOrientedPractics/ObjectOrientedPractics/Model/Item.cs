@@ -11,7 +11,7 @@ namespace ObjectOrientedPractics.Model
     /// Описывает товар (предмет) с уникальным идентификатором, 
     /// названием, описанием и стоимостью.
     /// </summary>
-    class Item
+    public class Item
     {
         /// <summary>
         /// Валидатор для проверки свойств товара.
@@ -101,19 +101,25 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
+        /// Категория товара.
+        /// </summary>
+        public Category Category { get; set; }
+
+        /// <summary>
         /// Создаёт экземпляр класса <see cref="Item"/>.
         /// </summary>
         /// <param name="name">Название товара (не более 200 символов).</param>
         /// <param name="info">Описание товара (не более 1000 символов).</param>
         /// <param name="cost">Стоимость товара (0–100000).</param>
-        public Item(string name, string info, int cost)
+        /// <param name="category">Категория товаров из перечисления.</param>
+        public Item(string name, string info, int cost, string category)
         {
             Name = name;
             Info = info;
             Cost = cost;
             counter++;
             _id = counter;
+            Category = (Category)Enum.Parse(typeof(Category), category);
         }
-
     }
 }

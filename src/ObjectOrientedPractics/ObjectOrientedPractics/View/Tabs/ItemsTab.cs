@@ -32,6 +32,24 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private List<Item> _items = new List<Item>();
         /// <summary>
+        /// Возвращает и задаёт список товаров.
+        /// </summary>
+        public List<Item> Items
+        {
+            get { return _items; }
+            set 
+            {
+                _items = value ?? new List<Item>();
+
+                // Сразу обновляем ListBox, чтобы всё было синхронно
+                ItemsListBox.Items.Clear();
+                foreach (var item in _items)
+                {
+                    ItemsListBox.Items.Add(item.Name);
+                }
+            }
+        }
+        /// <summary>
         /// Товар, выбранный на данный момент.
         /// </summary>
         private Item _currentItem;
@@ -65,9 +83,10 @@ namespace ObjectOrientedPractics.View.Tabs
                 var sortedList = linesSongsList.OrderBy(word => word, StringComparer.Create(new CultureInfo("ru-RU"), false)).ToList();
                 File.WriteAllLines(filePathList, sortedList); // Перезаписываем файл
 
-                //Разделение строки из файла и создание сейчашней песни
+                //Разделение строки из файла и создание товара
                 string[] elementsItem = item.Split('|');
-                _currentItem = new Item(elementsItem[0], elementsItem[1], Int32.Parse(elementsItem[2]));
+                if (elementsItem.Length < 4) return;
+                _currentItem = new Item(elementsItem[0], elementsItem[1], Int32.Parse(elementsItem[2]), elementsItem[3]);
 
                 //Добавление нового товара туда, куда нужно
                 int index = 0;
@@ -100,11 +119,21 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     //Разделение и добавление в _items
                     string[] elementsItems = i.Split('|');
-                    _currentItem = new Item(elementsItems[0], elementsItems[1], Int32.Parse(elementsItems[2]));
+                    if (elementsItems.Length < 4) continue;
+                    _currentItem = new Item(elementsItems[0], elementsItems[1], Int32.Parse(elementsItems[2]), elementsItems[3]);
                     _items.Add(_currentItem);
 
                     ItemsListBox.Items.Add($"{_currentItem.Name}"); //Добавление в Коробку
                 }
+            }
+            //Сортировка после загрузки
+            var comparer = StringComparer.Create(new CultureInfo("ru-RU"), true);
+            _items = _items.OrderBy(it => it.Name, comparer).ToList();
+
+            ItemsListBox.Items.Clear();
+            foreach (var it in _items)
+            {
+                ItemsListBox.Items.Add(it.Name);
             }
         }
         public void AddButton_Click(object sender, EventArgs e)
@@ -120,6 +149,8 @@ namespace ObjectOrientedPractics.View.Tabs
             CostTextBox.Clear();
             NameTextBox.Clear();
             DescriptionTextBox.Clear();
+            CategoryComboBox.SelectedIndex = -1;
+            CategoryComboBox.Text = "";
             InfoLabel.Text = "";
             //SaveLabel.Text = "";
 
@@ -132,6 +163,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 CostTextBox.Text = _items[itemIndex].Cost.ToString();
                 NameTextBox.Text = _items[itemIndex].Name;
                 DescriptionTextBox.Text = _items[itemIndex].Info;
+                CategoryComboBox.Text = _items[itemIndex].Category.ToString();
             }
         }
         public void RemoveButton_Click(object sender, EventArgs e)
@@ -142,7 +174,7 @@ namespace ObjectOrientedPractics.View.Tabs
             int itemIndex = ItemsListBox.SelectedIndex;
             if (itemIndex == -1)
             {
-                InfoLabel.Text = "Выберите песню для удаления";
+                InfoLabel.Text = "Выберите товар для удаления";
             }
             else
             {
@@ -162,7 +194,7 @@ namespace ObjectOrientedPractics.View.Tabs
             //Перезаписывание всех товаров в файл
             foreach (Item i in _items)
             {
-                linesList.Add($"{i.Name}|{i.Info}|{i.Cost}");
+                linesList.Add($"{i.Name}|{i.Info}|{i.Cost}|{i.Category}");
             }
             File.WriteAllLines(filePathList, linesList);
             if (InfoLabel.Text != "" && InfoLabel.Text != "Выберите товар для удаления")
@@ -234,7 +266,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 }
             }
         }
-
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
             if (_currentItem != null && DescriptionTextBox.Text != "")
@@ -249,6 +280,15 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     InfoLabel.Text = "Неверное значение: Описание товара не должно превышать 1000 символов";
                 }
+            }
+        }
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_currentItem != null && CategoryComboBox.Text != "")
+            {
+                InfoLabel.Text = "";
+                //переписывание значения в _items
+                _items[ItemsListBox.SelectedIndex].Category = (Category)Enum.Parse(typeof(Category), CategoryComboBox.Text);
             }
         }
     }
