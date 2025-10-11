@@ -45,13 +45,13 @@
             CustomersLabel = new Label();
             CustomersListBox = new ListBox();
             SelectedCustomerPanel = new Panel();
+            addressControl1 = new ObjectOrientedPractics.View.Controls.AddressControl();
             InfoCLabel = new Label();
             FullnameTextBox = new TextBox();
             FullNameLabel = new Label();
             IdCTextBox = new TextBox();
             IdCLabel = new Label();
             SelectedCustomerLabel = new Label();
-            addressControl1 = new ObjectOrientedPractics.View.Controls.AddressControl();
             CustomersPanel.SuspendLayout();
             panel1.SuspendLayout();
             RemoveCPanel.SuspendLayout();
@@ -232,6 +232,20 @@
             SelectedCustomerPanel.Size = new Size(590, 550);
             SelectedCustomerPanel.TabIndex = 7;
             // 
+            // addressControl1
+            // 
+            address1.Apartment = "";
+            address1.Building = "";
+            address1.City = "";
+            address1.Country = "";
+            address1.Index = 0;
+            address1.Street = "";
+            addressControl1.Address = address1;
+            addressControl1.Location = new Point(6, 98);
+            addressControl1.Name = "addressControl1";
+            addressControl1.Size = new Size(567, 203);
+            addressControl1.TabIndex = 8;
+            // 
             // InfoCLabel
             // 
             InfoCLabel.AutoSize = true;
@@ -262,7 +276,7 @@
             // 
             // IdCTextBox
             // 
-            IdCTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            IdCTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             IdCTextBox.Location = new Point(71, 37);
             IdCTextBox.Name = "IdCTextBox";
             IdCTextBox.ReadOnly = true;
@@ -289,20 +303,6 @@
             SelectedCustomerLabel.Size = new Size(119, 15);
             SelectedCustomerLabel.TabIndex = 0;
             SelectedCustomerLabel.Text = "Selected Customer";
-            // 
-            // addressControl1
-            // 
-            address1.Apartment = "";
-            address1.Building = "";
-            address1.City = "";
-            address1.Country = "";
-            address1.Index = 0;
-            address1.Street = "";
-            addressControl1.Address = address1;
-            addressControl1.Location = new Point(6, 98);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(567, 203);
-            addressControl1.TabIndex = 8;
             // 
             // CustomersTab
             // 

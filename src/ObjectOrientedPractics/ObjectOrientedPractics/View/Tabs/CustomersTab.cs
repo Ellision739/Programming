@@ -119,7 +119,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             //Сортировка после загрузки
             var comparer = StringComparer.Create(new CultureInfo("ru-RU"), true);
-            _customers = _customers.OrderBy(it => it.Fullname, comparer).ToList();
+            _customers.Sort((x, y) => comparer.Compare(x.Fullname, y.Fullname));
 
             CustomersListBox.Items.Clear();
             foreach (var it in _customers)
@@ -226,7 +226,7 @@ namespace ObjectOrientedPractics.View.Tabs
                     var selected = _currentCustomer;
 
                     // Сортируем _customers
-                    _customers = _customers.OrderBy(s => s.Fullname, StringComparer.Create(new System.Globalization.CultureInfo("ru-RU"), true)).ToList();
+                    _customers.Sort((x, y) => StringComparer.Create(new CultureInfo("ru-RU"), true).Compare(x.Fullname, y.Fullname));
 
                     // Перестраиваем CustomersListBox
                     _suppressEvents = true;

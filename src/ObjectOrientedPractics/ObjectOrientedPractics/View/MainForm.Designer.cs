@@ -28,14 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             CustomersTabPage = new TabPage();
             customersTab1 = new ObjectOrientedPractics.View.Tabs.CustomersTab();
             ItemTabPage = new TabPage();
             itemsTab2 = new ObjectOrientedPractics.View.Tabs.ItemsTab();
             MainTabControl = new TabControl();
+            CartsTabPage = new TabPage();
+            cartsTab1 = new ObjectOrientedPractics.View.Tabs.CardsTab();
             CustomersTabPage.SuspendLayout();
             ItemTabPage.SuspendLayout();
             MainTabControl.SuspendLayout();
+            CartsTabPage.SuspendLayout();
             SuspendLayout();
             // 
             // CustomersTabPage
@@ -44,7 +48,7 @@
             CustomersTabPage.Location = new Point(4, 24);
             CustomersTabPage.Name = "CustomersTabPage";
             CustomersTabPage.Padding = new Padding(3);
-            CustomersTabPage.Size = new Size(932, 534);
+            CustomersTabPage.Size = new Size(940, 550);
             CustomersTabPage.TabIndex = 1;
             CustomersTabPage.Text = "Customers";
             CustomersTabPage.UseVisualStyleBackColor = true;
@@ -54,7 +58,7 @@
             customersTab1.Dock = DockStyle.Fill;
             customersTab1.Location = new Point(3, 3);
             customersTab1.Name = "customersTab1";
-            customersTab1.Size = new Size(926, 528);
+            customersTab1.Size = new Size(934, 544);
             customersTab1.TabIndex = 0;
             // 
             // ItemTabPage
@@ -63,7 +67,7 @@
             ItemTabPage.Location = new Point(4, 24);
             ItemTabPage.Name = "ItemTabPage";
             ItemTabPage.Padding = new Padding(3);
-            ItemTabPage.Size = new Size(932, 534);
+            ItemTabPage.Size = new Size(940, 550);
             ItemTabPage.TabIndex = 0;
             ItemTabPage.Text = "Items";
             ItemTabPage.UseVisualStyleBackColor = true;
@@ -73,31 +77,53 @@
             itemsTab2.Dock = DockStyle.Fill;
             itemsTab2.Location = new Point(3, 3);
             itemsTab2.Name = "itemsTab2";
-            itemsTab2.Size = new Size(926, 528);
+            itemsTab2.Size = new Size(934, 544);
             itemsTab2.TabIndex = 0;
             // 
             // MainTabControl
             // 
             MainTabControl.Controls.Add(ItemTabPage);
             MainTabControl.Controls.Add(CustomersTabPage);
+            MainTabControl.Controls.Add(CartsTabPage);
             MainTabControl.Dock = DockStyle.Fill;
             MainTabControl.Location = new Point(0, 0);
             MainTabControl.Name = "MainTabControl";
             MainTabControl.SelectedIndex = 0;
-            MainTabControl.Size = new Size(940, 562);
+            MainTabControl.Size = new Size(948, 578);
             MainTabControl.TabIndex = 0;
+            MainTabControl.SelectedIndexChanged += MainTabControl_SelectedIndexChanged;
+            // 
+            // CartsTabPage
+            // 
+            CartsTabPage.Controls.Add(cartsTab1);
+            CartsTabPage.Location = new Point(4, 24);
+            CartsTabPage.Name = "CartsTabPage";
+            CartsTabPage.Padding = new Padding(3);
+            CartsTabPage.Size = new Size(940, 550);
+            CartsTabPage.TabIndex = 2;
+            CartsTabPage.Text = "Carts";
+            CartsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // cartsTab1
+            // 
+            cartsTab1.Dock = DockStyle.Fill;
+            cartsTab1.Location = new Point(3, 3);
+            cartsTab1.Name = "cartsTab1";
+            cartsTab1.Size = new Size(934, 544);
+            cartsTab1.TabIndex = 0;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(940, 562);
+            ClientSize = new Size(948, 578);
             Controls.Add(MainTabControl);
             Name = "MainForm";
             Text = "Object Oriented Practics";
             CustomersTabPage.ResumeLayout(false);
             ItemTabPage.ResumeLayout(false);
             MainTabControl.ResumeLayout(false);
+            CartsTabPage.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -108,5 +134,7 @@
         private View.Tabs.ItemsTab itemsTab2;
         private TabControl MainTabControl;
         private View.Tabs.CustomersTab customersTab1;
+        private TabPage CartsTabPage;
+        private View.Tabs.CardsTab cartsTab1;
     }
 }

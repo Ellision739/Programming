@@ -80,6 +80,20 @@ namespace ObjectOrientedPractics.Model
         public Cart Cart
         {
             get { return _cart; }
+            set { _cart = value; }
+        }
+
+        /// <summary>
+        /// Список заказов покупателя.
+        /// </summary>
+        private List<Order> _orders;
+        /// <summary>
+        /// Возвращает и задаёт список заказов покупателя.
+        /// </summary>
+        public List<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value; }
         }
 
 
@@ -95,6 +109,7 @@ namespace ObjectOrientedPractics.Model
             counter++;
             _id = counter;
             _cart = new Cart();
+            _orders = new List<Order>();
         }
     }
 }

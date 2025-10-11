@@ -35,15 +35,22 @@ namespace ObjectOrientedPractics.Model
 			get 
 			{
 				_amount = 0.0;
-				if (ListItems != null)
+				if (ListItems != null && ListItems.Count != 0)
+				{
 					foreach (var item in ListItems)
 					{
 						_amount += item.Cost;
 					}
-				
+				}
 				return _amount;
 			}
 		}
-
-	}
+        /// <summary>
+        /// Создаёт экземпляр класса <see cref="Cart"/>.
+        /// </summary>
+        public Cart()
+        {
+            ListItems = new List<Item>();
+        }
+    }
 }
