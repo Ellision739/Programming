@@ -55,6 +55,19 @@ namespace ObjectOrientedPractics.View.Controls
             }
         }
         /// <summary>
+        /// Выставляет всем текстовым полям модификатор ReadOnly.
+        /// </summary>
+        public void AddressReadOnlyTrue()
+        {
+            PostIndexTextBox.ReadOnly = true;
+            CountryTextBox.ReadOnly = true;
+            CityTextBox.ReadOnly = true;
+            StreetTextBox.ReadOnly = true;
+            BuildingTextBox.ReadOnly = true;
+            ApartmentTextBox.ReadOnly = true;
+        }
+
+        /// <summary>
         /// Обновляет текстовые поля на основе текущего объекта <see cref="_address"/>.
         /// </summary>
         private void UpdateTextBoxes()

@@ -32,12 +32,6 @@
             Model.Address address2 = new Model.Address();
             OrdersPanel = new Panel();
             OrdersDataGridView = new DataGridView();
-            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            dateOfCreationDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            OrderStatus = new DataGridViewTextBoxColumn();
-            FullName = new DataGridViewTextBoxColumn();
-            deliveryAddressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            totalCostDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             orderBindingSource = new BindingSource(components);
             OrdersLabel = new Label();
             InfoPanel = new Panel();
@@ -45,7 +39,7 @@
             AmountLabel = new Label();
             OrderItemsListBox = new ListBox();
             OrderItemsLabel = new Label();
-            addressControl1 = new ObjectOrientedPractics.View.Controls.AddressControl();
+            addressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
             StatusComboBox = new ComboBox();
             CreatedTextBox = new TextBox();
             IDTextBox = new TextBox();
@@ -53,6 +47,12 @@
             CreatedLabel = new Label();
             IDLabel = new Label();
             SelectedOrderLabel = new Label();
+            ID = new DataGridViewTextBoxColumn();
+            Created = new DataGridViewTextBoxColumn();
+            OrderStatus = new DataGridViewTextBoxColumn();
+            FullName = new DataGridViewTextBoxColumn();
+            Address = new DataGridViewTextBoxColumn();
+            TotalCost = new DataGridViewTextBoxColumn();
             OrdersPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)orderBindingSource).BeginInit();
@@ -71,55 +71,20 @@
             // 
             // OrdersDataGridView
             // 
+            OrdersDataGridView.AllowUserToAddRows = false;
+            OrdersDataGridView.AllowUserToResizeRows = false;
             OrdersDataGridView.AutoGenerateColumns = false;
             OrdersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, dateOfCreationDataGridViewTextBoxColumn, OrderStatus, FullName, deliveryAddressDataGridViewTextBoxColumn, totalCostDataGridViewTextBoxColumn });
+            OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { ID, Created, OrderStatus, FullName, Address, TotalCost });
             OrdersDataGridView.DataSource = orderBindingSource;
             OrdersDataGridView.Location = new Point(3, 27);
             OrdersDataGridView.MultiSelect = false;
             OrdersDataGridView.Name = "OrdersDataGridView";
+            OrdersDataGridView.RowHeadersVisible = false;
+            OrdersDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             OrdersDataGridView.Size = new Size(355, 520);
             OrdersDataGridView.TabIndex = 1;
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            iDDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // dateOfCreationDataGridViewTextBoxColumn
-            // 
-            dateOfCreationDataGridViewTextBoxColumn.DataPropertyName = "DateOfCreation";
-            dateOfCreationDataGridViewTextBoxColumn.HeaderText = "Created";
-            dateOfCreationDataGridViewTextBoxColumn.Name = "dateOfCreationDataGridViewTextBoxColumn";
-            dateOfCreationDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // OrderStatus
-            // 
-            OrderStatus.DataPropertyName = "OrderStatus";
-            OrderStatus.HeaderText = "Order Status";
-            OrderStatus.Name = "OrderStatus";
-            OrderStatus.ReadOnly = true;
-            // 
-            // FullName
-            // 
-            FullName.DataPropertyName = "Fullname";
-            FullName.HeaderText = "Customer Full Name";
-            FullName.Name = "FullName";
-            // 
-            // deliveryAddressDataGridViewTextBoxColumn
-            // 
-            deliveryAddressDataGridViewTextBoxColumn.DataPropertyName = "DeliveryAddress";
-            deliveryAddressDataGridViewTextBoxColumn.HeaderText = "Delivery Address";
-            deliveryAddressDataGridViewTextBoxColumn.Name = "deliveryAddressDataGridViewTextBoxColumn";
-            // 
-            // totalCostDataGridViewTextBoxColumn
-            // 
-            totalCostDataGridViewTextBoxColumn.DataPropertyName = "TotalCost";
-            totalCostDataGridViewTextBoxColumn.HeaderText = "Total Cost";
-            totalCostDataGridViewTextBoxColumn.Name = "totalCostDataGridViewTextBoxColumn";
-            totalCostDataGridViewTextBoxColumn.ReadOnly = true;
+            OrdersDataGridView.SelectionChanged += OrdersDataGridView_SelectionChanged;
             // 
             // orderBindingSource
             // 
@@ -141,7 +106,7 @@
             InfoPanel.Controls.Add(AmountLabel);
             InfoPanel.Controls.Add(OrderItemsListBox);
             InfoPanel.Controls.Add(OrderItemsLabel);
-            InfoPanel.Controls.Add(addressControl1);
+            InfoPanel.Controls.Add(addressControl);
             InfoPanel.Controls.Add(StatusComboBox);
             InfoPanel.Controls.Add(CreatedTextBox);
             InfoPanel.Controls.Add(IDTextBox);
@@ -194,7 +159,7 @@
             OrderItemsLabel.TabIndex = 8;
             OrderItemsLabel.Text = "Order Items";
             // 
-            // addressControl1
+            // addressControl
             // 
             address2.Apartment = "";
             address2.Building = "";
@@ -202,25 +167,28 @@
             address2.Country = "";
             address2.Index = 0;
             address2.Street = "";
-            addressControl1.Address = address2;
-            addressControl1.Location = new Point(3, 123);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(567, 203);
-            addressControl1.TabIndex = 7;
+            addressControl.Address = address2;
+            addressControl.Location = new Point(3, 123);
+            addressControl.Name = "addressControl";
+            addressControl.Size = new Size(567, 203);
+            addressControl.TabIndex = 7;
             // 
             // StatusComboBox
             // 
             StatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             StatusComboBox.FormattingEnabled = true;
+            StatusComboBox.Items.AddRange(new object[] { "New", "Processing", "Assembly", "Sent", "Delivered", "Returned", "Abandoned" });
             StatusComboBox.Location = new Point(60, 94);
             StatusComboBox.Name = "StatusComboBox";
             StatusComboBox.Size = new Size(121, 23);
             StatusComboBox.TabIndex = 6;
+            StatusComboBox.SelectedIndexChanged += StatusComboBox_SelectedIndexChanged;
             // 
             // CreatedTextBox
             // 
             CreatedTextBox.Location = new Point(60, 65);
             CreatedTextBox.Name = "CreatedTextBox";
+            CreatedTextBox.ReadOnly = true;
             CreatedTextBox.Size = new Size(121, 23);
             CreatedTextBox.TabIndex = 5;
             // 
@@ -228,6 +196,7 @@
             // 
             IDTextBox.Location = new Point(60, 36);
             IDTextBox.Name = "IDTextBox";
+            IDTextBox.ReadOnly = true;
             IDTextBox.Size = new Size(121, 23);
             IDTextBox.TabIndex = 4;
             // 
@@ -268,6 +237,52 @@
             SelectedOrderLabel.TabIndex = 0;
             SelectedOrderLabel.Text = "Selected Order";
             // 
+            // ID
+            // 
+            ID.DataPropertyName = "ID";
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Created
+            // 
+            Created.DataPropertyName = "DateOfCreation";
+            Created.HeaderText = "Created";
+            Created.Name = "Created";
+            Created.ReadOnly = true;
+            Created.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // OrderStatus
+            // 
+            OrderStatus.DataPropertyName = "Status";
+            OrderStatus.HeaderText = "Order Status";
+            OrderStatus.Name = "OrderStatus";
+            OrderStatus.ReadOnly = true;
+            OrderStatus.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // FullName
+            // 
+            FullName.DataPropertyName = "Fullname";
+            FullName.HeaderText = "Customer Full Name";
+            FullName.Name = "FullName";
+            FullName.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Address
+            // 
+            Address.HeaderText = "Delivery Address";
+            Address.Name = "Address";
+            Address.ReadOnly = true;
+            Address.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // TotalCost
+            // 
+            TotalCost.DataPropertyName = "TotalCost";
+            TotalCost.HeaderText = "Total Cost";
+            TotalCost.Name = "TotalCost";
+            TotalCost.ReadOnly = true;
+            TotalCost.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
             // OrdersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -293,7 +308,7 @@
         private Label IDLabel;
         private Label SelectedOrderLabel;
         private Label OrderItemsLabel;
-        private Controls.AddressControl addressControl1;
+        private Controls.AddressControl addressControl;
         private ComboBox StatusComboBox;
         private TextBox CreatedTextBox;
         private TextBox IDTextBox;
@@ -304,11 +319,11 @@
         private Label ValueLabel;
         private DataGridView OrdersDataGridView;
         private BindingSource orderBindingSource;
-        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn dateOfCreationDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn Created;
         private DataGridViewTextBoxColumn OrderStatus;
         private DataGridViewTextBoxColumn FullName;
-        private DataGridViewTextBoxColumn deliveryAddressDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn totalCostDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn Address;
+        private DataGridViewTextBoxColumn TotalCost;
     }
 }

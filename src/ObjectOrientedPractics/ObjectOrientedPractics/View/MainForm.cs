@@ -16,26 +16,31 @@ namespace ObjectOrientedPractics
             _store = new Store();
 
             // Инициализация вкладки Items
-            _store.Items = itemsTab2.Items;
-            itemsTab2.Items = _store.Items;
+            _store.Items = itemsTab.Items;
+            itemsTab.Items = _store.Items;
 
             // Инициализация вкладки Customers
-            _store.Customers = customersTab1.Customers;
-            customersTab1.Customers = _store.Customers;
+            _store.Customers = customersTab.Customers;
+            customersTab.Customers = _store.Customers;
 
             // Инициализация вкладки Carts
-            cartsTab1.Items = _store.Items;
-            cartsTab1.Customers = _store.Customers;
+            cartsTab.Items = _store.Items;
+            cartsTab.Customers = _store.Customers;
 
             // Инициализация вкладки Orders
-            cartsTab1.Customers = _store.Customers;
+            ordersTab1.Customers = _store.Customers;
         }
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (MainTabControl.SelectedIndex == 2)
             {
-                cartsTab1.RefreshData();
+                cartsTab.RefreshData();
+            }
+            if (MainTabControl.SelectedIndex == 3)
+            { 
+                cartsTab.RefreshData();
+                ordersTab1.UpdateOrders();
             }
         }
     }

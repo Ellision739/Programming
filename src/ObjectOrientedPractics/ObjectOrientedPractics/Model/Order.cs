@@ -71,6 +71,15 @@ namespace ObjectOrientedPractics.Model
             set { _listOfProducts = value; }
         }
 
+        private OrderStatus _status;
+
+        public OrderStatus Status
+        {
+            get { return _status; }
+            set { _status = value; }
+        }
+
+
         /// <summary>
         /// Общая стоимость всех товаров в заказе.
         /// </summary>
@@ -104,8 +113,9 @@ namespace ObjectOrientedPractics.Model
             _id = counter++;
             _dateOfCreation = DateTime.Now;
             DeliveryAddress = address;
+            Status = OrderStatus.New;
             // Создаем новый список, чтобы изменения в корзине не влияли на заказ
-            ListOfProducts = items;
+            ListOfProducts = new List<Item>(items);
         }
     }
 }
