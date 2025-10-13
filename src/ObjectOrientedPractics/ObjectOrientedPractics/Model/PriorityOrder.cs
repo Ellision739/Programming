@@ -53,13 +53,13 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="items">Список товаров для включения в заказ.</param>
         /// <param name="address">Адрес доставки.</param>
-        /// <param name="desiredDeliveryDate">Желаемая дата доставки.</param>
-        /// <param name="desiredDeliveryTime">Желаемое время доставки.</param>
-        public PriorityOrder(List<Item> items, Address address, DateTime desiredDeliveryDate, DeliveryTime desiredDeliveryTime)
+        /// <param name="desiredDeliveryDate">Желаемая дата доставки. По умолчанию через неделю.</param>
+        /// <param name="desiredDeliveryTime">Желаемое время доставки. По умолчанию с 9:00 - 11:00.</param>
+        public PriorityOrder(List<Item> items, Address address)
             : base(items, address)
         {
-            DesiredDeliveryDate = desiredDeliveryDate;
-            DesiredDeliveryTime = desiredDeliveryTime;
+            DesiredDeliveryDate = DateTime.Now.AddDays(7);
+            DesiredDeliveryTime = DeliveryTime.Time_9_00_11_00;
         }
     }
 }

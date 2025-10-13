@@ -2,15 +2,8 @@
 {
     partial class OrdersTab
     {
-        /// <summary> 
-        /// Обязательная переменная конструктора.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Освободить все используемые ресурсы.
-        /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,16 +15,18 @@
 
         #region Код, автоматически созданный конструктором компонентов
 
-        /// <summary> 
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
-        /// </summary>
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            Model.Address address2 = new Model.Address();
+            Model.Address address1 = new Model.Address();
             OrdersPanel = new Panel();
             OrdersDataGridView = new DataGridView();
+            ID = new DataGridViewTextBoxColumn();
+            Created = new DataGridViewTextBoxColumn();
+            OrderStatus = new DataGridViewTextBoxColumn();
+            FullName = new DataGridViewTextBoxColumn();
+            Address = new DataGridViewTextBoxColumn();
+            TotalCost = new DataGridViewTextBoxColumn();
             orderBindingSource = new BindingSource(components);
             OrdersLabel = new Label();
             InfoPanel = new Panel();
@@ -47,12 +42,6 @@
             CreatedLabel = new Label();
             IDLabel = new Label();
             SelectedOrderLabel = new Label();
-            ID = new DataGridViewTextBoxColumn();
-            Created = new DataGridViewTextBoxColumn();
-            OrderStatus = new DataGridViewTextBoxColumn();
-            FullName = new DataGridViewTextBoxColumn();
-            Address = new DataGridViewTextBoxColumn();
-            TotalCost = new DataGridViewTextBoxColumn();
             OrdersPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)orderBindingSource).BeginInit();
@@ -63,16 +52,17 @@
             // 
             OrdersPanel.Controls.Add(OrdersDataGridView);
             OrdersPanel.Controls.Add(OrdersLabel);
-            OrdersPanel.Dock = DockStyle.Left;
+            OrdersPanel.Dock = DockStyle.Fill;
             OrdersPanel.Location = new Point(0, 0);
             OrdersPanel.Name = "OrdersPanel";
-            OrdersPanel.Size = new Size(361, 550);
+            OrdersPanel.Size = new Size(350, 550);
             OrdersPanel.TabIndex = 0;
             // 
             // OrdersDataGridView
             // 
             OrdersDataGridView.AllowUserToAddRows = false;
             OrdersDataGridView.AllowUserToResizeRows = false;
+            OrdersDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             OrdersDataGridView.AutoGenerateColumns = false;
             OrdersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { ID, Created, OrderStatus, FullName, Address, TotalCost });
@@ -82,9 +72,55 @@
             OrdersDataGridView.Name = "OrdersDataGridView";
             OrdersDataGridView.RowHeadersVisible = false;
             OrdersDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            OrdersDataGridView.Size = new Size(355, 520);
+            OrdersDataGridView.Size = new Size(344, 520);
             OrdersDataGridView.TabIndex = 1;
             OrdersDataGridView.SelectionChanged += OrdersDataGridView_SelectionChanged;
+            // 
+            // ID
+            // 
+            ID.DataPropertyName = "ID";
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Created
+            // 
+            Created.DataPropertyName = "DateOfCreation";
+            Created.HeaderText = "Created";
+            Created.Name = "Created";
+            Created.ReadOnly = true;
+            Created.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // OrderStatus
+            // 
+            OrderStatus.DataPropertyName = "Status";
+            OrderStatus.HeaderText = "Order Status";
+            OrderStatus.Name = "OrderStatus";
+            OrderStatus.ReadOnly = true;
+            OrderStatus.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // FullName
+            // 
+            FullName.DataPropertyName = "Fullname";
+            FullName.HeaderText = "Customer Full Name";
+            FullName.Name = "FullName";
+            FullName.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Address
+            // 
+            Address.HeaderText = "Delivery Address";
+            Address.Name = "Address";
+            Address.ReadOnly = true;
+            Address.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // TotalCost
+            // 
+            TotalCost.DataPropertyName = "TotalCost";
+            TotalCost.HeaderText = "Total Cost";
+            TotalCost.Name = "TotalCost";
+            TotalCost.ReadOnly = true;
+            TotalCost.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
             // orderBindingSource
             // 
@@ -115,16 +151,16 @@
             InfoPanel.Controls.Add(IDLabel);
             InfoPanel.Controls.Add(SelectedOrderLabel);
             InfoPanel.Dock = DockStyle.Right;
-            InfoPanel.Location = new Point(367, 0);
+            InfoPanel.Location = new Point(350, 0);
             InfoPanel.Name = "InfoPanel";
-            InfoPanel.Size = new Size(573, 550);
+            InfoPanel.Size = new Size(590, 550);
             InfoPanel.TabIndex = 1;
             // 
             // ValueLabel
             // 
             ValueLabel.AutoSize = true;
             ValueLabel.Font = new Font("Segoe UI Black", 16F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            ValueLabel.Location = new Point(477, 504);
+            ValueLabel.Location = new Point(483, 504);
             ValueLabel.Name = "ValueLabel";
             ValueLabel.Size = new Size(26, 30);
             ValueLabel.TabIndex = 11;
@@ -134,7 +170,7 @@
             // 
             AmountLabel.AutoSize = true;
             AmountLabel.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountLabel.Location = new Point(477, 489);
+            AmountLabel.Location = new Point(483, 489);
             AmountLabel.Name = "AmountLabel";
             AmountLabel.Size = new Size(60, 15);
             AmountLabel.TabIndex = 10;
@@ -146,7 +182,7 @@
             OrderItemsListBox.ItemHeight = 15;
             OrderItemsListBox.Location = new Point(3, 332);
             OrderItemsListBox.Name = "OrderItemsListBox";
-            OrderItemsListBox.Size = new Size(567, 154);
+            OrderItemsListBox.Size = new Size(584, 154);
             OrderItemsListBox.TabIndex = 9;
             // 
             // OrderItemsLabel
@@ -161,16 +197,16 @@
             // 
             // addressControl
             // 
-            address2.Apartment = "";
-            address2.Building = "";
-            address2.City = "";
-            address2.Country = "";
-            address2.Index = 0;
-            address2.Street = "";
-            addressControl.Address = address2;
+            address1.Apartment = "";
+            address1.Building = "";
+            address1.City = "";
+            address1.Country = "";
+            address1.Index = 0;
+            address1.Street = "";
+            addressControl.Address = address1;
             addressControl.Location = new Point(3, 123);
             addressControl.Name = "addressControl";
-            addressControl.Size = new Size(567, 203);
+            addressControl.Size = new Size(584, 203);
             addressControl.TabIndex = 7;
             // 
             // StatusComboBox
@@ -237,58 +273,12 @@
             SelectedOrderLabel.TabIndex = 0;
             SelectedOrderLabel.Text = "Selected Order";
             // 
-            // ID
-            // 
-            ID.DataPropertyName = "ID";
-            ID.HeaderText = "ID";
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Created
-            // 
-            Created.DataPropertyName = "DateOfCreation";
-            Created.HeaderText = "Created";
-            Created.Name = "Created";
-            Created.ReadOnly = true;
-            Created.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // OrderStatus
-            // 
-            OrderStatus.DataPropertyName = "Status";
-            OrderStatus.HeaderText = "Order Status";
-            OrderStatus.Name = "OrderStatus";
-            OrderStatus.ReadOnly = true;
-            OrderStatus.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // FullName
-            // 
-            FullName.DataPropertyName = "Fullname";
-            FullName.HeaderText = "Customer Full Name";
-            FullName.Name = "FullName";
-            FullName.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Address
-            // 
-            Address.HeaderText = "Delivery Address";
-            Address.Name = "Address";
-            Address.ReadOnly = true;
-            Address.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // TotalCost
-            // 
-            TotalCost.DataPropertyName = "TotalCost";
-            TotalCost.HeaderText = "Total Cost";
-            TotalCost.Name = "TotalCost";
-            TotalCost.ReadOnly = true;
-            TotalCost.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
             // OrdersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(InfoPanel);
             Controls.Add(OrdersPanel);
+            Controls.Add(InfoPanel);
             Name = "OrdersTab";
             Size = new Size(940, 550);
             OrdersPanel.ResumeLayout(false);
