@@ -43,14 +43,6 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Создает экземпляр класса <see cref="PriorityOrder"/>.
         /// </summary>
-        public PriorityOrder() : base()
-        {
-
-        }
-
-        /// <summary>
-        /// Создает экземпляр класса <see cref="PriorityOrder"/>.
-        /// </summary>
         /// <param name="items">Список товаров для включения в заказ.</param>
         /// <param name="address">Адрес доставки.</param>
         /// <param name="desiredDeliveryDate">Желаемая дата доставки. По умолчанию через неделю.</param>

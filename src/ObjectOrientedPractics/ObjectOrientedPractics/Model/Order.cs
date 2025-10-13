@@ -117,17 +117,5 @@ namespace ObjectOrientedPractics.Model
             // Создаем новый список, чтобы изменения в корзине не влияли на заказ
             ListOfProducts = new List<Item>(items);
         }
-        /// <summary>
-        /// Создаёт экземпляр класса <see cref="Order"/>.
-        /// </summary>
-        public Order()
-        {
-            _id = counter++;
-            _dateOfCreation = DateTime.Now;
-            ListOfProducts = new List<Item>();
-            Status = OrderStatus.New;
-            DeliveryAddress = null;
-        }
     }
 }
-
