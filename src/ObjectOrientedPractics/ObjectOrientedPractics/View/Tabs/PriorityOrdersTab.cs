@@ -131,6 +131,8 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void OrdersDataGridView_SelectionChanged(object sender, EventArgs e)
         {
+            if (PriorityOrdersDataGridView.CurrentRow == null) return;
+
             IDTextBox.Clear();
             CreatedTextBox.Clear();
             OrderItemsListBox.Items.Clear();

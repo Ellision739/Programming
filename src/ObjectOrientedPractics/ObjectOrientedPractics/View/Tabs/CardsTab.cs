@@ -175,10 +175,19 @@ namespace ObjectOrientedPractics.View.Tabs
             InfoLabel.Text = "";
             if (CartListBox.Items.Count > 0 && CustomerComboBox.SelectedIndex != -1)
             {
-                // Создание нового заказа
-                Order order = new Order(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
-                CurrentCustomer.Orders.Add(order);
-
+                if (Customers[CustomerComboBox.SelectedIndex].IsPriority == false)
+                {
+                    // Создание нового заказа
+                    Order order = new Order(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
+                    CurrentCustomer.Orders.Add(order);
+                }
+                else
+                {
+                    // Создание притетного заказа
+                    PriorityOrder priorityOrder = new PriorityOrder(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
+                    CurrentCustomer.Orders.Add(priorityOrder);
+                }    
+                
                 // Очистка корзины
                 CurrentCustomer.Cart.ListItems.Clear();
                 CartListBox.Items.Clear();

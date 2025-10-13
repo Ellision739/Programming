@@ -78,7 +78,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 //Разделение строки из файла и создание сейчашнего покупателя
                 string[] elementsCustomer = item.Split('|');
-                _currentCustomer = new Customer(elementsCustomer[0], new Address(Int32.Parse(elementsCustomer[1]), elementsCustomer[2], elementsCustomer[3], elementsCustomer[4], elementsCustomer[5], elementsCustomer[6]));
+                _currentCustomer = new Customer(elementsCustomer[0], new Address(Int32.Parse(elementsCustomer[1]), elementsCustomer[2], elementsCustomer[3], elementsCustomer[4], elementsCustomer[5], elementsCustomer[6]), bool.Parse(elementsCustomer[7]));
 
                 //Добавление нового покупателя туда, куда нужно
                 int index = 0;
@@ -111,7 +111,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     //Разделение и добавление в _customers
                     string[] elementsCustomers = i.Split('|');
-                    _currentCustomer = new Customer(elementsCustomers[0], new Address(Int32.Parse(elementsCustomers[1]), elementsCustomers[2], elementsCustomers[3], elementsCustomers[4], elementsCustomers[5], elementsCustomers[6]));
+                    _currentCustomer = new Customer(elementsCustomers[0], new Address(Int32.Parse(elementsCustomers[1]), elementsCustomers[2], elementsCustomers[3], elementsCustomers[4], elementsCustomers[5], elementsCustomers[6]), bool.Parse(elementsCustomers[7]));
                     _customers.Add(_currentCustomer);
 
                     CustomersListBox.Items.Add($"{_currentCustomer.Fullname}"); //Добавление в Коробку
@@ -139,7 +139,7 @@ namespace ObjectOrientedPractics.View.Tabs
             IdCTextBox.Clear();
             FullnameTextBox.Clear();
             InfoCLabel.Text = "";
-            //SaveLabel.Text = "";
+            PriorityCheckBox.Checked = false;
 
             //Присваивание данных в текстбоксы
             int itemIndex = CustomersListBox.SelectedIndex;
@@ -149,6 +149,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 IdCTextBox.Text = _customers[itemIndex].Id.ToString();
                 FullnameTextBox.Text = _customers[itemIndex].Fullname;
                 addressControl1.Address = _currentCustomer.Address;
+                PriorityCheckBox.Checked = _customers[itemIndex].IsPriority;
             }
             else
             {
@@ -193,7 +194,7 @@ namespace ObjectOrientedPractics.View.Tabs
                     // Обновляем файл
                     string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
                     List<string> linesList = _customers
-                        .Select(c => $"{c.Fullname}|{c.Address.Index}|{c.Address.Country}|{c.Address.City}|{c.Address.Street}|{c.Address.Building}|{c.Address.Apartment}")
+                        .Select(c => $"{c.Fullname}|{c.Address.Index}|{c.Address.Country}|{c.Address.City}|{c.Address.Street}|{c.Address.Building}|{c.Address.Apartment}|{c.IsPriority}")
                         .ToList();
 
                     File.WriteAllLines(filePathList, linesList, Encoding.UTF8);
@@ -248,6 +249,19 @@ namespace ObjectOrientedPractics.View.Tabs
                     InfoCLabel.Text = "Неверное значение: Полное имя покупателя не должно превышать 200 символов";
                 }
             }
+        }
+
+        private void PriorityCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedIndex == -1)
+            {
+                PriorityCheckBox.Checked = false;
+                InfoCLabel.Text = "Сначала выберите покупателя";
+                return;
+            }
+
+            int index = CustomersListBox.SelectedIndex;
+            Customers[index].IsPriority = PriorityCheckBox.Checked;
         }
     }
 }

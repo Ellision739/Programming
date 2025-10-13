@@ -59,17 +59,19 @@
             TotalCost = new DataGridViewTextBoxColumn();
             orderBindingSource = new BindingSource(components);
             OrdersLabel = new Label();
+            PriorityPanel = new Panel();
             InfoPanel.SuspendLayout();
             OrdersPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PriorityOrdersDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)orderBindingSource).BeginInit();
+            PriorityPanel.SuspendLayout();
             SuspendLayout();
             // 
             // PriorityOptionsLabel
             // 
             PriorityOptionsLabel.AutoSize = true;
             PriorityOptionsLabel.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            PriorityOptionsLabel.Location = new Point(232, 9);
+            PriorityOptionsLabel.Location = new Point(3, 6);
             PriorityOptionsLabel.Name = "PriorityOptionsLabel";
             PriorityOptionsLabel.Size = new Size(104, 15);
             PriorityOptionsLabel.TabIndex = 1;
@@ -77,13 +79,11 @@
             // 
             // InfoPanel
             // 
+            InfoPanel.Controls.Add(PriorityPanel);
             InfoPanel.Controls.Add(ClearOrderButton);
             InfoPanel.Controls.Add(RemoveItemButton);
             InfoPanel.Controls.Add(AddItemButton);
-            InfoPanel.Controls.Add(DeliveryTimeComboBox);
-            InfoPanel.Controls.Add(DeliveryTimeLabel);
             InfoPanel.Controls.Add(ValueLabel);
-            InfoPanel.Controls.Add(PriorityOptionsLabel);
             InfoPanel.Controls.Add(AmountLabel);
             InfoPanel.Controls.Add(OrderItemsListBox);
             InfoPanel.Controls.Add(OrderItemsLabel);
@@ -136,7 +136,7 @@
             DeliveryTimeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             DeliveryTimeComboBox.FormattingEnabled = true;
             DeliveryTimeComboBox.Items.AddRange(new object[] { "9:00 - 11:00", "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00", "17:00 - 19:00", "19:00 - 21:00" });
-            DeliveryTimeComboBox.Location = new Point(319, 36);
+            DeliveryTimeComboBox.Location = new Point(90, 33);
             DeliveryTimeComboBox.Name = "DeliveryTimeComboBox";
             DeliveryTimeComboBox.Size = new Size(121, 23);
             DeliveryTimeComboBox.TabIndex = 13;
@@ -145,7 +145,7 @@
             // DeliveryTimeLabel
             // 
             DeliveryTimeLabel.AutoSize = true;
-            DeliveryTimeLabel.Location = new Point(232, 39);
+            DeliveryTimeLabel.Location = new Point(3, 36);
             DeliveryTimeLabel.Name = "DeliveryTimeLabel";
             DeliveryTimeLabel.Size = new Size(81, 15);
             DeliveryTimeLabel.TabIndex = 12;
@@ -357,6 +357,16 @@
             OrdersLabel.TabIndex = 0;
             OrdersLabel.Text = "Orders";
             // 
+            // PriorityPanel
+            // 
+            PriorityPanel.Controls.Add(PriorityOptionsLabel);
+            PriorityPanel.Controls.Add(DeliveryTimeLabel);
+            PriorityPanel.Controls.Add(DeliveryTimeComboBox);
+            PriorityPanel.Location = new Point(214, 3);
+            PriorityPanel.Name = "PriorityPanel";
+            PriorityPanel.Size = new Size(229, 80);
+            PriorityPanel.TabIndex = 19;
+            // 
             // PriorityOrdersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -371,6 +381,8 @@
             OrdersPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PriorityOrdersDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)orderBindingSource).EndInit();
+            PriorityPanel.ResumeLayout(false);
+            PriorityPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -404,5 +416,6 @@
         private DataGridViewTextBoxColumn FullName;
         private DataGridViewTextBoxColumn Address;
         private DataGridViewTextBoxColumn TotalCost;
+        private Panel PriorityPanel;
     }
 }

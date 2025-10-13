@@ -30,6 +30,10 @@
             orderBindingSource = new BindingSource(components);
             OrdersLabel = new Label();
             InfoPanel = new Panel();
+            PriorityPanel = new Panel();
+            PriorityOptionsLabel = new Label();
+            DeliveryTimeLabel = new Label();
+            DeliveryTimeComboBox = new ComboBox();
             ValueLabel = new Label();
             AmountLabel = new Label();
             OrderItemsListBox = new ListBox();
@@ -46,6 +50,7 @@
             ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)orderBindingSource).BeginInit();
             InfoPanel.SuspendLayout();
+            PriorityPanel.SuspendLayout();
             SuspendLayout();
             // 
             // OrdersPanel
@@ -138,6 +143,7 @@
             // 
             // InfoPanel
             // 
+            InfoPanel.Controls.Add(PriorityPanel);
             InfoPanel.Controls.Add(ValueLabel);
             InfoPanel.Controls.Add(AmountLabel);
             InfoPanel.Controls.Add(OrderItemsListBox);
@@ -155,6 +161,47 @@
             InfoPanel.Name = "InfoPanel";
             InfoPanel.Size = new Size(590, 550);
             InfoPanel.TabIndex = 1;
+            // 
+            // PriorityPanel
+            // 
+            PriorityPanel.Controls.Add(PriorityOptionsLabel);
+            PriorityPanel.Controls.Add(DeliveryTimeLabel);
+            PriorityPanel.Controls.Add(DeliveryTimeComboBox);
+            PriorityPanel.Location = new Point(230, 3);
+            PriorityPanel.Name = "PriorityPanel";
+            PriorityPanel.Size = new Size(229, 80);
+            PriorityPanel.TabIndex = 20;
+            PriorityPanel.Visible = false;
+            // 
+            // PriorityOptionsLabel
+            // 
+            PriorityOptionsLabel.AutoSize = true;
+            PriorityOptionsLabel.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            PriorityOptionsLabel.Location = new Point(3, 6);
+            PriorityOptionsLabel.Name = "PriorityOptionsLabel";
+            PriorityOptionsLabel.Size = new Size(104, 15);
+            PriorityOptionsLabel.TabIndex = 1;
+            PriorityOptionsLabel.Text = "Priority Options";
+            // 
+            // DeliveryTimeLabel
+            // 
+            DeliveryTimeLabel.AutoSize = true;
+            DeliveryTimeLabel.Location = new Point(3, 36);
+            DeliveryTimeLabel.Name = "DeliveryTimeLabel";
+            DeliveryTimeLabel.Size = new Size(81, 15);
+            DeliveryTimeLabel.TabIndex = 12;
+            DeliveryTimeLabel.Text = "Delivery Time:";
+            // 
+            // DeliveryTimeComboBox
+            // 
+            DeliveryTimeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            DeliveryTimeComboBox.FormattingEnabled = true;
+            DeliveryTimeComboBox.Items.AddRange(new object[] { "9:00 - 11:00", "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00", "17:00 - 19:00", "19:00 - 21:00" });
+            DeliveryTimeComboBox.Location = new Point(90, 33);
+            DeliveryTimeComboBox.Name = "DeliveryTimeComboBox";
+            DeliveryTimeComboBox.Size = new Size(121, 23);
+            DeliveryTimeComboBox.TabIndex = 13;
+            DeliveryTimeComboBox.SelectedIndexChanged += DeliveryTimeComboBox_SelectedIndexChanged;
             // 
             // ValueLabel
             // 
@@ -287,6 +334,8 @@
             ((System.ComponentModel.ISupportInitialize)orderBindingSource).EndInit();
             InfoPanel.ResumeLayout(false);
             InfoPanel.PerformLayout();
+            PriorityPanel.ResumeLayout(false);
+            PriorityPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -315,5 +364,9 @@
         private DataGridViewTextBoxColumn FullName;
         private DataGridViewTextBoxColumn Address;
         private DataGridViewTextBoxColumn TotalCost;
+        private Panel PriorityPanel;
+        private Label PriorityOptionsLabel;
+        private Label DeliveryTimeLabel;
+        private ComboBox DeliveryTimeComboBox;
     }
 }
