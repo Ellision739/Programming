@@ -135,6 +135,10 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (_suppressEvents) return; //При отключенном событии выходит
 
+            int itemIndex = CustomersListBox.SelectedIndex;
+            if (itemIndex < 0 || itemIndex >= _customers.Count)
+                return; // защита от некорректного индекса
+
             //Очистка перед изменением
             IdCTextBox.Clear();
             FullnameTextBox.Clear();
@@ -142,7 +146,6 @@ namespace ObjectOrientedPractics.View.Tabs
             //SaveLabel.Text = "";
 
             //Присваивание данных в текстбоксы
-            int itemIndex = CustomersListBox.SelectedIndex;
             if (itemIndex != -1)
             {
                 _currentCustomer = _customers[itemIndex];
