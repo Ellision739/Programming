@@ -52,6 +52,7 @@
             IdCTextBox = new TextBox();
             IdCLabel = new Label();
             SelectedCustomerLabel = new Label();
+            PriorityCheckBox = new CheckBox();
             CustomersPanel.SuspendLayout();
             panel1.SuspendLayout();
             RemoveCPanel.SuspendLayout();
@@ -219,6 +220,7 @@
             // SelectedCustomerPanel
             // 
             SelectedCustomerPanel.BackColor = Color.White;
+            SelectedCustomerPanel.Controls.Add(PriorityCheckBox);
             SelectedCustomerPanel.Controls.Add(addressControl1);
             SelectedCustomerPanel.Controls.Add(InfoCLabel);
             SelectedCustomerPanel.Controls.Add(FullnameTextBox);
@@ -241,9 +243,9 @@
             address1.Index = 0;
             address1.Street = "";
             addressControl1.Address = address1;
-            addressControl1.Location = new Point(6, 98);
+            addressControl1.Location = new Point(6, 131);
             addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(567, 203);
+            addressControl1.Size = new Size(578, 203);
             addressControl1.TabIndex = 8;
             // 
             // InfoCLabel
@@ -304,6 +306,17 @@
             SelectedCustomerLabel.TabIndex = 0;
             SelectedCustomerLabel.Text = "Selected Customer";
             // 
+            // PriorityCheckBox
+            // 
+            PriorityCheckBox.AutoSize = true;
+            PriorityCheckBox.Location = new Point(71, 98);
+            PriorityCheckBox.Name = "PriorityCheckBox";
+            PriorityCheckBox.Size = new Size(75, 19);
+            PriorityCheckBox.TabIndex = 9;
+            PriorityCheckBox.Text = "is Priority";
+            PriorityCheckBox.UseVisualStyleBackColor = true;
+            PriorityCheckBox.CheckedChanged += PriorityCheckBox_CheckedChanged;
+            // 
             // CustomersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -350,5 +363,6 @@
         private Label SelectedCustomerLabel;
         private Label InfoCLabel;
         private Controls.AddressControl addressControl1;
+        private CheckBox PriorityCheckBox;
     }
 }

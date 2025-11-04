@@ -96,13 +96,26 @@ namespace ObjectOrientedPractics.Model
             set { _orders = value; }
         }
 
+        /// <summary>
+        /// Значение приоритета покупателя.
+        /// </summary>
+        private bool _isPriority;
+        /// <summary>
+        /// Возвращает и задаёт приоритет покупателя.
+        /// </summary>
+        public bool IsPriority
+        {
+            get { return _isPriority; }
+            set { _isPriority = value; }
+        }
+
 
         /// <summary>
         /// Создаёт экземпляр класса <see cref="Customer"/>.
         /// </summary>
         /// <param name="fullname">Полное имя покупателя (не более 200 символов).</param>
         /// <param name="address">Адрес покупателя (не более 500 символов).</param>
-        public Customer(string fullname, Address address)
+        public Customer(string fullname, Address address, bool isPriority)
         {
             Fullname = fullname;
             Address = address;
@@ -110,6 +123,7 @@ namespace ObjectOrientedPractics.Model
             _id = counter;
             _cart = new Cart();
             _orders = new List<Order>();
+            IsPriority = isPriority;
         }
     }
 }

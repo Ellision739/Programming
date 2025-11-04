@@ -175,10 +175,19 @@ namespace ObjectOrientedPractics.View.Tabs
             InfoLabel.Text = "";
             if (CartListBox.Items.Count > 0 && CustomerComboBox.SelectedIndex != -1)
             {
-                // Создание нового заказа
-                Order order = new Order(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
-                CurrentCustomer.Orders.Add(order);
-
+                if (Customers[CustomerComboBox.SelectedIndex].IsPriority == false)
+                {
+                    // Создание нового заказа
+                    Order order = new Order(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
+                    CurrentCustomer.Orders.Add(order);
+                }
+                else
+                {
+                    // Создание притетного заказа
+                    PriorityOrder priorityOrder = new PriorityOrder(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
+                    CurrentCustomer.Orders.Add(priorityOrder);
+                }    
+                
                 // Очистка корзины
                 CurrentCustomer.Cart.ListItems.Clear();
                 CartListBox.Items.Clear();
@@ -211,7 +220,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
 
             CustomerComboBox.Items.Clear();
-            foreach(var customer in Customers)
+            foreach (var customer in Customers)
             {
                 CustomerComboBox.Items.Add(customer.Fullname);
             }
@@ -228,6 +237,38 @@ namespace ObjectOrientedPractics.View.Tabs
             else
             {
                 ValueLabel.Text = "0";
+            }
+        }
+
+        private void PriorityOrderButton_Click(object sender, EventArgs e)
+        {
+            InfoLabel.Text = "";
+            if (CartListBox.Items.Count > 0 && CustomerComboBox.SelectedIndex != -1)
+            {
+                // Создание ПРИОРИТЕТНОГО заказа
+                PriorityOrder priorityOrder = new PriorityOrder(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
+                CurrentCustomer.Orders.Add(priorityOrder);
+
+                // Очистка корзины
+                CurrentCustomer.Cart.ListItems.Clear();
+                CartListBox.Items.Clear();
+
+                // Изменение цены
+                ValueLabel.Text = CurrentCustomer.Cart.Amount.ToString();
+
+                InfoLabel.Text = "Приоритетный заказ создан!";
+            }
+            else if (CartListBox.Items.Count == 0 && CustomerComboBox.SelectedIndex != -1)
+            {
+                InfoLabel.Text = "Сначала добавте товар в корзину";
+            }
+            else if (CartListBox.Items.Count > 0 && CustomerComboBox.SelectedIndex == -1)
+            {
+                InfoLabel.Text = "Сначала выберите покупателя";
+            }
+            else
+            {
+                InfoLabel.Text = "Сначала выберите покупателя и добавте товар в корзину";
             }
         }
     }
