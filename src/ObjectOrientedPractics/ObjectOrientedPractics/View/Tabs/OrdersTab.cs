@@ -117,7 +117,7 @@ namespace ObjectOrientedPractics.View.Tabs
             IDTextBox.Text = OrdersDataGridView.CurrentRow.Cells["ID"].Value.ToString();
             CreatedTextBox.Text = OrdersDataGridView.CurrentRow.Cells["Created"].Value.ToString();
             StatusComboBox.Text = OrdersDataGridView.CurrentRow.Cells["OrderStatus"].Value.ToString();
-            ValueLabel.Text = OrdersDataGridView.CurrentRow.Cells["TotalCost"].Value.ToString();
+            ValueLabel.Text = OrdersDataGridView.CurrentRow.Cells["Total"].Value.ToString();
 
             int selectedRowIndex = OrdersDataGridView.CurrentRow.Index;
 

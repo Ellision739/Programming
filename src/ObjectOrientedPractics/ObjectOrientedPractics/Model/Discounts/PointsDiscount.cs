@@ -58,12 +58,9 @@ namespace ObjectOrientedPractics.Model.Discounts
             {
                 amount += item.Cost;
             }
-            int totalAmount = (int)Math.Floor(amount *= 0.3);
-            if (CumulativePoints > totalAmount)
-            {
-                return totalAmount;
-            }
-            return CumulativePoints;
+
+            double maxDiscount = amount * 0.3; // максимум 30% скидки
+            return Math.Min(CumulativePoints, maxDiscount);
         }
 
         /// <summary>
@@ -73,20 +70,9 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// <returns>Размер применённой скидки в рублях.</returns>
         public double Apply(List<Item> items)
 		{
-            double amount = 0;
-            foreach (Item item in items)
-            {
-                amount += item.Cost;
-            }
-            int totalAmount = (int)Math.Floor(amount *= 0.3);
-            if (CumulativePoints > totalAmount)
-            {
-                CumulativePoints -= totalAmount;
-                return totalAmount;
-            }
-            totalAmount = CumulativePoints;
-            CumulativePoints = 0;
-            return totalAmount;
+            double discount = Calculate(items);
+            CumulativePoints -= (int)Math.Round(discount);
+            return discount;
         }
 
         /// <summary>
@@ -106,8 +92,10 @@ namespace ObjectOrientedPractics.Model.Discounts
 			{
 				amount += item.Cost;
             }
-            CumulativePoints += (int)Math.Ceiling(amount *= 0.1);
-		}
+
+            int newPoints = (int)Math.Ceiling(amount * 0.1);
+            CumulativePoints += newPoints;
+        }
 
         /// <summary>
         /// Создаёт экземпляр класса <see cref="PointsDiscount"/>.

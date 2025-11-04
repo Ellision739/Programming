@@ -94,8 +94,10 @@ namespace ObjectOrientedPractics.Model.Discounts
                 }
             }
 
-            double discount = total / 100 * Percent;
-            return discount;
+            int percent = (int)Math.Floor(CurrentAmount / 1000) + 1;
+            if (percent > 10) percent = 10;
+
+            return total * percent / 100;
         }
 
         /// <summary>
@@ -106,7 +108,24 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// <returns>Размер применённой скидки в рублях.</returns>
         public double Apply(List<Item> items)
         {
-            return Calculate(items);
+            // Применяем текущую скидку
+            double discount = Calculate(items);
+
+            // Обновляем накопление после применения
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].Category == Category)
+                {
+                    CurrentAmount += items[i].Cost;
+                }
+            }
+
+            // Обновляем процент
+            int newPercent = (int)Math.Floor(CurrentAmount / 1000) + 1;
+            if (newPercent > 10) newPercent = 10;
+            Percent = newPercent;
+
+            return discount;
         }
 
         /// <summary>

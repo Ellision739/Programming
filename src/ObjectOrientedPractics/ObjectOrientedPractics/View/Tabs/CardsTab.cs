@@ -77,13 +77,25 @@ namespace ObjectOrientedPractics.View.Tabs
             // Очистка перед изменением
             CartListBox.Items.Clear();
             InfoLabel.Text = "";
+            NumTotalLabel.Text = "0";
+            NumDisAmountLabel.Text = "0";
+            DiscountsCheckedListBox.Items.Clear();
 
             // Выбор нужного покупателя
             int customerIndex = CustomerComboBox.SelectedIndex;
             CurrentCustomer = Customers[customerIndex];
 
-            // Отображение цены цены
+            // Отображение цены
             ValueLabel.Text = CurrentCustomer.Cart.Amount.ToString();
+
+            // Отображение галочек
+            UpdateDiscountsCheckedListBox();
+
+            // Изменение величины скидки
+            DiscountAmountChange();
+
+            // Отображение Total
+            NumTotalLabel.Text = CurrentCustomer.Cart.Total.ToString();
 
             // Отобржение в ListBox
             int items = CurrentCustomer.Cart.ListItems.Count;
@@ -92,6 +104,13 @@ namespace ObjectOrientedPractics.View.Tabs
                 foreach (var item in CurrentCustomer.Cart.ListItems)
                 {
                     CartListBox.Items.Add(item.Name);
+                }
+
+                // Отображение всех скидок и тоталов
+                NumTotalLabel.Text = CurrentCustomer.Cart.Total.ToString();
+                foreach (var discount in CurrentCustomer.Discounts)
+                {
+                    DiscountsCheckedListBox.Items.Add(discount.Info);
                 }
             }
         }
@@ -110,6 +129,15 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 // Изменение цены
                 ValueLabel.Text = CurrentCustomer.Cart.Amount.ToString();
+
+                // Отображение галочек
+                UpdateDiscountsCheckedListBox();
+
+                // Изменение величины скидки
+                DiscountAmountChange();
+
+                // Отображение Total
+                NumTotalLabel.Text = CurrentCustomer.Cart.Total.ToString();
             }
             else if (ItemsListBox.SelectedIndex == -1 && CustomerComboBox.SelectedIndex != -1)
             {
@@ -139,6 +167,15 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 // Изменение цены
                 ValueLabel.Text = CurrentCustomer.Cart.Amount.ToString();
+
+                // Отображение галочек
+                UpdateDiscountsCheckedListBox();
+
+                // Изменение величины скидки
+                DiscountAmountChange();
+
+                // Отображение Total
+                NumTotalLabel.Text = CurrentCustomer.Cart.Total.ToString();
             }
             else if (CartListBox.SelectedIndex == -1 && CustomerComboBox.SelectedIndex != -1)
             {
@@ -164,6 +201,15 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 // Изменение цены
                 ValueLabel.Text = CurrentCustomer.Cart.Amount.ToString();
+
+                // Отображение галочек
+                UpdateDiscountsCheckedListBox();
+
+                // Изменение величины скидки
+                DiscountAmountChange();
+
+                // Отображение Total
+                NumTotalLabel.Text = CurrentCustomer.Cart.Total.ToString();
             }
             else
             {
@@ -181,20 +227,43 @@ namespace ObjectOrientedPractics.View.Tabs
                     // Создание нового заказа
                     Order order = new Order(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
                     CurrentCustomer.Orders.Add(order);
+                    order.DiscountAmount = CurrentCustomer.Cart.DiscountAmount;
                 }
                 else
                 {
                     // Создание притетного заказа
                     PriorityOrder priorityOrder = new PriorityOrder(CurrentCustomer.Cart.ListItems, CurrentCustomer.Address);
                     CurrentCustomer.Orders.Add(priorityOrder);
-                }    
-                
+                    priorityOrder.DiscountAmount = CurrentCustomer.Cart.DiscountAmount;
+                }
+
+                //
+                foreach (int i in DiscountsCheckedListBox.CheckedIndices)
+                {
+                    CurrentCustomer.Discounts[i].Apply(CurrentCustomer.Cart.ListItems);
+                }
+                foreach (var discount in CurrentCustomer.Discounts)
+                {
+                    discount.Update(CurrentCustomer.Cart.ListItems);
+                }
                 // Очистка корзины
                 CurrentCustomer.Cart.ListItems.Clear();
                 CartListBox.Items.Clear();
 
                 // Изменение цены
                 ValueLabel.Text = CurrentCustomer.Cart.Amount.ToString();
+
+                // Изменение величины скидки
+                DiscountAmountChange();
+
+                // Отображение галочек
+                UpdateDiscountsCheckedListBox();
+
+                // Изменение величины скидки
+                DiscountAmountChange();
+
+                // Отображение Total
+                NumTotalLabel.Text = CurrentCustomer.Cart.Total.ToString();
 
                 InfoLabel.Text = "Успешно!";
             }
@@ -270,6 +339,38 @@ namespace ObjectOrientedPractics.View.Tabs
             else
             {
                 InfoLabel.Text = "Сначала выберите покупателя и добавте товар в корзину";
+            }
+        }
+
+        private void DiscountsCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DiscountAmountChange();
+            NumTotalLabel.Text = CurrentCustomer.Cart.Total.ToString();
+        }
+        /// <summary>
+        /// Обновляет общую величину скидки.
+        /// </summary>
+        private void DiscountAmountChange()
+        {
+            double discountAmount = 0;
+            foreach (int i in DiscountsCheckedListBox.CheckedIndices)
+            {
+                discountAmount += CurrentCustomer.Discounts[i].Calculate(CurrentCustomer.Cart.ListItems);
+            }
+            CurrentCustomer.Cart.DiscountAmount = discountAmount;
+            NumDisAmountLabel.Text = discountAmount.ToString();
+        }
+
+        /// <summary>
+        /// Обновляет список скидок.
+        /// </summary>
+        private void UpdateDiscountsCheckedListBox()
+        {
+            DiscountsCheckedListBox.Items.Clear();
+
+            foreach (var discount in CurrentCustomer.Discounts)
+            {
+                DiscountsCheckedListBox.Items.Add(discount.Info, true);
             }
         }
     }

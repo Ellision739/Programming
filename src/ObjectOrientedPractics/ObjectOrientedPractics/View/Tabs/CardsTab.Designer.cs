@@ -30,6 +30,13 @@
             ItemsListBox = new ListBox();
             ItemsLabel = new Label();
             CartPanel = new Panel();
+            TotalLabel = new Label();
+            NumTotalLabel = new Label();
+            NumDisAmountLabel = new Label();
+            DiscountAmountLabel = new Label();
+            DiscountsCheckedListBox = new CheckedListBox();
+            DiscountsLabel = new Label();
+            PriorityOrderButton = new Button();
             InfoLabel = new Label();
             CreateOrderButton = new Button();
             RemoveItemButton = new Button();
@@ -40,7 +47,6 @@
             CartLabel = new Label();
             CustomerComboBox = new ComboBox();
             CustomerLabel = new Label();
-            PriorityOrderButton = new Button();
             ItemsPanel.SuspendLayout();
             ButtonPanel.SuspendLayout();
             CartPanel.SuspendLayout();
@@ -99,6 +105,12 @@
             // 
             // CartPanel
             // 
+            CartPanel.Controls.Add(TotalLabel);
+            CartPanel.Controls.Add(NumTotalLabel);
+            CartPanel.Controls.Add(NumDisAmountLabel);
+            CartPanel.Controls.Add(DiscountAmountLabel);
+            CartPanel.Controls.Add(DiscountsCheckedListBox);
+            CartPanel.Controls.Add(DiscountsLabel);
             CartPanel.Controls.Add(PriorityOrderButton);
             CartPanel.Controls.Add(InfoLabel);
             CartPanel.Controls.Add(CreateOrderButton);
@@ -116,10 +128,86 @@
             CartPanel.Size = new Size(587, 550);
             CartPanel.TabIndex = 1;
             // 
+            // TotalLabel
+            // 
+            TotalLabel.AutoSize = true;
+            TotalLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            TotalLabel.Location = new Point(488, 495);
+            TotalLabel.Name = "TotalLabel";
+            TotalLabel.Size = new Size(52, 17);
+            TotalLabel.TabIndex = 17;
+            TotalLabel.Text = "TOTAL:";
+            // 
+            // NumTotalLabel
+            // 
+            NumTotalLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            NumTotalLabel.AutoSize = true;
+            NumTotalLabel.Font = new Font("Segoe UI Black", 16F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            NumTotalLabel.Location = new Point(488, 512);
+            NumTotalLabel.Name = "NumTotalLabel";
+            NumTotalLabel.Size = new Size(26, 30);
+            NumTotalLabel.TabIndex = 16;
+            NumTotalLabel.Text = "0";
+            // 
+            // NumDisAmountLabel
+            // 
+            NumDisAmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            NumDisAmountLabel.AutoSize = true;
+            NumDisAmountLabel.Font = new Font("Segoe UI Black", 16F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            NumDisAmountLabel.Location = new Point(488, 361);
+            NumDisAmountLabel.Name = "NumDisAmountLabel";
+            NumDisAmountLabel.Size = new Size(26, 30);
+            NumDisAmountLabel.TabIndex = 15;
+            NumDisAmountLabel.Text = "0";
+            // 
+            // DiscountAmountLabel
+            // 
+            DiscountAmountLabel.AutoSize = true;
+            DiscountAmountLabel.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DiscountAmountLabel.Location = new Point(431, 343);
+            DiscountAmountLabel.Name = "DiscountAmountLabel";
+            DiscountAmountLabel.Size = new Size(117, 15);
+            DiscountAmountLabel.TabIndex = 13;
+            DiscountAmountLabel.Text = "Discount Amount:";
+            // 
+            // DiscountsCheckedListBox
+            // 
+            DiscountsCheckedListBox.BackColor = SystemColors.Window;
+            DiscountsCheckedListBox.BorderStyle = BorderStyle.None;
+            DiscountsCheckedListBox.CheckOnClick = true;
+            DiscountsCheckedListBox.FormattingEnabled = true;
+            DiscountsCheckedListBox.IntegralHeight = false;
+            DiscountsCheckedListBox.Location = new Point(6, 361);
+            DiscountsCheckedListBox.Name = "DiscountsCheckedListBox";
+            DiscountsCheckedListBox.Size = new Size(204, 126);
+            DiscountsCheckedListBox.TabIndex = 12;
+            DiscountsCheckedListBox.SelectedIndexChanged += DiscountsCheckedListBox_SelectedIndexChanged;
+            // 
+            // DiscountsLabel
+            // 
+            DiscountsLabel.AutoSize = true;
+            DiscountsLabel.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DiscountsLabel.Location = new Point(6, 343);
+            DiscountsLabel.Name = "DiscountsLabel";
+            DiscountsLabel.Size = new Size(71, 15);
+            DiscountsLabel.TabIndex = 11;
+            DiscountsLabel.Text = "Discounts:";
+            // 
+            // PriorityOrderButton
+            // 
+            PriorityOrderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            PriorityOrderButton.Location = new Point(111, 277);
+            PriorityOrderButton.Name = "PriorityOrderButton";
+            PriorityOrderButton.Size = new Size(99, 47);
+            PriorityOrderButton.TabIndex = 10;
+            PriorityOrderButton.Text = "Create Priority Order";
+            PriorityOrderButton.UseVisualStyleBackColor = true;
+            PriorityOrderButton.Click += PriorityOrderButton_Click;
+            // 
             // InfoLabel
             // 
             InfoLabel.AutoSize = true;
-            InfoLabel.Location = new Point(90, 481);
+            InfoLabel.Location = new Point(47, 516);
             InfoLabel.Name = "InfoLabel";
             InfoLabel.Size = new Size(0, 15);
             InfoLabel.TabIndex = 9;
@@ -218,17 +306,6 @@
             CustomerLabel.TabIndex = 0;
             CustomerLabel.Text = "Customer:";
             // 
-            // PriorityOrderButton
-            // 
-            PriorityOrderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            PriorityOrderButton.Location = new Point(111, 277);
-            PriorityOrderButton.Name = "PriorityOrderButton";
-            PriorityOrderButton.Size = new Size(99, 47);
-            PriorityOrderButton.TabIndex = 10;
-            PriorityOrderButton.Text = "Create Priority Order";
-            PriorityOrderButton.UseVisualStyleBackColor = true;
-            PriorityOrderButton.Click += PriorityOrderButton_Click;
-            // 
             // CardsTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -264,5 +341,11 @@
         private Panel ButtonPanel;
         private Label InfoLabel;
         private Button PriorityOrderButton;
+        private Label DiscountsLabel;
+        private Label NumTotalLabel;
+        private Label NumDisAmountLabel;
+        private Label DiscountAmountLabel;
+        private CheckedListBox DiscountsCheckedListBox;
+        private Label TotalLabel;
     }
 }

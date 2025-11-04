@@ -45,6 +45,28 @@ namespace ObjectOrientedPractics.Model
 				return _amount;
 			}
 		}
+
+        /// <summary>
+        /// Возвращает и задаёт размер примерной скидки.
+        /// </summary>
+        public double DiscountAmount { get; set; }
+
+        /// <summary>
+        /// Итоговая стоимость.
+        /// </summary>
+        private double _total;
+        /// <summary>
+        /// Возвращает итоговую стоимость, после использования скидки.
+        /// </summary>
+        public double Total
+        {
+            get
+            {
+                _total = Amount - DiscountAmount;
+                return _total;
+            }
+        }
+
         /// <summary>
         /// Создаёт экземпляр класса <see cref="Cart"/>.
         /// </summary>
