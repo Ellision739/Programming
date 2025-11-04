@@ -104,6 +104,24 @@ namespace ObjectOrientedPractics.Model.Orders
                 return _totalCost;
             }
         }
+
+        /// <summary>
+        /// Возвращает и задаёт размер примерной скидки.
+        /// </summary>
+        public double DiscountAmount { get; set; }
+
+        private double _total;
+
+        public double Total
+        {
+            get 
+            { 
+                _total = TotalCost - DiscountAmount;
+                return _total; 
+            }
+        }
+
+
         /// <summary>
         /// Создаёт экземпляр класса <see cref="Order"/>.
         /// </summary>

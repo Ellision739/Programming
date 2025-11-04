@@ -1,4 +1,5 @@
-﻿using ObjectOrientedPractics.Model.Orders;
+﻿using ObjectOrientedPractics.Model.Discounts;
+using ObjectOrientedPractics.Model.Orders;
 using ObjectOrientedPractics.Servies;
 using System;
 using System.Collections.Generic;
@@ -110,6 +111,10 @@ namespace ObjectOrientedPractics.Model
             set { _isPriority = value; }
         }
 
+        /// <summary>
+        /// Возвращает и задаёт список скидок, доступных покупателю.
+        /// </summary>
+        public List<IDiscount> Discounts { get; set; }
 
         /// <summary>
         /// Создаёт экземпляр класса <see cref="Customer"/>.
@@ -125,6 +130,8 @@ namespace ObjectOrientedPractics.Model
             _cart = new Cart();
             _orders = new List<Order>();
             IsPriority = isPriority;
+            Discounts = new List<IDiscount>();
+            Discounts.Add(new PointsDiscount());
         }
     }
 }
