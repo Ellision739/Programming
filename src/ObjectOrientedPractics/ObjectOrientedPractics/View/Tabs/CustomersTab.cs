@@ -1,5 +1,8 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Discounts;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.View.Controls;
+using ObjectOrientedPractics.View.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -144,6 +147,7 @@ namespace ObjectOrientedPractics.View.Tabs
             FullnameTextBox.Clear();
             InfoCLabel.Text = "";
             PriorityCheckBox.Checked = false;
+            DiscountsListBox.Items.Clear();
 
             //Присваивание данных в текстбоксы
             if (itemIndex != -1)
@@ -153,6 +157,10 @@ namespace ObjectOrientedPractics.View.Tabs
                 FullnameTextBox.Text = _customers[itemIndex].Fullname;
                 addressControl1.Address = _currentCustomer.Address;
                 PriorityCheckBox.Checked = _customers[itemIndex].IsPriority;
+                foreach (var discount in _currentCustomer.Discounts)
+                {
+                    DiscountsListBox.Items.Add(discount.Info);
+                }
             }
             else
             {
@@ -160,6 +168,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 IdCTextBox.Clear();
                 FullnameTextBox.Clear();
                 addressControl1.Address = new Address();
+                DiscountsListBox.Items.Clear();
             }
         }
         public void RemoveCButton_Click(object sender, EventArgs e)
@@ -265,6 +274,59 @@ namespace ObjectOrientedPractics.View.Tabs
 
             int index = CustomersListBox.SelectedIndex;
             Customers[index].IsPriority = PriorityCheckBox.Checked;
+        }
+
+        private void AddDiscountButton_Click(object sender, EventArgs e)
+        {
+            InfoCLabel.Text = "";
+
+            if (CustomersListBox.SelectedIndex == -1)
+            {
+                InfoCLabel.Text = "Сначала выберите покупателя";
+                return;
+            }
+
+            AddDiscountForm discountForm = new AddDiscountForm();
+
+            discountForm.StartPosition = FormStartPosition.CenterParent; // по центру родителя
+            discountForm.FormBorderStyle = FormBorderStyle.FixedDialog;  // без растягивания
+            discountForm.ShowInTaskbar = false;                          // не показывать в панели задач
+            discountForm.DiscountAdded += OnDiscountAdded;  // Подписываемся на событие
+
+            // Показываем окно как всплывающее
+            discountForm.ShowDialog(this);
+
+        }
+
+        /// <summary>
+        /// Срабатывает при нажатии ОК во всплывающем окне.
+        /// </summary>
+        /// <param name="categoryName">Выбранная категория во всплывающем окне.</param>
+        private void OnDiscountAdded(string categoryName)
+        {
+            Category selectedCategory = (Category)Enum.Parse(typeof(Category), categoryName);
+            var discount = new PercentDiscount(selectedCategory);
+            _currentCustomer.Discounts.Add(discount);
+            DiscountsListBox.Items.Add(discount.Info);
+        }
+
+        private void RemoveDiscountButton_Click(object sender, EventArgs e)
+        {
+            InfoCLabel.Text = "";
+
+            if (DiscountsListBox.SelectedIndex == -1)
+            {
+                InfoCLabel.Text = "Сначала выберите покупателя";
+                return;
+            }
+            if (DiscountsListBox.SelectedIndex == 0)
+            {
+                InfoCLabel.Text = "Накопительную скидку удалить нельзя";
+                return;
+            }
+
+            _currentCustomer.Discounts.Remove(_currentCustomer.Discounts[DiscountsListBox.SelectedIndex]);
+            DiscountsListBox.Items.Remove(DiscountsListBox.SelectedItem);
         }
     }
 }

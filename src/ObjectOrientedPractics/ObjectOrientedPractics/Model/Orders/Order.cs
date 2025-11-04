@@ -109,9 +109,14 @@ namespace ObjectOrientedPractics.Model.Orders
         /// Возвращает и задаёт размер примерной скидки.
         /// </summary>
         public double DiscountAmount { get; set; }
-
+        
+        /// <summary>
+        /// Итоговая стоимость.
+        /// </summary>
         private double _total;
-
+        /// <summary>
+        /// Возвращает итоговую стоимость, после использования скидки.
+        /// </summary>
         public double Total
         {
             get 
