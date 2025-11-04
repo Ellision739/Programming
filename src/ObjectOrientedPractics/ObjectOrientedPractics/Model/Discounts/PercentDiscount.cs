@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ObjectOrientedPractics.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Discounts
 {
     /// <summary>
     /// Класс, представляющий процентную скидку для определённой категории товаров.
     /// </summary>
-    public class PercentDiscount
+    public class PercentDiscount : IDiscount
     {
         /// <summary>
         /// Текущий процент скидки.

@@ -103,7 +103,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         public void ReadSaveItems()
         {
-            string filePathList = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
+            string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
             List<string> linesList = File.ReadAllLines(filePathList, Encoding.UTF8).ToList();
             if (linesList.Count != 0)
             {
@@ -164,7 +164,7 @@ namespace ObjectOrientedPractics.View.Tabs
         }
         public void RemoveCButton_Click(object sender, EventArgs e)
         {
-            string filePathList = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
+            string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
             List<string> linesList = File.ReadAllLines(filePathList).ToList();
 
             int itemIndex = CustomersListBox.SelectedIndex;
@@ -195,7 +195,7 @@ namespace ObjectOrientedPractics.View.Tabs
                     _currentCustomer.Address = addressControl1.Address;
 
                     // Обновляем файл
-                    string filePathList = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
+                    string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/CustomersList.txt";
                     List<string> linesList = _customers
                         .Select(c => $"{c.Fullname}|{c.Address.Index}|{c.Address.Country}|{c.Address.City}|{c.Address.Street}|{c.Address.Building}|{c.Address.Apartment}|{c.IsPriority}")
                         .ToList();

@@ -1,4 +1,5 @@
-﻿using ObjectOrientedPractics.Servies;
+﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Servies;
 using System;
 using System.Collections.Generic;
 using System.Linq;

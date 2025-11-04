@@ -1,4 +1,5 @@
-﻿using ObjectOrientedPractics.Servies;
+﻿using ObjectOrientedPractics.Model.Orders;
+using ObjectOrientedPractics.Servies;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

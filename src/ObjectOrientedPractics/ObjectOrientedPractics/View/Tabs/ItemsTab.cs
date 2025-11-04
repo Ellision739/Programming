@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -62,8 +63,8 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         public void AddItem()
         {
-            string filePathArchive = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ArchiveItems.txt";
-            string filePathList = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
+            string filePathArchive = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ArchiveItems.txt";
+            string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
 
             // Считываем все строки
             List<string> linesArchive = File.ReadAllLines(filePathArchive, Encoding.UTF8).ToList();
@@ -111,7 +112,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         public void ReadSaveItems()
         {
-            string filePathList = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
+            string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
             List<string> linesList = File.ReadAllLines(filePathList, Encoding.UTF8).ToList();
             if (linesList.Count != 0)
             {
@@ -168,7 +169,7 @@ namespace ObjectOrientedPractics.View.Tabs
         }
         public void RemoveButton_Click(object sender, EventArgs e)
         {
-            string filePathList = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
+            string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
             List<string> linesList = File.ReadAllLines(filePathList).ToList();
 
             int itemIndex = ItemsListBox.SelectedIndex;
@@ -188,7 +189,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            string filePathList = "C:/Users/5741sdm/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
+            string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
             List<string> linesList = new List<string>();
 
             //Перезаписывание всех товаров в файл
