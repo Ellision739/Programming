@@ -10,7 +10,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Описывает адрес покупателя.
     /// </summary>
-    public class Address
+    public class Address : ICloneable, IEquatable<Address>
     {
         /// <summary>
         /// Валидатор для проверки свойств адреса.
@@ -155,6 +155,30 @@ namespace ObjectOrientedPractics.Model
         public Address()
         {
             
+        }
+
+        /// <inheritdoc />
+        public object Clone()
+        {
+            return new Address(Index, Country, City, Street, Building, Apartment);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Address other)
+        {
+            if (other == null) {  return false; }
+            return this.Index == other.Index &&
+                   this.Country == other.Country &&
+                   this.City == other.City &&
+                   this.Street == other.Street &&
+                   this.Building == other.Building &&
+                   this.Apartment == other.Apartment;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Address);
         }
     }
 }

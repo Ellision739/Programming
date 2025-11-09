@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Model.Orders;
 using ObjectOrientedPractics.Servies;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ObjectOrientedPractics.Model
     /// Описывает товар (предмет) с уникальным идентификатором, 
     /// названием, описанием и стоимостью.
     /// </summary>
-    public class Item
+    public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
     {
         /// <summary>
         /// Валидатор для проверки свойств товара.
@@ -113,7 +114,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="info">Описание товара (не более 1000 символов).</param>
         /// <param name="cost">Стоимость товара (0–100000).</param>
         /// <param name="category">Категория товаров из перечисления.</param>
-        public Item(string name, string info, int cost, string category)
+        public Item(string name, string info, double cost, string category)
         {
             Name = name;
             Info = info;
@@ -121,6 +122,33 @@ namespace ObjectOrientedPractics.Model
             counter++;
             _id = counter;
             Category = (Category)Enum.Parse(typeof(Category), category);
+        }
+
+        /// <inheritdoc />
+        public object Clone()
+        {
+            return new Item(Name, Info, Cost, Category.ToString());
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Item other)
+        {
+            if (other == null) return false;
+            return this.Name == other.Name && this.Info == other.Info && this.Cost == other.Cost && this.Category == other.Category;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Item);
+        }
+
+        /// <inheritdoc />
+        public int CompareTo(Item other)
+        {
+            if (other == null) return 1;
+
+            return Cost.CompareTo(other.Cost);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ObjectOrientedPractics.Model
 	/// <summary>
 	/// Описывает корзину покупателя.
 	/// </summary>
-    public class Cart
+    public class Cart : ICloneable
     {
 		/// <summary>
 		/// Список товаров.
@@ -73,6 +73,17 @@ namespace ObjectOrientedPractics.Model
         public Cart()
         {
             ListItems = new List<Item>();
+        }
+
+        /// <inheritdoc />
+        public object Clone()
+		{
+            Cart clonedCart = new Cart();
+            foreach (var item in ListItems)
+            {
+                clonedCart.ListItems.Add((Item)item.Clone());
+            }
+            return clonedCart;
         }
     }
 }

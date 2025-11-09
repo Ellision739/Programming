@@ -11,7 +11,7 @@ namespace ObjectOrientedPractics.Model.Orders
     /// <summary>
     /// Описывает заказ покупателя.
     /// </summary>
-    public class Order
+    public class Order : IEquatable<Order>
     {
         /// <summary>
         /// Статический счётчик для генерации уникальных идентификаторов.
@@ -140,6 +140,25 @@ namespace ObjectOrientedPractics.Model.Orders
             Status = OrderStatus.New;
             // Создаем новый список, чтобы изменения в корзине не влияли на заказ
             ListOfProducts = new List<Item>(items);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Order other)
+        {
+            if (other == null) return false;
+            return this.DateOfCreation == other.DateOfCreation &&
+                this.Status == other.Status &&
+                this.TotalCost == other.TotalCost &&
+                this.DiscountAmount == other.DiscountAmount &&
+                this.DeliveryAddress.Equals(other.DeliveryAddress) &&
+                this.ListOfProducts.SequenceEqual(other.ListOfProducts) &&
+                this.Total == other.Total;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Order);
         }
     }
 }

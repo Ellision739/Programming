@@ -10,7 +10,7 @@ namespace ObjectOrientedPractics.Model.Discounts
     /// <summary>
     /// Класс, представляющий процентную скидку для определённой категории товаров.
     /// </summary>
-    public class PercentDiscount : IDiscount
+    public class PercentDiscount : IDiscount, IComparable<PercentDiscount>
     {
         /// <summary>
         /// Текущий процент скидки.
@@ -159,6 +159,15 @@ namespace ObjectOrientedPractics.Model.Discounts
             Category = category;
             CurrentAmount = 0;
             Percent = 1;
+        }
+
+
+        /// <inheritdoc />
+        public int CompareTo(PercentDiscount other)
+        {
+            if (other == null) return 1;
+
+            return Percent.CompareTo(other.Percent);
         }
     }
 }
