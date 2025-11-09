@@ -1,5 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Servies;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -18,6 +20,8 @@ namespace ObjectOrientedPractics.View.Tabs
         public ItemsTab()
         {
             InitializeComponent();
+            ItemsListBox.DisplayMember = "Name";
+            SortComboBox.SelectedIndex = 0;
             ReadSaveItems();
             if (_items.Count == 0)
             {
@@ -38,7 +42,7 @@ namespace ObjectOrientedPractics.View.Tabs
         public List<Item> Items
         {
             get { return _items; }
-            set 
+            set
             {
                 _items = value ?? new List<Item>();
 
@@ -46,10 +50,16 @@ namespace ObjectOrientedPractics.View.Tabs
                 ItemsListBox.Items.Clear();
                 foreach (var item in _items)
                 {
-                    ItemsListBox.Items.Add(item.Name);
+                    ItemsListBox.Items.Add(item);
                 }
             }
         }
+
+        /// <summary>
+        /// Отсортированный список.
+        /// </summary>
+        public List<Item> FiltredItems { get; set; }
+
         /// <summary>
         /// Товар, выбранный на данный момент.
         /// </summary>
@@ -93,11 +103,11 @@ namespace ObjectOrientedPractics.View.Tabs
                 int index = 0;
                 string newItem = $"{_currentItem.Name}";
                 var comparer = StringComparer.Create(new CultureInfo("ru-RU"), false);
-                while (index < ItemsListBox.Items.Count && comparer.Compare(ItemsListBox.Items[index].ToString(), newItem) < 0)
+                while (index < _items.Count && comparer.Compare(_items[index].Name, _currentItem.Name) < 0)
                 {
                     index++;
                 }
-                ItemsListBox.Items.Insert(index, newItem); //Добавление в Коробку
+                ItemsListBox.Items.Insert(index, _currentItem); // Добавляем сам объект
                 _items.Insert(index, _currentItem); //Добавление в Товары
 
                 ItemsListBox.SelectedIndex = index;
@@ -124,18 +134,18 @@ namespace ObjectOrientedPractics.View.Tabs
                     _currentItem = new Item(elementsItems[0], elementsItems[1], Int32.Parse(elementsItems[2]), elementsItems[3]);
                     _items.Add(_currentItem);
 
-                    ItemsListBox.Items.Add($"{_currentItem.Name}"); //Добавление в Коробку
                 }
             }
             //Сортировка после загрузки
-            var comparer = StringComparer.Create(new CultureInfo("ru-RU"), true);
-            _items.Sort((x, y) => comparer.Compare(x.Name, y.Name));
+            //var comparer = StringComparer.Create(new CultureInfo("ru-RU"), true);
+            //_items.Sort((x, y) => comparer.Compare(x.Name, y.Name));
 
-            ItemsListBox.Items.Clear();
-            foreach (var it in _items)
-            {
-                ItemsListBox.Items.Add(it.Name);
-            }
+            //ItemsListBox.Items.Clear();
+            //foreach (var it in _items)
+            //{
+            //    ItemsListBox.Items.Add(it);
+            //}
+            UpdateItemsListBox();
         }
         public void AddButton_Click(object sender, EventArgs e)
         {
@@ -145,45 +155,59 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (_suppressEvents) return; //При отключенном событии выходит
 
-            //Очистка перед изменением
-            IdTextBox.Clear();
-            CostTextBox.Clear();
-            NameTextBox.Clear();
-            DescriptionTextBox.Clear();
-            CategoryComboBox.SelectedIndex = -1;
-            CategoryComboBox.Text = "";
-            InfoLabel.Text = "";
-            //SaveLabel.Text = "";
-
-            //Присваивание данных в текстбоксы
-            int itemIndex = ItemsListBox.SelectedIndex;
-            if (itemIndex != -1)
+            _currentItem = (Item)ItemsListBox.SelectedItem;
+            if (_currentItem == null)
             {
-                _currentItem = _items[itemIndex];
-                IdTextBox.Text = _items[itemIndex].Id.ToString();
-                CostTextBox.Text = _items[itemIndex].Cost.ToString();
-                NameTextBox.Text = _items[itemIndex].Name;
-                DescriptionTextBox.Text = _items[itemIndex].Info;
-                CategoryComboBox.Text = _items[itemIndex].Category.ToString();
+                IdTextBox.Clear();
+                CostTextBox.Clear();
+                NameTextBox.Clear();
+                DescriptionTextBox.Clear();
+                CategoryComboBox.SelectedIndex = -1;
+                CategoryComboBox.Text = "";
+                InfoLabel.Text = "";
+                return;
             }
+
+            // Присваивание данных в текстбоксы
+
+            _suppressEvents = true;
+
+            IdTextBox.Text = _currentItem.Id.ToString();
+            CostTextBox.Text = _currentItem.Cost.ToString();
+            NameTextBox.Text = _currentItem.Name;
+            DescriptionTextBox.Text = _currentItem.Info;
+            CategoryComboBox.Text = _currentItem.Category.ToString();
+
+            _suppressEvents = false;
+
         }
         public void RemoveButton_Click(object sender, EventArgs e)
         {
             string filePathList = "C:/Users/User/Desktop/Programming/src/ObjectOrientedPractics/ObjectOrientedPractics/Servies/ItemsList.txt";
-            List<string> linesList = File.ReadAllLines(filePathList).ToList();
+            //List<string> linesList = File.ReadAllLines(filePathList).ToList();
 
-            int itemIndex = ItemsListBox.SelectedIndex;
-            if (itemIndex == -1)
+            Item itemToRemove = (Item)ItemsListBox.SelectedItem; // Получаем объект
+
+            if (itemToRemove == null)
             {
                 InfoLabel.Text = "Выберите товар для удаления";
             }
             else
             {
-                //Извлечение товара из файла, _items и ItemsListBox (ListBox)
-                linesList.RemoveAt(itemIndex);
-                File.WriteAllLines(filePathList, linesList); // Перезаписываем файл
-                _items.RemoveAt(itemIndex);
-                ItemsListBox.Items.RemoveAt(itemIndex);
+                // Удаляем объект из _items (главный список)
+                _items.Remove(itemToRemove);
+
+                // Удаляем объект из ListBox
+                ItemsListBox.Items.Remove(itemToRemove);
+
+                // ПЕРЕЗАПИСЬ ФАЙЛА (Твой старый метод был небезопасным)
+                // Этот метод 100% надежен:
+                List<string> linesList = new List<string>();
+                foreach (Item i in _items)
+                {
+                    linesList.Add($"{i.Name}|{i.Info}|{i.Cost}|{i.Category}");
+                }
+                File.WriteAllLines(filePathList, linesList);
             }
         }
 
@@ -216,7 +240,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     InfoLabel.Text = "";
                     //переписывание значения в _items
-                    _items[ItemsListBox.SelectedIndex].Cost = Int32.Parse(CostTextBox.Text);
+                    _currentItem.Cost = Int32.Parse(CostTextBox.Text);
                 }
                 catch (Exception)
                 {
@@ -231,34 +255,18 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 try
                 {
-                    //переписывание значения в _items
-                    InfoLabel.Text = "";
-                    _items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
-                    //сохранение в боксе
                     InfoLabel.Text = "";
 
                     // Обновляем имя у текущего товара
                     _currentItem.Name = NameTextBox.Text;
 
-                    // Сохраняем текущий товар (чтобы потом выделить)
-                    var selected = _currentItem;
-
-                    // Сортируем _items
-                    _items.Sort((x, y) => StringComparer.Create(new CultureInfo("ru-RU"), true).Compare(x.Name, y.Name));
-
-                    // Перестраиваем ItemsListBox
+                    // Сохраняем выбранный элемент перед обновлением списка
+                    var selectedItem = _currentItem;
                     _suppressEvents = true;
-                    ItemsListBox.Items.Clear();
+                    UpdateItemsListBox();
 
-                    foreach (var item in _items)
-                    {
-                        ItemsListBox.Items.Add($"{item.Name}");
-                    }
-
-                    // Назначаем текущий товар снова (ищем по совпадению)
-                    int newIndex = _items.IndexOf(selected);
-                    ItemsListBox.SelectedIndex = newIndex;
-
+                    // Возвращаем выделение на обновленный элемент
+                    ItemsListBox.SelectedIndex = FiltredItems.IndexOf(selectedItem);
                     _suppressEvents = false;
                 }
                 catch (Exception)
@@ -275,7 +283,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     InfoLabel.Text = "";
                     //переписывание значения в _items
-                    _items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
+                    _currentItem.Info = DescriptionTextBox.Text;
                 }
                 catch (Exception)
                 {
@@ -289,8 +297,63 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 InfoLabel.Text = "";
                 //переписывание значения в _items
-                _items[ItemsListBox.SelectedIndex].Category = (Category)Enum.Parse(typeof(Category), CategoryComboBox.Text);
+                _currentItem.Category = (Category)Enum.Parse(typeof(Category), CategoryComboBox.Text);
             }
+        }
+
+        private void FindTextBox_TextChanged(object sender, EventArgs e)
+        {
+            UpdateItemsListBox();
+        }
+
+        private void SortComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateItemsListBox();
+        }
+
+        public void UpdateItemsListBox()
+        {
+            List<Item> listToShow;
+
+            // Фильтрация
+            string filterText = FindTextBox.Text;
+
+            if (string.IsNullOrEmpty(filterText))
+            {
+                // Если фильтра нет, берем полный список
+                listToShow = new List<Item>(Items);
+            }
+            else
+            {
+                // Если фильтр есть, применяем его к полному списку Items
+                listToShow = DataTools.Filter(Items, DataTools.TextFilter, filterText);
+            }
+
+            // Сортировка
+            if (SortComboBox.SelectedIndex == 0)
+            {
+                listToShow = DataTools.Sort(listToShow, DataTools.SortForNames);
+            }
+            else if (SortComboBox.SelectedIndex == 1)
+            {
+                listToShow = DataTools.Sort(listToShow, DataTools.SortForCostAscending);
+            }
+            else if (SortComboBox.SelectedIndex == 2)
+            {
+                listToShow = DataTools.Sort(listToShow, DataTools.SortForCostDescending);
+            }
+
+            // Обновление ListBox
+            _suppressEvents = true;
+            ItemsListBox.Items.Clear();
+
+            foreach (var item in listToShow)
+            {
+                ItemsListBox.Items.Add(item);
+            }
+            _suppressEvents = false;
+
+            FiltredItems = listToShow;
         }
     }
 }

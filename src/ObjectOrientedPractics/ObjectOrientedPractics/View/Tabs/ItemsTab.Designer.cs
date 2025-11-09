@@ -46,6 +46,10 @@
             IdLabel = new Label();
             SelectedItemLabel = new Label();
             ItemsPanel = new Panel();
+            SortComboBox = new ComboBox();
+            OrderByLabel = new Label();
+            FindTextBox = new TextBox();
+            FindLabel = new Label();
             RemovePanel = new Panel();
             SavePanel = new Panel();
             SaveButton = new Button();
@@ -72,9 +76,9 @@
             ItemsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             ItemsListBox.FormattingEnabled = true;
             ItemsListBox.ItemHeight = 15;
-            ItemsListBox.Location = new Point(3, 25);
+            ItemsListBox.Location = new Point(3, 70);
             ItemsListBox.Name = "ItemsListBox";
-            ItemsListBox.Size = new Size(349, 454);
+            ItemsListBox.Size = new Size(349, 379);
             ItemsListBox.TabIndex = 1;
             ItemsListBox.SelectedIndexChanged += ItemsListBox_SelectedIndexChanged;
             // 
@@ -238,6 +242,10 @@
             // 
             // ItemsPanel
             // 
+            ItemsPanel.Controls.Add(SortComboBox);
+            ItemsPanel.Controls.Add(OrderByLabel);
+            ItemsPanel.Controls.Add(FindTextBox);
+            ItemsPanel.Controls.Add(FindLabel);
             ItemsPanel.Controls.Add(RemovePanel);
             ItemsPanel.Controls.Add(SavePanel);
             ItemsPanel.Controls.Add(AddPanel);
@@ -248,6 +256,43 @@
             ItemsPanel.Name = "ItemsPanel";
             ItemsPanel.Size = new Size(355, 542);
             ItemsPanel.TabIndex = 5;
+            // 
+            // SortComboBox
+            // 
+            SortComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            SortComboBox.FormattingEnabled = true;
+            SortComboBox.Items.AddRange(new object[] { "Name", "Cost (Ascending)", "Cost (Descending)" });
+            SortComboBox.Location = new Point(65, 456);
+            SortComboBox.Name = "SortComboBox";
+            SortComboBox.Size = new Size(287, 23);
+            SortComboBox.TabIndex = 13;
+            SortComboBox.SelectedIndexChanged += SortComboBox_SelectedIndexChanged;
+            // 
+            // OrderByLabel
+            // 
+            OrderByLabel.AutoSize = true;
+            OrderByLabel.Location = new Point(6, 459);
+            OrderByLabel.Name = "OrderByLabel";
+            OrderByLabel.Size = new Size(56, 15);
+            OrderByLabel.TabIndex = 12;
+            OrderByLabel.Text = "Order by:";
+            // 
+            // FindTextBox
+            // 
+            FindTextBox.Location = new Point(45, 34);
+            FindTextBox.Name = "FindTextBox";
+            FindTextBox.Size = new Size(307, 23);
+            FindTextBox.TabIndex = 11;
+            FindTextBox.TextChanged += FindTextBox_TextChanged;
+            // 
+            // FindLabel
+            // 
+            FindLabel.AutoSize = true;
+            FindLabel.Location = new Point(6, 37);
+            FindLabel.Name = "FindLabel";
+            FindLabel.Size = new Size(33, 15);
+            FindLabel.TabIndex = 10;
+            FindLabel.Text = "Find:";
             // 
             // RemovePanel
             // 
@@ -328,5 +373,9 @@
         private Panel SavePanel;
         private ComboBox CategoryComboBox;
         private Label CategoryLabel;
+        private TextBox FindTextBox;
+        private Label FindLabel;
+        private Label OrderByLabel;
+        private ComboBox SortComboBox;
     }
 }
