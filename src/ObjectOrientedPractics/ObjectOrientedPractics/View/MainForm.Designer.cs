@@ -30,22 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             CustomersTabPage = new TabPage();
-            customersTab = new ObjectOrientedPractics.View.Tabs.CustomersTab();
+            customersTab = new View.Tabs.CustomersTab();
             ItemTabPage = new TabPage();
-            itemsTab = new ObjectOrientedPractics.View.Tabs.ItemsTab();
+            itemsTab = new View.Tabs.ItemsTab();
             MainTabControl = new TabControl();
             CartsTabPage = new TabPage();
-            cartsTab = new ObjectOrientedPractics.View.Tabs.CardsTab();
+            cartsTab = new View.Tabs.CardsTab();
             OrdersTab = new TabPage();
-            ordersTab1 = new ObjectOrientedPractics.View.Tabs.OrdersTab();
-            TestTabPage = new TabPage();
-            priorityOrdersTab = new ObjectOrientedPractics.View.Tabs.PriorityOrdersTab();
+            ordersTab1 = new View.Tabs.OrdersTab();
             CustomersTabPage.SuspendLayout();
             ItemTabPage.SuspendLayout();
             MainTabControl.SuspendLayout();
             CartsTabPage.SuspendLayout();
             OrdersTab.SuspendLayout();
-            TestTabPage.SuspendLayout();
             SuspendLayout();
             // 
             // CustomersTabPage
@@ -92,7 +89,6 @@
             MainTabControl.Controls.Add(CustomersTabPage);
             MainTabControl.Controls.Add(CartsTabPage);
             MainTabControl.Controls.Add(OrdersTab);
-            MainTabControl.Controls.Add(TestTabPage);
             MainTabControl.Dock = DockStyle.Fill;
             MainTabControl.Location = new Point(0, 0);
             MainTabControl.Name = "MainTabControl";
@@ -114,7 +110,6 @@
             // 
             // cartsTab
             // 
-            cartsTab.Customers = null;
             cartsTab.Dock = DockStyle.Fill;
             cartsTab.Location = new Point(3, 3);
             cartsTab.Name = "cartsTab";
@@ -141,26 +136,6 @@
             ordersTab1.Size = new Size(934, 544);
             ordersTab1.TabIndex = 0;
             // 
-            // TestTabPage
-            // 
-            TestTabPage.Controls.Add(priorityOrdersTab);
-            TestTabPage.Location = new Point(4, 24);
-            TestTabPage.Name = "TestTabPage";
-            TestTabPage.Padding = new Padding(3);
-            TestTabPage.Size = new Size(940, 550);
-            TestTabPage.TabIndex = 4;
-            TestTabPage.Text = "Test";
-            TestTabPage.UseVisualStyleBackColor = true;
-            // 
-            // priorityOrdersTab
-            // 
-            priorityOrdersTab.Dock = DockStyle.Fill;
-            priorityOrdersTab.Location = new Point(3, 3);
-            priorityOrdersTab.Name = "priorityOrdersTab";
-            priorityOrdersTab.PriorityOrder = null;
-            priorityOrdersTab.Size = new Size(934, 544);
-            priorityOrdersTab.TabIndex = 0;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -174,7 +149,6 @@
             MainTabControl.ResumeLayout(false);
             CartsTabPage.ResumeLayout(false);
             OrdersTab.ResumeLayout(false);
-            TestTabPage.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -189,7 +163,5 @@
         private View.Tabs.CardsTab cartsTab;
         private TabPage OrdersTab;
         private View.Tabs.OrdersTab ordersTab1;
-        private TabPage TestTabPage;
-        private View.Tabs.PriorityOrdersTab priorityOrdersTab;
     }
 }

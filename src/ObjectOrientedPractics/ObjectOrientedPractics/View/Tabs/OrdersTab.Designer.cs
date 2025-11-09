@@ -1,4 +1,6 @@
-﻿namespace ObjectOrientedPractics.View.Tabs
+﻿using ObjectOrientedPractics.Model.Orders;
+
+namespace ObjectOrientedPractics.View.Tabs
 {
     partial class OrdersTab
     {
@@ -27,6 +29,7 @@
             FullName = new DataGridViewTextBoxColumn();
             Address = new DataGridViewTextBoxColumn();
             TotalCost = new DataGridViewTextBoxColumn();
+            Total = new DataGridViewTextBoxColumn();
             orderBindingSource = new BindingSource(components);
             OrdersLabel = new Label();
             InfoPanel = new Panel();
@@ -70,7 +73,7 @@
             OrdersDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             OrdersDataGridView.AutoGenerateColumns = false;
             OrdersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { ID, Created, OrderStatus, FullName, Address, TotalCost });
+            OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { ID, Created, OrderStatus, FullName, Address, TotalCost, Total });
             OrdersDataGridView.DataSource = orderBindingSource;
             OrdersDataGridView.Location = new Point(3, 27);
             OrdersDataGridView.MultiSelect = false;
@@ -122,14 +125,22 @@
             // TotalCost
             // 
             TotalCost.DataPropertyName = "TotalCost";
-            TotalCost.HeaderText = "Total Cost";
+            TotalCost.HeaderText = "Cost";
             TotalCost.Name = "TotalCost";
             TotalCost.ReadOnly = true;
             TotalCost.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
+            // Total
+            // 
+            Total.DataPropertyName = "Total";
+            Total.HeaderText = "TotalCost";
+            Total.Name = "Total";
+            Total.ReadOnly = true;
+            Total.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
             // orderBindingSource
             // 
-            orderBindingSource.DataSource = typeof(Model.Order);
+            orderBindingSource.DataSource = typeof(Order);
             // 
             // OrdersLabel
             // 
@@ -358,15 +369,16 @@
         private Label ValueLabel;
         private DataGridView OrdersDataGridView;
         private BindingSource orderBindingSource;
+        private Panel PriorityPanel;
+        private Label PriorityOptionsLabel;
+        private Label DeliveryTimeLabel;
+        private ComboBox DeliveryTimeComboBox;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn Created;
         private DataGridViewTextBoxColumn OrderStatus;
         private DataGridViewTextBoxColumn FullName;
         private DataGridViewTextBoxColumn Address;
         private DataGridViewTextBoxColumn TotalCost;
-        private Panel PriorityPanel;
-        private Label PriorityOptionsLabel;
-        private Label DeliveryTimeLabel;
-        private ComboBox DeliveryTimeComboBox;
+        private DataGridViewTextBoxColumn Total;
     }
 }

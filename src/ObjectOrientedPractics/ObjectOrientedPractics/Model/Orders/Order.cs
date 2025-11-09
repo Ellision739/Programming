@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ObjectOrientedPractics.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Orders
 {
     /// <summary>
     /// Описывает заказ покупателя.
@@ -103,6 +104,29 @@ namespace ObjectOrientedPractics.Model
                 return _totalCost;
             }
         }
+
+        /// <summary>
+        /// Возвращает и задаёт размер примерной скидки.
+        /// </summary>
+        public double DiscountAmount { get; set; }
+        
+        /// <summary>
+        /// Итоговая стоимость.
+        /// </summary>
+        private double _total;
+        /// <summary>
+        /// Возвращает итоговую стоимость, после использования скидки.
+        /// </summary>
+        public double Total
+        {
+            get 
+            { 
+                _total = TotalCost - DiscountAmount;
+                return _total; 
+            }
+        }
+
+
         /// <summary>
         /// Создаёт экземпляр класса <see cref="Order"/>.
         /// </summary>

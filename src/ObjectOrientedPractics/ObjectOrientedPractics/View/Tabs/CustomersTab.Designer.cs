@@ -45,6 +45,11 @@
             CustomersLabel = new Label();
             CustomersListBox = new ListBox();
             SelectedCustomerPanel = new Panel();
+            RemoveDiscountButton = new Button();
+            AddDiscountButton = new Button();
+            DiscountsListBox = new ListBox();
+            DiscountsLabel = new Label();
+            PriorityCheckBox = new CheckBox();
             addressControl1 = new ObjectOrientedPractics.View.Controls.AddressControl();
             InfoCLabel = new Label();
             FullnameTextBox = new TextBox();
@@ -52,7 +57,6 @@
             IdCTextBox = new TextBox();
             IdCLabel = new Label();
             SelectedCustomerLabel = new Label();
-            PriorityCheckBox = new CheckBox();
             CustomersPanel.SuspendLayout();
             panel1.SuspendLayout();
             RemoveCPanel.SuspendLayout();
@@ -220,6 +224,10 @@
             // SelectedCustomerPanel
             // 
             SelectedCustomerPanel.BackColor = Color.White;
+            SelectedCustomerPanel.Controls.Add(RemoveDiscountButton);
+            SelectedCustomerPanel.Controls.Add(AddDiscountButton);
+            SelectedCustomerPanel.Controls.Add(DiscountsListBox);
+            SelectedCustomerPanel.Controls.Add(DiscountsLabel);
             SelectedCustomerPanel.Controls.Add(PriorityCheckBox);
             SelectedCustomerPanel.Controls.Add(addressControl1);
             SelectedCustomerPanel.Controls.Add(InfoCLabel);
@@ -233,6 +241,56 @@
             SelectedCustomerPanel.Name = "SelectedCustomerPanel";
             SelectedCustomerPanel.Size = new Size(590, 550);
             SelectedCustomerPanel.TabIndex = 7;
+            // 
+            // RemoveDiscountButton
+            // 
+            RemoveDiscountButton.Location = new Point(321, 402);
+            RemoveDiscountButton.Name = "RemoveDiscountButton";
+            RemoveDiscountButton.Size = new Size(108, 41);
+            RemoveDiscountButton.TabIndex = 13;
+            RemoveDiscountButton.Text = "Remove";
+            RemoveDiscountButton.UseVisualStyleBackColor = true;
+            RemoveDiscountButton.Click += RemoveDiscountButton_Click;
+            // 
+            // AddDiscountButton
+            // 
+            AddDiscountButton.Location = new Point(321, 355);
+            AddDiscountButton.Name = "AddDiscountButton";
+            AddDiscountButton.Size = new Size(108, 41);
+            AddDiscountButton.TabIndex = 12;
+            AddDiscountButton.Text = "Add";
+            AddDiscountButton.UseVisualStyleBackColor = true;
+            AddDiscountButton.Click += AddDiscountButton_Click;
+            // 
+            // DiscountsListBox
+            // 
+            DiscountsListBox.FormattingEnabled = true;
+            DiscountsListBox.ItemHeight = 15;
+            DiscountsListBox.Location = new Point(6, 355);
+            DiscountsListBox.Name = "DiscountsListBox";
+            DiscountsListBox.Size = new Size(309, 109);
+            DiscountsListBox.TabIndex = 11;
+            // 
+            // DiscountsLabel
+            // 
+            DiscountsLabel.AutoSize = true;
+            DiscountsLabel.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DiscountsLabel.Location = new Point(6, 337);
+            DiscountsLabel.Name = "DiscountsLabel";
+            DiscountsLabel.Size = new Size(67, 15);
+            DiscountsLabel.TabIndex = 10;
+            DiscountsLabel.Text = "Discounts";
+            // 
+            // PriorityCheckBox
+            // 
+            PriorityCheckBox.AutoSize = true;
+            PriorityCheckBox.Location = new Point(71, 98);
+            PriorityCheckBox.Name = "PriorityCheckBox";
+            PriorityCheckBox.Size = new Size(75, 19);
+            PriorityCheckBox.TabIndex = 9;
+            PriorityCheckBox.Text = "is Priority";
+            PriorityCheckBox.UseVisualStyleBackColor = true;
+            PriorityCheckBox.CheckedChanged += PriorityCheckBox_CheckedChanged;
             // 
             // addressControl1
             // 
@@ -251,7 +309,7 @@
             // InfoCLabel
             // 
             InfoCLabel.AutoSize = true;
-            InfoCLabel.Location = new Point(71, 464);
+            InfoCLabel.Location = new Point(71, 496);
             InfoCLabel.Name = "InfoCLabel";
             InfoCLabel.Size = new Size(0, 15);
             InfoCLabel.TabIndex = 7;
@@ -306,17 +364,6 @@
             SelectedCustomerLabel.TabIndex = 0;
             SelectedCustomerLabel.Text = "Selected Customer";
             // 
-            // PriorityCheckBox
-            // 
-            PriorityCheckBox.AutoSize = true;
-            PriorityCheckBox.Location = new Point(71, 98);
-            PriorityCheckBox.Name = "PriorityCheckBox";
-            PriorityCheckBox.Size = new Size(75, 19);
-            PriorityCheckBox.TabIndex = 9;
-            PriorityCheckBox.Text = "is Priority";
-            PriorityCheckBox.UseVisualStyleBackColor = true;
-            PriorityCheckBox.CheckedChanged += PriorityCheckBox_CheckedChanged;
-            // 
             // CustomersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -364,5 +411,9 @@
         private Label InfoCLabel;
         private Controls.AddressControl addressControl1;
         private CheckBox PriorityCheckBox;
+        private Label DiscountsLabel;
+        private Button RemoveDiscountButton;
+        private Button AddDiscountButton;
+        private ListBox DiscountsListBox;
     }
 }

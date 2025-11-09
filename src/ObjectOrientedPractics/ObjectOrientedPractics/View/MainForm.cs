@@ -29,10 +29,6 @@ namespace ObjectOrientedPractics
 
             // Инициализация вкладки Orders
             ordersTab1.Customers = _store.Customers;
-
-            // Инициализация вкладки PriorityOrders
-            priorityOrdersTab.Customers = _store.Customers;
-            priorityOrdersTab.Items = _store.Items;
         }
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -44,10 +40,6 @@ namespace ObjectOrientedPractics
             if (MainTabControl.SelectedIndex == 3)
             { 
                 ordersTab1.UpdateOrders();
-            }
-            if (MainTabControl.SelectedIndex == 4)
-            {
-                priorityOrdersTab.UpdateOrders();
             }
         }
     }

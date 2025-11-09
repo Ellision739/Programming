@@ -1,4 +1,6 @@
-﻿namespace ObjectOrientedPractics.View.Tabs
+﻿using ObjectOrientedPractics.Model.Orders;
+
+namespace ObjectOrientedPractics.View.Tabs
 {
     partial class PriorityOrdersTab
     {
@@ -345,7 +347,7 @@
             // 
             // orderBindingSource
             // 
-            orderBindingSource.DataSource = typeof(Model.Order);
+            orderBindingSource.DataSource = typeof(Order);
             // 
             // OrdersLabel
             // 
