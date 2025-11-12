@@ -32,6 +32,12 @@ namespace ObjectOrientedPractics.View.Tabs
                 AddItem();
             }
         }
+
+        /// <summary>
+        /// Срабатывает при добавлении/удалении/редактировании товара.
+        /// </summary>
+        public event EventHandler ItemsChanged;
+
         /// <summary>
         /// Список с товарами.
         /// </summary>
@@ -150,6 +156,7 @@ namespace ObjectOrientedPractics.View.Tabs
         public void AddButton_Click(object sender, EventArgs e)
         {
             AddItem();
+            ItemsChanged?.Invoke(this, EventArgs.Empty);
         }
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -200,14 +207,14 @@ namespace ObjectOrientedPractics.View.Tabs
                 // Удаляем объект из ListBox
                 ItemsListBox.Items.Remove(itemToRemove);
 
-                // ПЕРЕЗАПИСЬ ФАЙЛА (Твой старый метод был небезопасным)
-                // Этот метод 100% надежен:
                 List<string> linesList = new List<string>();
                 foreach (Item i in _items)
                 {
                     linesList.Add($"{i.Name}|{i.Info}|{i.Cost}|{i.Category}");
                 }
                 File.WriteAllLines(filePathList, linesList);
+
+                ItemsChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -228,6 +235,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             else
             {
+                ItemsChanged?.Invoke(this, EventArgs.Empty);
                 InfoLabel.Text = "Сохранено в файл!";
             }
         }
@@ -241,6 +249,7 @@ namespace ObjectOrientedPractics.View.Tabs
                     InfoLabel.Text = "";
                     //переписывание значения в _items
                     _currentItem.Cost = Int32.Parse(CostTextBox.Text);
+                    ItemsChanged?.Invoke(this, EventArgs.Empty);
                 }
                 catch (Exception)
                 {
@@ -259,6 +268,8 @@ namespace ObjectOrientedPractics.View.Tabs
 
                     // Обновляем имя у текущего товара
                     _currentItem.Name = NameTextBox.Text;
+
+                    ItemsChanged?.Invoke(this, EventArgs.Empty);
 
                     // Сохраняем выбранный элемент перед обновлением списка
                     var selectedItem = _currentItem;
@@ -284,6 +295,8 @@ namespace ObjectOrientedPractics.View.Tabs
                     InfoLabel.Text = "";
                     //переписывание значения в _items
                     _currentItem.Info = DescriptionTextBox.Text;
+
+                    ItemsChanged?.Invoke(this, EventArgs.Empty);
                 }
                 catch (Exception)
                 {
@@ -298,6 +311,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 InfoLabel.Text = "";
                 //переписывание значения в _items
                 _currentItem.Category = (Category)Enum.Parse(typeof(Category), CategoryComboBox.Text);
+                ItemsChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 

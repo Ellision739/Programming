@@ -18,6 +18,11 @@ namespace ObjectOrientedPractics.Model
         private readonly ValueValidator validator = new ValueValidator();
 
         /// <summary>
+        /// Срабатывает при изменении любого атрибута адреса.
+        /// </summary>
+        public event EventHandler AddressChanged;
+
+        /// <summary>
         /// Почтовый индекс.
         /// </summary>
         private int _index;
@@ -30,11 +35,17 @@ namespace ObjectOrientedPractics.Model
             get { return _index; }
             set
             {
-                if (value != 0 && (value < 100000 || value > 999999))
+                if (value != _index)
                 {
-                    throw new ArgumentException("Значение должно быть целым шестизначный числом");
+                    // Валидация только при изменении
+                    if (value != 0 && (value < 100000 || value > 999999))
+                    {
+                        throw new ArgumentException("Значение должно быть целым шестизначный числом");
+                    }
+
+                    _index = value;
+                    AddressChanged?.Invoke(this, EventArgs.Empty);
                 }
-                _index = value;
             }
         }
 
@@ -52,8 +63,12 @@ namespace ObjectOrientedPractics.Model
             get { return _country; }
             set
             {
-                validator.AssertStringOnLength(value, 50, "Country");
-                _country = value;
+                if (value != _country)
+                {
+                    validator.AssertStringOnLength(value, 50, "Country");
+                    _country = value;
+                    AddressChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -71,8 +86,12 @@ namespace ObjectOrientedPractics.Model
             get { return _city; }
             set
             {
-                validator.AssertStringOnLength(value, 50, "City");
-                _city = value;
+                if (value != _city)
+                {
+                    validator.AssertStringOnLength(value, 50, "City");
+                    _city = value;
+                    AddressChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -90,8 +109,12 @@ namespace ObjectOrientedPractics.Model
             get { return _street; }
             set
             {
-                validator.AssertStringOnLength(value, 100, "Street");
-                _street = value;
+                if (value != _street)
+                {
+                    validator.AssertStringOnLength(value, 100, "Street");
+                    _street = value;
+                    AddressChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -108,8 +131,12 @@ namespace ObjectOrientedPractics.Model
             get { return _building; }
             set
             {
-                validator.AssertStringOnLength(value, 10, "Building");
-                _building = value;
+                if (value != _building)
+                {
+                    validator.AssertStringOnLength(value, 10, "Building");
+                    _building = value;
+                    AddressChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -126,8 +153,12 @@ namespace ObjectOrientedPractics.Model
             get { return _apartment; }
             set
             {
-                validator.AssertStringOnLength(value, 10, "Apartment");
-                _apartment = value;
+                if (value != _apartment)
+                {
+                    validator.AssertStringOnLength(value, 10, "Apartment");
+                    _apartment = value;
+                    AddressChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 

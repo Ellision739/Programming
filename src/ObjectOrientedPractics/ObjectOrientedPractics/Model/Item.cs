@@ -21,6 +21,19 @@ namespace ObjectOrientedPractics.Model
         private readonly ValueValidator validator = new ValueValidator();
 
         /// <summary>
+        /// Срабатывает при изменении наименования товара.
+        /// </summary>
+        public event EventHandler NameChanged;
+        /// <summary>
+        /// Срабатывает при изменении цены товара.
+        /// </summary>
+        public event EventHandler CostChanged;
+        /// <summary>
+        /// Срабатывает при изменении описания товара.
+        /// </summary>
+        public event EventHandler InfoChanged;
+
+        /// <summary>
         /// Уникальный идентификатор товара.
         /// </summary>
         private readonly int _id;
@@ -52,8 +65,12 @@ namespace ObjectOrientedPractics.Model
             get { return _name; }
             set
             {
-                validator.AssertStringOnLength(value, 200, "Name");
-                _name = value;
+                if (value != _name)
+                {
+                    validator.AssertStringOnLength(value, 200, "Name");
+                    _name = value;
+                    NameChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -71,8 +88,12 @@ namespace ObjectOrientedPractics.Model
             get { return _info; }
             set
             {
-                validator.AssertStringOnLength(value, 1000, "Info");
-                _info = value;
+                if (value != _info)
+                {
+                    validator.AssertStringOnLength(value, 1000, "Info");
+                    _info = value;
+                    InfoChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -98,7 +119,11 @@ namespace ObjectOrientedPractics.Model
                 {
                     throw new ArgumentException("Значение должно быть положительное");
                 }
-                _cost = value;
+                if (value != _cost)
+                {
+                    _cost = value;
+                    CostChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 

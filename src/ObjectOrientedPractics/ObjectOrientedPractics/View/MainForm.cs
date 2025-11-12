@@ -29,6 +29,16 @@ namespace ObjectOrientedPractics
 
             // Инициализация вкладки Orders
             ordersTab1.Customers = _store.Customers;
+
+            // Подписываемся на события обновления
+            itemsTab.ItemsChanged += ItemsTab_ItemsChanged;
+        }
+
+
+        private void ItemsTab_ItemsChanged(object sender, EventArgs e)
+        {
+            cartsTab.RefreshData();
+            ordersTab1.UpdateOrders();
         }
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
