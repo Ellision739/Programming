@@ -34,7 +34,7 @@ namespace ObjectOrientedPractics
             itemsTab.ItemsChanged += ItemsTab_ItemsChanged;
         }
 
-
+        // Для гита (удалить)
         private void ItemsTab_ItemsChanged(object sender, EventArgs e)
         {
             cartsTab.RefreshData();
