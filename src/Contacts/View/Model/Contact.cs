@@ -18,5 +18,10 @@ namespace View.Model
             Email = email;
             Phone = phone;
         }
+
+        public Contact()
+        {
+            
+        }
     }
 }
