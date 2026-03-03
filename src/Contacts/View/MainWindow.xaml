@@ -18,26 +18,26 @@
         <GroupBox x:Name="EditContactGroupBox" Header="Edit Contact" Margin="3,3,3,3">
             <StackPanel x:Name="EditStackPanel">
                 <TextBlock x:Name="NameEditTextBlock" TextWrapping="Wrap" Text="Name:" Margin="3,3,3,3"/>
-                <TextBox x:Name="NameTextBox" TextWrapping="Wrap" Text="Смирнов Юрий" Margin="3,3,3,3"/>
+                <TextBox x:Name="NameTextBox" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,3,3"/>
                 <TextBlock x:Name="PhoneEditTextBlock" TextWrapping="Wrap" Text="Phone Number:" Margin="3,3,3,3"/>
-                <TextBox x:Name="PhoneTextBox" TextWrapping="Wrap" Text="+7-913-111-22-33" Margin="3,3,3,3"/>
+                <TextBox x:Name="PhoneTextBox" TextWrapping="Wrap" Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,3,3"/>
                 <TextBlock x:Name="EmailEditTextBlock" TextWrapping="Wrap" Text="Email:" Margin="3,3,3,3"/>
-                <TextBox x:Name="EmailTextBox" TextWrapping="Wrap" Text="yuri.smirnov@no.mail"/>
+                <TextBox x:Name="EmailTextBox" TextWrapping="Wrap" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox x:Name="ReadContactGroupBox" Grid.Column="1" Header="Read Contact" Margin="3,3,3,3">
             <StackPanel x:Name="ReadStackPanel">
                 <TextBlock x:Name="NameReadTextBlock" TextWrapping="Wrap" Text="Name:" Margin="3,3,3,3"/>
-                <Label x:Name="NameLabel" Content="Смирнов Юрий" Margin="3,3,3,3" FontWeight="Bold"/>
+                <Label x:Name="NameLabel" Content="{Binding Name}" Margin="3,3,3,3" FontWeight="Bold"/>
                 <TextBlock x:Name="PhoneReadTextBlock" TextWrapping="Wrap" Text="Phone Number:" Margin="3,3,3,3"/>
-                <Label x:Name="PhoneLabel" Content="+7-913-111-22-33" Margin="3,3,3,3" FontWeight="Bold"/>
+                <Label x:Name="PhoneLabel" Content="{Binding Phone}" Margin="3,3,3,3" FontWeight="Bold"/>
                 <TextBlock x:Name="EmailEditTextBlock1" TextWrapping="Wrap" Text="Email:" Margin="3,3,3,3"/>
-                <Label x:Name="EmailLabel" Content="yuri.smirnov@no.mail" Margin="3,3,3,3" FontWeight="Bold"/>
+                <Label x:Name="EmailLabel" Content="{Binding Email}" Margin="3,3,3,3" FontWeight="Bold"/>
             </StackPanel>
         </GroupBox>
         <StackPanel x:Name="ButtonsStackPanel" Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button x:Name="SaveButton" Content="Save" Width="75" Height="25" Margin="3,3,3,3"/>
-            <Button x:Name="LoadButton" Content="Load" Width="75" Height="25" Margin="3,3,3,3"/>
+            <Button x:Name="SaveButton" Content="Save" Width="75" Height="25" Margin="3,3,3,3" Command="{Binding SaveAction}"/>
+            <Button x:Name="LoadButton" Content="Load" Width="75" Height="25" Margin="3,3,3,3" Command="{Binding LoadAction}"/>
         </StackPanel>
     </Grid>
 </Window>

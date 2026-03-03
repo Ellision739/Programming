@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,8 +21,7 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainVM();
         }
-
-        public MainVM ICommand { get; set; }
     }
 }
