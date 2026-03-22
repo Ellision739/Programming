@@ -1,57 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using View.Model;
 
-namespace View.ViewModel
+namespace View.ViewModel;
+
+/// <summary>
+/// Использует данные из Contact и выполняет функцию VM.
+/// </summary>
+public class MainVM : INotifyPropertyChanged
 {
-    public class MainVM : INotifyPropertyChanged
+    /// <summary>
+    /// Ивент, срабатывает при изменении свойства.
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    /// <inheritdoc />
+    private Contact _contact;
+
+    /// <inheritdoc />
+    public string Name
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private Contact _contact;
-
-        public string Name
+        get { return _contact.Name; }
+        set
         {
-            get { return _contact.Name; }
-            set
-            {
-                _contact.Name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
-            }
+            _contact.Name = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
         }
+    }
 
-        public string Phone
+    /// <inheritdoc />
+    public string Phone
+    {
+        get { return _contact.Phone; }
+        set
         {
-            get { return _contact.Phone; }
-            set
-            {
-                _contact.Phone = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Phone"));
-            }
+            _contact.Phone = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Phone"));
         }
+    }
 
-        public string Email
+    /// <inheritdoc />
+    public string Email
+    {
+        get { return _contact.Email; }
+        set
         {
-            get { return _contact.Email; }
-            set
-            {
-                _contact.Email = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Email"));
-            }
+            _contact.Email = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Email"));
         }
+    }
 
-        public SaveCommand SaveAction { get; set; }
-        public LoadCommand LoadAction { get; set; }
+    /// <summary>
+    /// Возвращает и задаёт команду сохранения.
+    /// </summary>
+    public SaveCommand SaveCommand { get; set; }
 
-        public MainVM()
-        {
-            _contact = new Contact();
-            SaveAction = new SaveCommand(this);
-            LoadAction = new LoadCommand(this);
-        }
+    /// <summary>
+    /// Возвращает и задаёт команду загрузки. 
+    /// </summary>
+    public LoadCommand LoadCommand { get; set; }
+
+    /// <summary>
+    /// Создаёт экземпляр класса <see cref="MainVM"/>.
+    /// </summary>
+    public MainVM()
+    {
+        _contact = new Contact();
+        SaveCommand = new SaveCommand(this);
+        LoadCommand = new LoadCommand(this);
     }
 }
