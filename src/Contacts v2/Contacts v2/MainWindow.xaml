@@ -1,0 +1,138 @@
+﻿<Window x:Class="Contacts_v2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Contacts_v2"
+        mc:Ignorable="d"
+        Title="Contacts" 
+        Height="450" 
+        Width="800" 
+        Icon="/contacts_64x64.ico">
+    <Window.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Background="#f8f8f8" Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListBox 
+                Grid.Row="1" 
+                Margin="3"
+                ItemsSource="{Binding Contacts}"
+                DisplayMemberPath="Name"
+                SelectedItem="{Binding SelectedContact}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock 
+                    HorizontalAlignment="Left" 
+                    TextWrapping="Wrap" 
+                    Text="Find:" 
+                    Margin="3"/>
+                <TextBox 
+                    Grid.Column="1" 
+                    TextWrapping="Wrap" 
+                    Margin="3"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button 
+                    Content="Add" 
+                    Margin="3" 
+                    Height="25"
+                    Command="{Binding AddCommand}"
+                    IsEnabled="{Binding IsButtonEnabled}"/>
+                <Button 
+                    Grid.Column="1" 
+                    Content="Edit" 
+                    Margin="3" 
+                    Height="25"
+                    Command="{Binding EditCommand}"
+                    IsEnabled="{Binding IsButtonEnabled}"/>
+                <Button 
+                    Grid.Column="2" 
+                    Content="Remove"
+                    Margin="3" 
+                    Height="25"
+                    Command="{Binding RemoveCommand}"
+                    IsEnabled="{Binding IsButtonEnabled}"/>
+            </Grid>
+        </Grid>
+    <GridSplitter 
+        HorizontalAlignment="Center" 
+        Width="3" 
+        Grid.Column="1" 
+        Background="White" 
+        Margin="3"/>
+    <Grid Grid.Column="2" Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image 
+            HorizontalAlignment="Left" 
+            Height="100" 
+            Margin="3 28 3 3" 
+            VerticalAlignment="Top" 
+            Width="100" 
+            RenderTransformOrigin="0.54,1.34" 
+            Source="/google-contacts_512px.png"/>
+        <StackPanel Grid.Column="1" Margin="3">
+            <TextBlock 
+                TextWrapping="Wrap" 
+                Text="Name:" 
+                Margin="3" 
+                HorizontalAlignment="Left"/>
+            <TextBox 
+                TextWrapping="Wrap" 
+                Margin="3" 
+                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="{Binding IsReadOnly}"/>
+            <TextBlock 
+                TextWrapping="Wrap" 
+                Text="Phone Number:" 
+                HorizontalAlignment="Left" 
+                Margin="3"/>
+            <TextBox 
+                TextWrapping="Wrap" 
+                Margin="3" 
+                Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="{Binding IsReadOnly}"/>
+            <TextBlock 
+                TextWrapping="Wrap" 
+                Text="Email:" 
+                Margin="3" 
+                HorizontalAlignment="Left"/>
+            <TextBox 
+                TextWrapping="Wrap" 
+                Margin="3" 
+                Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="{Binding IsReadOnly}"/>
+            <Button 
+                Content="Apply" 
+                HorizontalAlignment="Left" 
+                Width="75" 
+                Height="25" 
+                Margin="3 50 3 3"
+                Command="{Binding ApplyCommand}"
+                Visibility="{Binding IsApplyVisible, Converter={StaticResource BoolToVis}}"/>
+        </StackPanel>
+    </Grid>
+
+    </Grid>
+</Window>
