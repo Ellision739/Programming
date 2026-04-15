@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="contacts_512px.png" />
     <None Remove="contacts_64x64.ico" />
-    <None Remove="google-contacts_512px.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Resource Include="contacts_64x64.ico" />
-    <Resource Include="google-contacts_512px.png" />
+    <Resource Include="contacts_512px.png" />
   </ItemGroup>
 
 </Project>

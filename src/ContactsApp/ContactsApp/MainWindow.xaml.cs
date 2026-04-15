@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Contacts_v2;
+namespace View;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

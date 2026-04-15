@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics.Contracts;
 
 namespace View.Model;
 
@@ -9,14 +8,24 @@ namespace View.Model;
 public class Contact : INotifyPropertyChanged
 {
     /// <summary>
-    /// Ивент, срабатывает при изменении свойства.
-    /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    /// <summary>
     /// Имя контакта.
     /// </summary>
     private string _name;
+
+    /// <summary>
+    /// Почта контакта.
+    /// </summary>
+    private string _email;
+
+    /// <summary>
+    /// Телефон контакта.
+    /// </summary>
+    private string _phone;
+
+    /// <summary>
+    /// Срабатывает при изменении свойства.
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
 
     /// <summary>
     /// Возвращает и задаёт имя контакта.
@@ -35,11 +44,6 @@ public class Contact : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// Почта контакта.
-    /// </summary>
-    private string _email;
-
-    /// <summary>
     /// Возвращает и задаёт почту контакта.
     /// </summary>
     public string Email
@@ -54,11 +58,6 @@ public class Contact : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));
         }
     }
-
-    /// <summary>
-    /// Телефон контакта.
-    /// </summary>
-    private string _phone;
 
     /// <summary>
     /// Возвращает и задаёт телефон контакта.
