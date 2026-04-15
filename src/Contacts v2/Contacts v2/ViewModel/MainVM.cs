@@ -13,7 +13,7 @@ namespace View.ViewModel;
 public class MainVM : INotifyPropertyChanged
 {
     /// <summary>
-    /// Ивент, срабатывает при изменении свойства.
+    /// Срабатывает при изменении свойства.
     /// </summary>
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -55,81 +55,75 @@ public class MainVM : INotifyPropertyChanged
             return _selectedContact; 
         }
         set 
-        { 
+        {
+            _selectedContact = value;
+
             IsApplyVisible = false;
             IsButtonEnabled = true;
             IsReadOnly = true;
-            _selectedContact = value;
+            _isAddingMode = false;
+            
+            if (SelectedContact != null)
+            {
+                Name = SelectedContact.Name;
+                Phone = SelectedContact.Phone;
+                Email = SelectedContact.Email;
+            }
+            else
+            {
+                Name = string.Empty;
+                Phone = string.Empty;
+                Email = string.Empty;
+            }
+
             OnPropertyChanged(nameof(SelectedContact));
-            OnPropertyChanged(nameof(Name));
-            OnPropertyChanged(nameof(Email));
-            OnPropertyChanged(nameof(Phone));
         }
     }
 
-
+    /// <inheritdoc />
+    private string _name;
     /// <inheritdoc />
     public string Name
     {
         get 
         { 
-            if (SelectedContact == null)
-            {
-                return string.Empty;
-            }
-            return SelectedContact.Name; 
+            return _name; 
         }
         set
         {
-            if (SelectedContact == null)
-            {
-                return;
-            }
-            SelectedContact.Name = value;
+            _name = value;
             OnPropertyChanged(nameof(Name));
         }
     }
 
     /// <inheritdoc />
+    private string _phone;
+    /// <inheritdoc />
     public string Phone
     {
         get 
         {
-            if (SelectedContact == null)
-            {
-                return string.Empty;
-            }
-            return SelectedContact.Phone; 
+            return _phone; 
         }
         set
         {
-            if (SelectedContact == null)
-            {
-                return;
-            }
-            SelectedContact.Phone = value;
+            _phone = value;
             OnPropertyChanged(nameof(Phone));
         }
     }
 
     /// <inheritdoc />
+    private string _email;
+    /// <inheritdoc />
     public string Email
     {
         get 
         {
-            if (SelectedContact == null)
-            {
-                return string.Empty;
-            }
-            return SelectedContact.Email; 
+            return _email; 
         }
         set
         {
-            if (SelectedContact == null)
-            {
-                return;
-            }
-            SelectedContact.Email = value;
+            _email = value;
             OnPropertyChanged(nameof(Email));
         }
     }
@@ -241,8 +235,8 @@ public class MainVM : INotifyPropertyChanged
 
         AddCommand = new RelayCommand<object>(obj =>
         {
+            SelectedContact = null;
             _isAddingMode = true;
-            SelectedContact = new Contact("", "", "");
             IsApplyVisible = true;
             IsReadOnly = false;
             IsButtonEnabled = false;
@@ -280,13 +274,22 @@ public class MainVM : INotifyPropertyChanged
         {
             if (_isAddingMode)
             {
-                _contacts.Add(SelectedContact);
-                OnPropertyChanged(nameof(SelectedContact));
+                Contact newContact = new Contact(Name, Email, Phone);
+                _contacts.Add(newContact);
+
+                _isAddingMode = false;
+                SelectedContact = newContact;
             }
+            else if (SelectedContact != null)
+            {
+                SelectedContact.Name = Name;
+                SelectedContact.Email = Email;
+                SelectedContact.Phone = Phone;
+            }
+
             IsReadOnly = true;
             IsApplyVisible = false;
             IsButtonEnabled = true;
-            _isAddingMode = false;
             _contactSerializer.Save(_contacts);
         });
     }
