@@ -97,6 +97,9 @@ public class MainVM : ObservableObject
         }
         set 
         {
+            if (_selectedContact != null)
+                _selectedContact.PropertyChanged -= OnSelectedContactPropertyChanged;
+
             if (SetProperty(ref _selectedContact, value))
             {
                 IsApplyVisible = false;
@@ -106,6 +109,7 @@ public class MainVM : ObservableObject
 
                 if (_selectedContact != null)
                 {
+                    _selectedContact.PropertyChanged += OnSelectedContactPropertyChanged;
                     Name = SelectedContact.Name;
                     Phone = SelectedContact.Phone;
                     Email = SelectedContact.Email;
@@ -116,6 +120,8 @@ public class MainVM : ObservableObject
                     Phone = string.Empty;
                     Email = string.Empty;
                 }
+
+                ((RelayCommand<object>)ApplyCommand).NotifyCanExecuteChanged();
             }
         }
     }
@@ -146,7 +152,7 @@ public class MainVM : ObservableObject
     /// </summary>
     public ICommand AddCommand => _addCommand ??= new RelayCommand<object>(obj =>
     {
-        SelectedContact = null;
+        SelectedContact = new Contact();
         _isAddingMode = true;
         IsApplyVisible = true;
         IsReadOnly = false;
@@ -191,28 +197,25 @@ public class MainVM : ObservableObject
     /// <summary>
     /// Возвращает и задаёт команду подтверждения изменений в правой панели.
     /// </summary>
-    public ICommand ApplyCommand => _applyCommand ??= new RelayCommand<object>(obj =>
-    {
-        if (_isAddingMode)
+    public ICommand ApplyCommand => _applyCommand ??= new RelayCommand<object>(
+        execute: obj =>
         {
-            Contact newContact = new Contact(Name, Email, Phone);
-            _contacts.Add(newContact);
+            if (_isAddingMode)
+            {
+                _contacts.Add(SelectedContact);
+                _isAddingMode = false;
+            }
 
-            _isAddingMode = false;
-            SelectedContact = newContact;
-        }
-        else if (SelectedContact != null)
+            IsReadOnly = true;
+            IsApplyVisible = false;
+            IsButtonEnabled = true;
+            _contactSerializer.Save(_contacts);
+        },
+        canExecute: obj =>
         {
-            SelectedContact.Name = Name;
-            SelectedContact.Email = Email;
-            SelectedContact.Phone = Phone;
+            return SelectedContact != null && SelectedContact.IsValid;
         }
-
-        IsReadOnly = true;
-        IsApplyVisible = false;
-        IsButtonEnabled = true;
-        _contactSerializer.Save(_contacts);
-    });
+        );
 
     /// <summary>
     /// Возвращает и задаёт статус "только на чтение".
@@ -239,6 +242,21 @@ public class MainVM : ObservableObject
     {
         get => _isButtonEnabled;
         set => SetProperty(ref _isButtonEnabled, value);
+    }
+
+    /// <summary>
+    /// Обрабатывает событие изменения свойства выбранного контакта.
+    /// </summary>
+    /// <param name="sender">Источник события.</param>
+    /// <param name="e">Аргументы события.</param>
+    private void OnSelectedContactPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Contact.Name) ||
+            e.PropertyName == nameof(Contact.Phone) ||
+            e.PropertyName == nameof(Contact.Email))
+        {
+            ((RelayCommand<object>)ApplyCommand).NotifyCanExecuteChanged();
+        }
     }
 
     /// <summary>

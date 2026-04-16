@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="View.Controls.ContactControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:View.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" 
+             d:DesignWidth="400" 
+             d:Background="White">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="3"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="MistyRose"/>
+                    <Setter 
+                        Property="ToolTip" 
+                        Value="{Binding RelativeSource={RelativeSource Self}, 
+                            Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image 
+            Grid.Column="0"
+            HorizontalAlignment="Left" 
+            Height="100" 
+            Margin="3,28,3,3" 
+            VerticalAlignment="Top" 
+            Width="100" 
+            Source="pack://application:,,,/contacts_512px.png"/>
+        <StackPanel Grid.Column="1" Margin="3">
+            <TextBlock 
+                TextWrapping="Wrap" 
+                Text="Name:" 
+                Margin="3" 
+                HorizontalAlignment="Left"/>
+            <TextBox 
+                TextWrapping="Wrap" 
+                Margin="3" 
+                Text="{Binding Name, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="{Binding DataContext.IsReadOnly, RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <TextBlock 
+                TextWrapping="Wrap" 
+                Text="Phone Number:" 
+                HorizontalAlignment="Left" 
+                Margin="3"/>
+            <TextBox 
+                TextWrapping="Wrap" 
+                Margin="3" 
+                Text="{Binding Phone, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="{Binding DataContext.IsReadOnly, RelativeSource={RelativeSource AncestorType=Window}}"
+                PreviewTextInput="PhoneTextBox_PreviewTextInput"
+                DataObject.Pasting="PhoneTextBox_Pasting"/>
+            <TextBlock 
+                TextWrapping="Wrap" 
+                Text="Email:" 
+                Margin="3" 
+                HorizontalAlignment="Left"/>
+            <TextBox 
+                TextWrapping="Wrap" 
+                Margin="3" 
+                Text="{Binding Email, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="{Binding DataContext.IsReadOnly, RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
