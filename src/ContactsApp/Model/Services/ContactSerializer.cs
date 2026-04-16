@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace View.Model.Services;
+namespace Model.Services;
 
 /// <summary>
 /// Серелизирует контакты с типом json.

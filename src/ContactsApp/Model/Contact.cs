@@ -1,79 +1,30 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
 
-namespace View.Model;
+namespace Model;
 
 /// <summary>
 /// Описывает контакт с именем, почтой и телефоном.
 /// </summary>
-public class Contact : INotifyPropertyChanged, IDataErrorInfo
+public partial class Contact : ObservableObject, IDataErrorInfo
 {
     /// <summary>
     /// Имя контакта.
     /// </summary>
+    [ObservableProperty]
     private string _name;
 
     /// <summary>
     /// Почта контакта.
     /// </summary>
+    [ObservableProperty]
     private string _email;
 
     /// <summary>
     /// Телефон контакта.
     /// </summary>
+    [ObservableProperty]
     private string _phone;
-
-    /// <summary>
-    /// Срабатывает при изменении свойства.
-    /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    /// <summary>
-    /// Возвращает и задаёт имя контакта.
-    /// </summary>
-    public string Name
-    {
-        get 
-        { 
-            return _name; 
-        }
-        set
-        {
-            _name = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
-        }
-    }
-
-    /// <summary>
-    /// Возвращает и задаёт почту контакта.
-    /// </summary>
-    public string Email
-    {
-        get 
-        { 
-            return _email; 
-        }
-        set 
-        { 
-            _email = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));
-        }
-    }
-
-    /// <summary>
-    /// Возвращает и задаёт телефон контакта.
-    /// </summary>
-    public string Phone
-    {
-        get 
-        { 
-            return _phone; 
-        }
-        set 
-        { 
-            _phone = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Phone)));
-        }
-    }
 
     /// <summary>
     /// Возвращает сообщение об ошибке проверки для указанного свойства или null, если ошибок нет.
@@ -125,6 +76,7 @@ public class Contact : INotifyPropertyChanged, IDataErrorInfo
                     return "Телефон не должен превышать 100 символов";
                 }
             }
+
             return null;
         }
     }
@@ -132,13 +84,7 @@ public class Contact : INotifyPropertyChanged, IDataErrorInfo
     /// <summary>
     /// Возвращает сообщение об ошибке для объекта.
     /// </summary>
-    public string Error
-    {
-        get
-        {
-            return null;
-        }
-    }
+    public string Error => null;
 
     /// <summary>
     /// Возвращает значение, указывающее, что все свойства объекта прошли проверку и не содержат ошибок.
