@@ -78,11 +78,6 @@ public class MainVM : ObservableObject
     private ICommand _applyCommand;
 
     /// <summary>
-    /// Срабатывает при изменении свойства.
-    /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    /// <summary>
     /// Возвращает и задаёт коллекцию контактов.
     /// </summary>
     public ObservableCollection<Contact> Contacts
@@ -149,119 +144,75 @@ public class MainVM : ObservableObject
     /// <summary>
     /// Возвращает и задаёт команду добавления в список контактов.
     /// </summary>
-    public ICommand AddCommand 
+    public ICommand AddCommand => _addCommand ??= new RelayCommand<object>(obj =>
     {
-        get
-        {
-            if (_addCommand == null)
-            {
-                new RelayCommand<object>(obj =>
-                {
-                    SelectedContact = null;
-                    _isAddingMode = true;
-                    IsApplyVisible = true;
-                    IsReadOnly = false;
-                    IsButtonEnabled = false;
-                });
-            }
-
-            return _addCommand;
-        }
-    }
+        SelectedContact = null;
+        _isAddingMode = true;
+        IsApplyVisible = true;
+        IsReadOnly = false;
+        IsButtonEnabled = false;
+    });
 
     /// <summary>
     /// Возвращает и задаёт команду изменения контакта.
     /// </summary>
-    public ICommand EditCommand 
-    { 
-        get
-        {
-            if ( _editCommand == null)
-            {
-                new RelayCommand<object>(obj =>
-                {
-                    if (SelectedContact == null) return;
-                    IsButtonEnabled = false;
-                    IsApplyVisible = true;
-                    IsReadOnly = false;
-                });
-            }
-
-            return _editCommand;
-        }
-    }
+    public ICommand EditCommand => _editCommand ??= new RelayCommand<object>(obj =>
+    {
+        if (SelectedContact == null) return;
+        IsButtonEnabled = false;
+        IsApplyVisible = true;
+        IsReadOnly = false;
+    });
 
     /// <summary>
     /// Возвращает и задаёт команду удаления из списка контактов.
     /// </summary>
-    public ICommand RemoveCommand 
+    public ICommand RemoveCommand => _removeCommand ??= new RelayCommand<object>(obj =>
     {
-        get
+        if (SelectedContact == null) return;
+        int index = _contacts.IndexOf(SelectedContact);
+        _contacts.Remove(SelectedContact);
+        if (_contacts.Count == 0)
         {
-            if (_removeCommand == null)
-            {
-                new RelayCommand<object>(obj =>
-                {
-                    if (SelectedContact == null) return;
-                    int index = _contacts.IndexOf(SelectedContact);
-                    _contacts.Remove(SelectedContact);
-                    if (_contacts.Count == 0)
-                    {
-                        SelectedContact = null;
-                    }
-                    else if (_contacts.Count == index)
-                    {
-                        SelectedContact = _contacts[index - 1];
-                    }
-                    else
-                    {
-                        SelectedContact = _contacts[index];
-                    }
-
-                    _contactSerializer.Save(_contacts);
-                });
-            }
-
-            return _removeCommand;
+            SelectedContact = null;
         }
-    }
+        else if (_contacts.Count == index)
+        {
+            SelectedContact = _contacts[index - 1];
+        }
+        else
+        {
+            SelectedContact = _contacts[index];
+        }
+
+        _contactSerializer.Save(_contacts);
+    });
 
     /// <summary>
     /// Возвращает и задаёт команду подтверждения изменений в правой панели.
     /// </summary>
-    public ICommand ApplyCommand 
+    public ICommand ApplyCommand => _applyCommand ??= new RelayCommand<object>(obj =>
     {
-        get
+        if (_isAddingMode)
         {
-            if (_applyCommand == null)
-            {
-                new RelayCommand<object>(obj =>
-                {
-                    if (_isAddingMode)
-                    {
-                        Contact newContact = new Contact(Name, Email, Phone);
-                        _contacts.Add(newContact);
+            Contact newContact = new Contact(Name, Email, Phone);
+            _contacts.Add(newContact);
 
-                        _isAddingMode = false;
-                        SelectedContact = newContact;
-                    }
-                    else if (SelectedContact != null)
-                    {
-                        SelectedContact.Name = Name;
-                        SelectedContact.Email = Email;
-                        SelectedContact.Phone = Phone;
-                    }
-
-                    IsReadOnly = true;
-                    IsApplyVisible = false;
-                    IsButtonEnabled = true;
-                    _contactSerializer.Save(_contacts);
-                });
-            }
-
-            return _editCommand;
+            _isAddingMode = false;
+            SelectedContact = newContact;
         }
-    }
+        else if (SelectedContact != null)
+        {
+            SelectedContact.Name = Name;
+            SelectedContact.Email = Email;
+            SelectedContact.Phone = Phone;
+        }
+
+        IsReadOnly = true;
+        IsApplyVisible = false;
+        IsButtonEnabled = true;
+        _contactSerializer.Save(_contacts);
+    });
 
     /// <summary>
     /// Возвращает и задаёт статус "только на чтение".
