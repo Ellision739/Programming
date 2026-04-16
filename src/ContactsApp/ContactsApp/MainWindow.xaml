@@ -4,13 +4,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
+        xmlns:controls="clr-namespace:View.Controls"
         mc:Ignorable="d"
         Title="Contacts" 
         Height="450" 
         Width="800" 
         Icon="/contacts_64x64.ico">
     <Window.Resources>
-        <local:BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <local:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <DataTemplate x:Key="contactTemplate">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" 
+               Source="/contacts_512px.png" 
+               Width="32" 
+               Height="32" 
+               Margin="0 0 10 0"
+               VerticalAlignment="Center"/>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock
+                FontSize="12"
+                FontWeight="SemiBold"
+                Text="{Binding Name}"/>
+                    <TextBlock
+                FontSize="10"
+                Text="{Binding Phone}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -18,7 +44,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <Grid Background="#f8f8f8" Margin="8,8,0,8">
+        <Grid Background="#f8f8f8" Margin="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -28,8 +54,8 @@
                 Grid.Row="1" 
                 Margin="3"
                 ItemsSource="{Binding Contacts}"
-                DisplayMemberPath="Name"
-                SelectedItem="{Binding SelectedContact}"/>
+                SelectedItem="{Binding SelectedContact}"
+                ItemTemplate="{StaticResource contactTemplate}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -73,65 +99,27 @@
                     IsEnabled="{Binding IsButtonEnabled}"/>
             </Grid>
         </Grid>
-    <GridSplitter 
-        HorizontalAlignment="Center" 
-        Width="3" 
-        Grid.Column="1" 
-        Background="White"/>
-    <Grid Grid.Column="2" Margin="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Image 
-            HorizontalAlignment="Left" 
-            Height="100" 
-            Margin="0,28,3,3" 
-            VerticalAlignment="Top" 
-            Width="100" 
-            RenderTransformOrigin="0.54,1.34" 
-            Source="/contacts_512px.png"/>
-        <StackPanel Grid.Column="1" Margin="3">
-            <TextBlock 
-                TextWrapping="Wrap" 
-                Text="Name:" 
-                Margin="3" 
-                HorizontalAlignment="Left"/>
-            <TextBox 
-                TextWrapping="Wrap" 
-                Margin="3" 
-                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                IsReadOnly="{Binding IsReadOnly}"/>
-            <TextBlock 
-                TextWrapping="Wrap" 
-                Text="Phone Number:" 
-                HorizontalAlignment="Left" 
-                Margin="3"/>
-            <TextBox 
-                TextWrapping="Wrap" 
-                Margin="3" 
-                Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
-                IsReadOnly="{Binding IsReadOnly}"/>
-            <TextBlock 
-                TextWrapping="Wrap" 
-                Text="Email:" 
-                Margin="3" 
-                HorizontalAlignment="Left"/>
-            <TextBox 
-                TextWrapping="Wrap" 
-                Margin="3" 
-                Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
-                IsReadOnly="{Binding IsReadOnly}"/>
+        <GridSplitter 
+            HorizontalAlignment="Center" 
+            Width="5" 
+            Grid.Column="1" 
+            Background="White"/>
+        <Grid Grid.Column="2" Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <controls:ContactControl Grid.Row="0" DataContext="{Binding SelectedContact}"/>
             <Button 
+                Grid.Row="1"
                 Content="Apply" 
                 HorizontalAlignment="Left" 
+                VerticalAlignment="Top"
                 Width="75" 
                 Height="25" 
-                Margin="3 50 3 3"
+                Margin="113 10 0 0" 
                 Command="{Binding ApplyCommand}"
-                Visibility="{Binding IsApplyVisible, Converter={StaticResource BoolToVis}}"/>
-        </StackPanel>
-    </Grid>
-
+                Visibility="{Binding IsApplyVisible, Converter={StaticResource BoolToVisibility}}"/>
+        </Grid>
     </Grid>
 </Window>
