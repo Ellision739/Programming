@@ -37,6 +37,8 @@ public partial class Contact : ObservableObject, IDataErrorInfo
         {
             if (columnName == nameof(Name))
             {
+                if (Name == null) return null;
+
                 if (string.IsNullOrWhiteSpace(Name))
                 {
                     return "Имя не может быть пустым";
@@ -48,6 +50,8 @@ public partial class Contact : ObservableObject, IDataErrorInfo
             }
             if (columnName == nameof(Email))
             {
+                if (Email == null) return null;
+
                 if (string.IsNullOrWhiteSpace(Email))
                 {
                     return "Почта не может быть пустой";
@@ -63,6 +67,8 @@ public partial class Contact : ObservableObject, IDataErrorInfo
             }
             if (columnName == nameof(Phone))
             {
+                if (Phone == null) return null;
+
                 if (string.IsNullOrWhiteSpace(Phone))
                 {
                     return "Телефон не может быть пустым";
@@ -71,9 +77,9 @@ public partial class Contact : ObservableObject, IDataErrorInfo
                 {
                     return "Номер телефона может содержать только цифры или символы '+()-'. Например: 7 (999) 111-22-33";
                 }
-                else if (Phone.Length > 100)
+                else if (Phone.Length > 20)
                 {
-                    return "Телефон не должен превышать 100 символов";
+                    return "Телефон не должен превышать 20 символов";
                 }
             }
 
@@ -93,6 +99,9 @@ public partial class Contact : ObservableObject, IDataErrorInfo
     {
         get
         {
+            if (Name == null || Phone == null || Email == null)
+                return false;
+
             return string.IsNullOrEmpty(this[nameof(Name)]) &&
                    string.IsNullOrEmpty(this[nameof(Phone)]) &&
                    string.IsNullOrEmpty(this[nameof(Email)]);

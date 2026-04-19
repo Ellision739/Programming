@@ -17,7 +17,7 @@ public class ContactSerializer
     /// <summary>
     /// Путь к папки документов.
     /// </summary>
-    private string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    private string _docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
     /// <summary>
     /// Загружает контакты из json формата.
@@ -39,6 +39,7 @@ public class ContactSerializer
         var contacts = JsonConvert.DeserializeObject<ObservableCollection<Contact>>(text);
         return contacts;
     }
+
     /// <summary>
     /// Сохраняет контакты в файл json формата.
     /// </summary>
@@ -58,6 +59,6 @@ public class ContactSerializer
     /// </summary>
     public ContactSerializer()
     {
-        Path = System.IO.Path.Combine(docPath, "Contacts v2/contacts.json");
+        Path = System.IO.Path.Combine(_docPath, "Contacts v2/contacts.json");
     }
 }

@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using Model;
 using Model.Services;
+using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace ViewModel;
 
@@ -21,6 +22,21 @@ public partial class MainVM : ObservableObject
     /// Флаг добавления нового контакта.
     /// </summary>
     private bool _isAddingMode = false;
+
+    /// <summary>
+    /// Бэкап переменной Имя
+    /// </summary>
+    private string _backupName;
+
+    /// <summary>
+    /// Бэкап переменной Телефон
+    /// </summary>
+    private string _backupPhone;
+
+    /// <summary>
+    /// Бэкап переменной Почта
+    /// </summary>
+    private string _backupEmail;
 
     /// <summary>
     /// Коллекция контактов.
@@ -71,6 +87,7 @@ public partial class MainVM : ObservableObject
     private void Add()
     {
         SelectedContact = new Contact();
+        SelectedContact.PropertyChanged += OnSelectedContactPropertyChanged;
         _isAddingMode = true;
         IsApplyVisible = true;
         IsReadOnly = false;
@@ -97,6 +114,7 @@ public partial class MainVM : ObservableObject
     {
         if (SelectedContact == null) return;
         int index = Contacts.IndexOf(SelectedContact);
+        SelectedContact.PropertyChanged -= OnSelectedContactPropertyChanged;
         Contacts.Remove(SelectedContact);
 
         if (Contacts.Count == 0)
@@ -127,6 +145,13 @@ public partial class MainVM : ObservableObject
             _isAddingMode = false;
         }
 
+        if (SelectedContact != null)
+        {
+            _backupName = SelectedContact.Name;
+            _backupPhone = SelectedContact.Phone;
+            _backupEmail = SelectedContact.Email;
+        }
+
         IsReadOnly = true;
         IsApplyVisible = false;
         IsButtonEnabled = true;
@@ -145,14 +170,12 @@ public partial class MainVM : ObservableObject
     /// <param name="value">Новый выбранный контакт.</param>
     partial void OnSelectedContactChanged(Contact value)
     {
-        IsApplyVisible = false;
-        IsButtonEnabled = true;
-        IsReadOnly = true;
-        _isAddingMode = false;
-
         if (value != null)
         {
-            value.PropertyChanged += OnSelectedContactPropertyChanged;
+            _backupName = value.Name;
+            _backupPhone = value.Phone;
+            _backupEmail = value.Email;
+
             Name = value.Name;
             Phone = value.Phone;
             Email = value.Email;
@@ -163,6 +186,11 @@ public partial class MainVM : ObservableObject
             Phone = string.Empty;
             Email = string.Empty;
         }
+
+        IsApplyVisible = false;
+        IsButtonEnabled = true;
+        IsReadOnly = true;
+        _isAddingMode = false;
 
         ApplyCommand.NotifyCanExecuteChanged();
     }
@@ -179,6 +207,19 @@ public partial class MainVM : ObservableObject
             e.PropertyName == nameof(Contact.Email))
         {
             ApplyCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    /// <summary>
+    /// Срабатывает перед тем, как SelectedContact изменит свое значение.
+    /// </summary>
+    partial void OnSelectedContactChanging(Contact value)
+    {
+        if (_selectedContact != null && IsApplyVisible && !_isAddingMode)
+        {
+            _selectedContact.Name = _backupName;
+            _selectedContact.Phone = _backupPhone;
+            _selectedContact.Email = _backupEmail;
         }
     }
 

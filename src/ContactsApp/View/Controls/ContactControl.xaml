@@ -31,7 +31,7 @@
             Grid.Column="0"
             HorizontalAlignment="Left" 
             Height="100" 
-            Margin="3,28,3,3" 
+            Margin="3 28 3 3" 
             VerticalAlignment="Top" 
             Width="100" 
             Source="pack://application:,,,/contacts_512px.png"/>
